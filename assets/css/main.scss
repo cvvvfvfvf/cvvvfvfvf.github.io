@@ -8,9 +8,9 @@
    ========================================================================== */
 
 /* 主色调 - 更鲜亮的薄荷绿 */
-$primary-color: #00d2a1 !default;      /* 亮薄荷绿，更有生机 */
+$primary-color: #00a884 !default;      /* 亮薄荷绿，更有生机 */
 $link-color: #00b894 !default;          /* 链接色更鲜亮 */
-$link-color-hover: #ff6b6b !default;    /* 悬停用珊瑚红，更醒目 */
+$link-color-hover: #00ceb9 !default;    /* 悬停用珊瑚红，更醒目 */
 
 /* 背景色 - 更清爽 */
 $background-color: #ffffff !default;     /* 纯白背景，更干净 */
@@ -24,17 +24,17 @@ $border-color: #dfe6e9 !default;
 $footer-background-color: #1e272e !default;
 
 /* 导航栏悬停 */
-$masthead-link-color-hover: #00d2a1 !default;
+$masthead-link-color-hover: #00a884 !default;
 
 /* 按钮样式增强 */
 .btn--primary {
-  background-color: #00d2a1 !important;
-  border-color: #00d2a1 !important;
+  background-color: #00a884 !important;
+  border-color: #00a884 !important;
   transition: all 0.3s ease;
   
   &:hover {
-    background-color: #ff6b6b !important;
-    border-color: #ff6b6b !important;
+    background-color: #00ceb9 !important;
+    border-color: #00ceb9 !important;
     transform: translateY(-2px);
   }
 }
@@ -52,7 +52,7 @@ a {
 /* 页脚社交图标 */
 .page__footer-follow .social-icons i,
 .page__footer-follow .social-icons .svg-inline--fa {
-  color: #00d2a1;
+  color: #00a884;
   font-size: 1.2rem;
   transition: all 0.3s ease;
   
@@ -67,7 +67,7 @@ a {
   transition: all 0.2s ease;
   
   &:hover {
-    color: #00d2a1 !important;
+    color: #00a884 !important;
   }
 }
 
@@ -76,8 +76,8 @@ a {
   transition: all 0.3s ease;
   
   &:hover {
-    background-color: #00d2a1 !important;
-    border-color: #00d2a1 !important;
+    background-color: #00a884 !important;
+    border-color: #00a884 !important;
     color: white !important;
   }
 }
