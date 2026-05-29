@@ -161,12 +161,17 @@ html {
    侧边栏：取消跟随滑动
    ========================================================================== */
 
-@media (min-width: 64em) {
+@media (min-width: 64em) { 
   .sidebar {
-    position: relative !important;
-    top: auto !important;
-    max-height: none !important;
-    overflow-y: visible !important;
+    position: sticky !important;
+    top: 100px !important;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+    
+    &::-webkit-scrollbar {
+      width: 0;
+      background: transparent;
+    }
   }
 }
 
