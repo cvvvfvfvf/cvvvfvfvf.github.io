@@ -272,3 +272,43 @@ h1 a, h2 a, h3 a, h4 a, h5 a, h6 a,
     background: transparent;
   }
 }
+
+/* ==========================================================================
+   自定义：减小页边距，让内容更饱满
+   ========================================================================== */
+
+/* 1. 减小页面两侧的留白 */
+.page {
+  padding-left: 8px !important;
+  padding-right: 8px !important;
+}
+
+/* 2. 减小主内容区域的内边距 */
+.page__inner-wrap {
+  padding: 0.8em !important;
+}
+
+/* 3. 让正文区域占满更多空间，移除宽度限制 */
+.archive,
+.page__content {
+  max-width: none !important;
+  width: 100% !important;
+}
+
+/* 4. 减小侧边栏与主内容的间距 */
+@media (min-width: 64em) {
+  .sidebar {
+    margin-right: 15px !important;
+  }
+}
+
+/* 5. 减小页脚内边距 */
+.page__footer-inner {
+  padding: 1em 8px !important;
+  max-width: none !important;
+}
+
+/* 6. 减小整体内容容器的内边距 */
+.page__main {
+  padding-top: 1em !important;
+}
