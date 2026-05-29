@@ -164,10 +164,19 @@ body {
    单页体验：毛玻璃导航栏 & 内部通透化
    ========================================================================== */
 
+html {
+  scroll-behavior: smooth;
+  /* 与 sticky 导航栏高度对齐，点击锚点时保留标题在导航栏下方 */
+  scroll-padding-top: 5.5rem;
+}
+
 html, body, .initial-content, #main {
   overflow: visible !important; /* 保证 Sticky 能生效的基础 */
-  scroll-behavior: smooth;
-  scroll-padding-top: 100px;
+}
+
+.page-section,
+.section-title {
+  scroll-margin-top: 5.5rem;
 }
 
 .masthead {
@@ -228,20 +237,6 @@ html, body, .initial-content, #main {
 .site-last-updated { padding-bottom: 0.5em; margin-top: 0; }
 .page__footer-copyright a { color: #64748b !important; text-decoration: none; }
 .page__footer-copyright a:hover { color: #0d9488 !important; text-decoration: underline; }
-
-/* ==========================================================================
-   🔥🔥🔥 终极防砍头：伪元素物理欺骗，击破 JS 坐标锁定 🔥🔥🔥
-   ========================================================================== */
-
-/* 通过在标题上方强行插入一个看不见的 130px 高的幽灵方块，让 JS 计算坐标时提前停下 */
-h1[id]::before, h2[id]::before, h3[id]::before, h4[id]::before, h5[id]::before, h6[id]::before {
-  content: "";
-  display: block;
-  height: 130px; /* 撑开和导航栏一样的高度 */
-  margin-top: -130px; /* 用负边距把自己拉回原位，保证不破坏肉眼看到的排版 */
-  visibility: hidden;
-  pointer-events: none; /* 确保这个幽灵方块不会阻挡鼠标点击 */
-}
 
 /* 2. 彻底解决“边距大”问题：强行撑满屏幕 */
 .page__content {
