@@ -230,20 +230,18 @@ html, body, .initial-content, #main {
 .page__footer-copyright a:hover { color: #0d9488 !important; text-decoration: underline; }
 
 /* ==========================================================================
-   🔥🔥🔥 终极霸道覆写：彻底释放页面宽度 & 防砍头 🔥🔥🔥
+   🔥🔥🔥 终极防砍头：伪元素物理欺骗，击破 JS 坐标锁定 🔥🔥🔥
    ========================================================================== */
 
-/* 1. 彻底解决“砍头”问题：全范围护甲 */
-/* 很多浏览器会忽略部分元素的 scroll-margin，所以我们直接对【所有带有 id 的元素】强行加高偏移量 */
-*[id] {
-  scroll-margin-top: 130px !important; /* 强制在目标元素上方留出 130px 空白（完全避开导航栏） */
+/* 通过在标题上方强行插入一个看不见的 130px 高的幽灵方块，让 JS 计算坐标时提前停下 */
+h1[id]::before, h2[id]::before, h3[id]::before, h4[id]::before, h5[id]::before, h6[id]::before {
+  content: "";
+  display: block;
+  height: 130px; /* 撑开和导航栏一样的高度 */
+  margin-top: -130px; /* 用负边距把自己拉回原位，保证不破坏肉眼看到的排版 */
+  visibility: hidden;
+  pointer-events: none; /* 确保这个幽灵方块不会阻挡鼠标点击 */
 }
-
-/* 兜底策略：告诉浏览器滚动视口的顶部基准线下移 */
-html {
-  scroll-padding-top: 130px !important;
-}
-
 
 /* 2. 彻底解决“边距大”问题：强行撑满屏幕 */
 .page__content {
@@ -276,4 +274,13 @@ html {
     padding-right: 0 !important; /* 扒掉原版右侧恶心的默认留白 */
     padding-left: 20px !important;
   }
+}
+
+/* ==========================================================================
+   修复：清除首页空标题残留的“幽灵”链接符号
+   ========================================================================== */
+
+/* 仅在主页（layout--home）生效，不影响未来可能创建的其他页面 */
+.layout--home .page__title {
+  display: none !important;
 }
