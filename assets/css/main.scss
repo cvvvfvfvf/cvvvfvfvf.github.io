@@ -161,37 +161,13 @@ html {
    侧边栏：取消跟随滑动
    ========================================================================== */
 
-/* ==========================================================================
-   侧边栏：完全固定（图片一点也不会动）
-   ========================================================================== */
-
 @media (min-width: 64em) { 
   .sidebar {
-    position: fixed !important;
-    top: 100px !important;
-    left: 20px !important;
-    width: 220px !important;
-    max-height: calc(100vh - 120px) !important;
-    overflow-y: auto !important;
-    
-    /* 隐藏滚动条（可选） */
-    &::-webkit-scrollbar {
-      width: 0;
-      background: transparent;
-    }
-  }
-  
-  /* 主内容区域增加左边距，避免被固定侧边栏遮挡 */
-  .main {
-    margin-left: 260px !important;
-  }
-  
-  /* 页脚也需要左边距 */
-  .page__footer {
-    margin-left: 260px !important;
+    position: sticky !important;
+    top: 0 !important;           /* 顶部对齐，一出现就固定 */
+    align-self: start !important; /* 确保从顶部开始固定 */
   }
 }
-
 /* ==========================================================================
    页脚样式（统一左对齐、字体一致）
    ========================================================================== */
