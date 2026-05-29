@@ -193,3 +193,48 @@ html {
   -webkit-backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
+
+/* ==========================================================================
+   单页布局专属优化：平滑滚动 & 会呼吸的导航栏
+   ========================================================================== */
+
+/* 1. 让锚点跳转定位更精准，预留更多空间 */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 100px; /* 增加这个值，确保点击导航跳转时，内容不会贴着导航栏，留出呼吸感 */
+}
+
+/* 2. 导航栏：极其自然的毛玻璃质感 (Apple-like Frosted Glass) */
+.masthead {
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+  /* 增加透明度，并加入饱和度提升，让透过去的背景色彩更生动 */
+  background-color: rgba(248, 250, 252, 0.8) !important;
+  backdrop-filter: saturate(180%) blur(16px);
+  -webkit-backdrop-filter: saturate(180%) blur(16px);
+  
+  /* 用极其淡的主题色阴影替代生硬的边框 */
+  border-bottom: 1px solid rgba(13, 148, 136, 0.08); 
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* 3. 完美解决左侧照片被遮挡的问题 (Sidebar 空间避让) */
+@media (min-width: 64em) { 
+  /* 这个媒体查询意味着只在电脑宽屏上生效，手机端原本就是折叠的，不受影响 */
+  .sidebar {
+    position: sticky !important;
+    top: 100px !important; /* 关键：把侧边栏往下推 100px，完美避开导航栏的厚度 */
+    
+    /* 防止侧边栏太长撑破屏幕底边 */
+    max-height: calc(100vh - 120px); 
+    overflow-y: auto; 
+    
+    /* 隐藏丑陋的原生滚动条，保持界面的极简 */
+    &::-webkit-scrollbar {
+      width: 0px;
+      background: transparent;
+    }
+  }
+}
