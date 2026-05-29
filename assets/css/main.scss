@@ -1,0 +1,274 @@
+---
+---
+
+@import "minimal-mistakes";
+
+/* ==========================================================================
+   Mint skin (优雅学术定制版 - Refined Academic Edition)
+   ========================================================================== */
+
+/* 1. 核心色彩体系 */
+$primary-color: #0d9488 !default;      
+$link-color: #0f766e !default;         
+$link-color-hover: #0ea5e9 !default;   
+$background-color: #f8fafc !default;   
+$text-color: #334155 !default;         
+$muted-text-color: #64748b !default;   
+$border-color: #e2e8f0 !default;       
+$footer-background-color: #0f172a !default; 
+$masthead-link-color-hover: $primary-color !default;
+
+/* ==========================================================================
+   组件交互深度优化 (Components & Interactions)
+   ========================================================================== */
+
+.btn--primary {
+  background-color: $primary-color !important;
+  border-color: $primary-color !important;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  &:hover {
+    background-color: $link-color-hover !important;
+    border-color: $link-color-hover !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+  }
+}
+
+.btn--inverse {
+  color: $primary-color !important;
+  border-color: $primary-color !important;
+  transition: all 0.3s ease;
+  &:hover {
+    background-color: $primary-color !important;
+    color: white !important;
+  }
+}
+
+a {
+  transition: color 0.2s ease;
+  &:hover {
+    color: $link-color-hover !important;
+    text-decoration: none;
+  }
+}
+
+.page__footer-follow .social-icons i,
+.page__footer-follow .social-icons .svg-inline--fa {
+  color: #94a3b8;
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+  &:hover {
+    color: #38bdf8;
+    transform: translateY(-3px);
+  }
+}
+
+.archive__item-title a,
+.archive__item-title a:visited {
+  color: $text-color !important; 
+  transition: color 0.2s ease;
+  &:hover {
+    color: $primary-color !important; 
+  }
+}
+
+.page__content a:not(.btn),
+.post__content a:not(.btn) {
+  color: $primary-color !important;
+  border-bottom: 1px solid rgba(13, 148, 136, 0.3); 
+  text-decoration: none;
+  &:hover {
+    color: $link-color-hover !important;
+    border-bottom-color: $link-color-hover !important;
+    text-decoration: none !important;
+  }
+}
+
+.page__meta a, .post__meta a, .author__urls a {
+  color: $muted-text-color !important;
+  &:hover { color: $primary-color !important; }
+}
+
+.pagination a {
+  color: $primary-color !important;
+  transition: all 0.2s ease;
+  &:hover {
+    color: $link-color-hover !important;
+    background-color: rgba(14, 165, 233, 0.05);
+  }
+}
+
+.pagination .current {
+  background-color: $primary-color !important;
+  border-color: $primary-color !important;
+}
+
+::selection {
+  background: rgba(13, 148, 136, 0.2);
+  color: #0f172a;
+}
+
+/* 标题链接优雅下划线 */
+h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
+  text-decoration: none !important;
+  border-bottom: 2px solid rgba(13, 148, 136, 0.2) !important;
+  padding-bottom: 2px;
+  color: $text-color !important;
+  transition: all 0.3s ease;
+  &:hover {
+    color: $primary-color !important;
+    border-bottom-color: $primary-color !important;
+    text-decoration: none !important;
+  }
+}
+
+/* ==========================================================================
+   排版与空间结构：释放全局宽度 & 完美居中
+   ========================================================================== */
+
+body {
+  line-height: 1.8;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* ==========================================================================
+   排版与空间结构：终极释放全局宽度
+   ========================================================================== */
+
+.page__content {
+  max-width: 100% !important; 
+  padding: 0;
+}
+
+@media (min-width: 64em) {
+  #main {
+    max-width: 1440px !important; /* 从 1280px 提升到 1440px，适配更宽的带鱼屏 */
+    padding: 0 2% !important; /* 缩小最外层的两侧边距 */
+    margin: 0 auto;
+  }
+  
+  .archive {
+    /* 缩小左侧保留空间，让右侧内容区域进一步撑大 */
+    width: calc(100% - 300px) !important; 
+    padding-right: 0 !important; 
+  }
+}
+
+.page__footer-inner {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2em;
+}
+
+/* ==========================================================================
+   单页体验：毛玻璃导航栏 & 内部通透化
+   ========================================================================== */
+
+html {
+  scroll-behavior: smooth;
+}
+
+html, body, .initial-content, #main {
+  overflow: visible !important; /* 保证 Sticky 能生效的基础 */
+}
+
+.masthead {
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+  background-color: rgba(248, 250, 252, 0.8) !important;
+  backdrop-filter: saturate(180%) blur(16px);
+  -webkit-backdrop-filter: saturate(180%) blur(16px);
+  border-bottom: 1px solid rgba(13, 148, 136, 0.08); 
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.masthead__inner-wrap, .greedy-nav, .greedy-nav .visible-links, .greedy-nav button.navicon {
+  background-color: transparent !important;
+  background: transparent !important;
+}
+
+.greedy-nav .hidden-links {
+  background-color: rgba(248, 250, 252, 0.95) !important;
+  backdrop-filter: blur(10px);
+}
+
+/* ==========================================================================
+   左侧头像：打破 Flexbox 陷阱的完美固定
+   ========================================================================== */
+
+@media (min-width: 64em) {
+  .sidebar {
+    position: -webkit-sticky !important; 
+    position: sticky !important;
+    top: 100px !important;
+    align-self: flex-start !important; /* 🔥 修复 Sticky 失效的核心 🔥 */
+    height: auto !important; 
+    max-height: calc(100vh - 120px) !important; 
+    overflow-y: auto !important; 
+    z-index: 10 !important;
+    padding-bottom: 2em;
+  }
+  .sidebar::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+  }
+}
+
+
+/* ==========================================================================
+   页脚样式
+   ========================================================================== */
+
+.site-last-updated, .page__footer-copyright {
+  text-align: left;
+  font-size: 0.7rem;
+  color: #64748b;
+  line-height: 1.5;
+}
+.site-last-updated { padding-bottom: 0.5em; margin-top: 0; }
+.page__footer-copyright a { color: #64748b !important; text-decoration: none; }
+.page__footer-copyright a:hover { color: #0d9488 !important; text-decoration: underline; }
+
+/* 2. 彻底解决“边距大”问题：强行撑满屏幕 */
+.page__content {
+  max-width: 100% !important; 
+  padding: 0 !important;
+}
+
+@media (min-width: 64em) {
+  /* 打破主题设定的 1280px 或 1024px 紧箍咒，直接让整个主体占满屏幕宽度的 95%！ */
+  #main {
+    max-width: 95vw !important; /* vw 代表屏幕视口宽度的百分比 */
+    padding: 0 !important;
+    margin: 0 auto !important;
+    display: flex !important; /* 强制使用最现代的 Flex 布局，干掉原版的浮动排版 */
+    justify-content: space-between !important;
+  }
+  
+  /* 左侧头像区域：锁死宽度，不再多占一丝一毫 */
+  .sidebar {
+    width: 300px !important;
+    min-width: 300px !important;
+    margin-right: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  /* 右侧文章与卡片区域：极其贪婪地霸占所有剩余屏幕空间 */
+  .archive {
+    width: calc(100% - 340px) !important; /* 100%屏幕减去左侧头像和40px的间隔 */
+    max-width: none !important;
+    padding-right: 0 !important; /* 扒掉原版右侧恶心的默认留白 */
+    padding-left: 20px !important;
+  }
+}
+
+/* ==========================================================================
+   修复：清除首页空标题残留的“幽灵”链接符号
+   ========================================================================== */
+
+/* 仅在主页（layout--home）生效，不影响未来可能创建的其他页面 */
+.layout--home .page__title {
+  display: none !important;
+}
