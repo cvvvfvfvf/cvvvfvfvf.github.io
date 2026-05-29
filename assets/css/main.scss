@@ -214,13 +214,6 @@ html, body, .initial-content, #main {
   }
 }
 
-/* ==========================================================================
-   精准修复：锚点跳转时，保护标题不被导航栏遮挡
-   ========================================================================== */
-
-h1[id], h2[id], h3[id], h4[id], h5[id], h6[id] {
-  scroll-margin-top: 120px !important; /* 强制在标题上方预留 120px 的安全呼吸空间 */
-}
 
 /* ==========================================================================
    页脚样式
@@ -235,3 +228,52 @@ h1[id], h2[id], h3[id], h4[id], h5[id], h6[id] {
 .site-last-updated { padding-bottom: 0.5em; margin-top: 0; }
 .page__footer-copyright a { color: #64748b !important; text-decoration: none; }
 .page__footer-copyright a:hover { color: #0d9488 !important; text-decoration: underline; }
+
+/* ==========================================================================
+   🔥🔥🔥 终极霸道覆写：彻底释放页面宽度 & 防砍头 🔥🔥🔥
+   ========================================================================== */
+
+/* 1. 彻底解决“砍头”问题：全范围护甲 */
+/* 很多浏览器会忽略部分元素的 scroll-margin，所以我们直接对【所有带有 id 的元素】强行加高偏移量 */
+*[id] {
+  scroll-margin-top: 130px !important; /* 强制在目标元素上方留出 130px 空白（完全避开导航栏） */
+}
+
+/* 兜底策略：告诉浏览器滚动视口的顶部基准线下移 */
+html {
+  scroll-padding-top: 130px !important;
+}
+
+
+/* 2. 彻底解决“边距大”问题：强行撑满屏幕 */
+.page__content {
+  max-width: 100% !important; 
+  padding: 0 !important;
+}
+
+@media (min-width: 64em) {
+  /* 打破主题设定的 1280px 或 1024px 紧箍咒，直接让整个主体占满屏幕宽度的 95%！ */
+  #main {
+    max-width: 95vw !important; /* vw 代表屏幕视口宽度的百分比 */
+    padding: 0 !important;
+    margin: 0 auto !important;
+    display: flex !important; /* 强制使用最现代的 Flex 布局，干掉原版的浮动排版 */
+    justify-content: space-between !important;
+  }
+  
+  /* 左侧头像区域：锁死宽度，不再多占一丝一毫 */
+  .sidebar {
+    width: 300px !important;
+    min-width: 300px !important;
+    margin-right: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  /* 右侧文章与卡片区域：极其贪婪地霸占所有剩余屏幕空间 */
+  .archive {
+    width: calc(100% - 340px) !important; /* 100%屏幕减去左侧头像和40px的间隔 */
+    max-width: none !important;
+    padding-right: 0 !important; /* 扒掉原版右侧恶心的默认留白 */
+    padding-left: 20px !important;
+  }
+}
