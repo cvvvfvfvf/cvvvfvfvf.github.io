@@ -1,0 +1,25 @@
+<!-- _includes/footer.html -->
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    {% if site.footer.links %}
+      {% for link in site.footer.links %}
+        {% if link.label and link.url %}
+          <li><a href="{{ link.url }}" rel="nofollow noopener noreferrer me"><i class="{{ link.icon | default: 'fas fa-link' }}" aria-hidden="true"></i><span class="label">{{ link.label }}</span></a></li>
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+  </ul>
+</div>
+
+<!-- 添加最后更新时间 -->
+<div class="site-last-updated" style="text-align: center; font-size: 0.85rem; color: #64748b; padding-bottom: 1em; margin-top: 1em;">
+  <i class="fas fa-history" style="margin-right: 5px; color: #0d9488;"></i>
+  Last updated: {{ site.time | date: "%B %-d, %Y" }}
+</div>
+
+<div class="page__footer-copyright">
+  &copy; {{ site.time | date: '%Y' }} {{ site.name | default: site.title }}. 
+  {{ site.data.ui-text[site.locale].powered_by | default: "Powered by" }} 
+  <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; 
+  <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.
+</div>
