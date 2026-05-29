@@ -233,3 +233,17 @@ html {
     overflow-y: visible !important; /* 取消侧边栏内部的滚动条 */
   }
 }
+
+/* 页脚左对齐样式 */
+.site-last-updated {
+  text-align: left;           /* 左对齐 */
+  font-size: 0.7rem;         /* 与版权信息字体大小一致 */
+  color: #64748b;
+  padding-bottom: 0.5em;
+  margin-top: 0;
+}
+
+.page__footer-copyright {
+  text-align: left;           /* 左对齐 */
+  font-size: 0.7rem;          /* 统一字体大小 */
+}
