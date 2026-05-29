@@ -143,10 +143,16 @@ body {
 }
 
 /* 主内容区域的优雅布局 */
-.page__content {
-  max-width: 800px; 
-  margin: 0 auto;
-  padding: 0 1.5em;
+.page__footer-follow .social-icons i,
+.page__footer-follow .social-icons .svg-inline--fa {
+  color: #00a884;
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    color: #ff6b6b;
+    transform: translateY(-3px);
+  }
 }
 
 /* 导航栏的活力反馈 */
@@ -163,4 +169,27 @@ body {
   max-width: 1000px;
   margin: 0 auto;
   padding: 2em;
+}
+
+/* ==========================================================================
+   单页布局专属优化：固定导航栏与平滑滚动
+   ========================================================================== */
+
+/* 1. 开启全局平滑滚动体验 */
+html {
+  scroll-behavior: smooth;
+  /* 预留顶部高度，防止点击导航后，内容被固定导航栏遮挡 */
+  scroll-padding-top: 80px; 
+}
+
+/* 2. 固定顶部导航栏 (Sticky Header) */
+.masthead {
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+  /* 使用毛玻璃特效（Frosted Glass），既固定又通透，极其高级 */
+  background-color: rgba(248, 250, 252, 0.9) !important; /* 匹配我们之前设定的背景色 */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
