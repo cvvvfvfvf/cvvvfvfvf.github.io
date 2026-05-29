@@ -1,24 +1,45 @@
 /* ==========================================================================
-   Mint skin
+   Mint skin (Pro & Vibrant Edition - 学术活力定制版)
    ========================================================================== */
 
 /* Colors */
-$background-color: #f3f6f6 !default;
-$text-color: #40514e !default;
-$muted-text-color: #40514e !default;
-$primary-color: #11999e !default;
-$border-color: mix(#fff, #40514e, 75%) !default;
-$footer-background-color: #30e3ca !default;
-$link-color: #11999e !default;
-$masthead-link-color: $text-color !default;
-$masthead-link-color-hover: $text-color !default;
-$navicon-link-color-hover: mix(#fff, $text-color, 80%) !default;
+$background-color: #f8fbfa !default; /* 微微调亮背景，更加透气、干净 */
+$text-color: #2c3e50 !default; /* 1. 学术色：深藏青色，比原版的灰绿色更深邃，提升阅读体验和严谨感 */
+$muted-text-color: #7f8c8d !default; /* 2. 层次色：真正的偏灰减淡色，用于日期、次要信息，拉开视觉空间 */
+$primary-color: #11999e !default; /* 3. 生机色：保留你喜欢的薄荷绿，作为主基调不变 */
+$border-color: mix(#fff, $text-color, 85%) !default; /* 让边框线更柔和，不喧宾夺主 */
 
+/* Footer 优化：深色压阵，稳住气场 */
+$footer-background-color: #1f2833 !default; /* 改为深青黑，压住整个网页的底盘，显得更专业 */
+
+/* 链接与交互色彩 */
+$link-color: #11999e !default; 
+$link-color-hover: #ff6f59 !default; /* 4. 活力色：引入珊瑚橘！鼠标悬停在链接上时瞬间亮起，充满灵感 */
+$masthead-link-color: $text-color !default;
+$masthead-link-color-hover: #ff6f59 !default; /* 顶部导航栏鼠标悬停也用珊瑚橘 */
+$navicon-link-color-hover: #ff6f59 !default;
+
+/* Footer 细节覆盖 */
 .page__footer {
-  color: #fff !important; // override
+  color: rgba(255, 255, 255, 0.6) !important; // 配合深色底，使用半透明白，高级感拉满
 }
 
 .page__footer-follow .social-icons i,
 .page__footer-follow .social-icons .svg-inline--fa {
-  color: inherit;
+  color: #30e3ca; /* 在深色页脚上，用亮薄荷绿点缀你的社交图标（GitHub/邮箱等） */
+  transition: color 0.3s ease; /* 增加平滑的过渡动画 */
+}
+
+.page__footer-follow .social-icons i:hover,
+.page__footer-follow .social-icons .svg-inline--fa:hover {
+  color: #ff6f59; /* 社交图标悬停时呼应珊瑚橘 */
+}
+
+/* 额外彩蛋：主按钮的活力注入 */
+.btn--primary {
+  transition: all 0.3s ease;
+  &:hover {
+    background-color: #ff6f59;
+    border-color: #ff6f59;
+  }
 }
