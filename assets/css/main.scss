@@ -161,12 +161,34 @@ html {
    侧边栏：取消跟随滑动
    ========================================================================== */
 
+/* ==========================================================================
+   侧边栏：完全固定（图片一点也不会动）
+   ========================================================================== */
+
 @media (min-width: 64em) { 
   .sidebar {
-    position: relative !important; /* 恢复正常的排列逻辑，不再吸顶 */
-    top: auto !important; /* 取消顶部的距离限制 */
-    max-height: none !important; /* 取消高度限制 */
-    overflow-y: visible !important; /* 取消侧边栏内部的滚动条 */
+    position: fixed !important;
+    top: 100px !important;
+    left: 20px !important;
+    width: 220px !important;
+    max-height: calc(100vh - 120px) !important;
+    overflow-y: auto !important;
+    
+    /* 隐藏滚动条（可选） */
+    &::-webkit-scrollbar {
+      width: 0;
+      background: transparent;
+    }
+  }
+  
+  /* 主内容区域增加左边距，避免被固定侧边栏遮挡 */
+  .main {
+    margin-left: 260px !important;
+  }
+  
+  /* 页脚也需要左边距 */
+  .page__footer {
+    margin-left: 260px !important;
   }
 }
 
@@ -246,3 +268,14 @@ h1 a, h2 a, h3 a, h4 a, h5 a, h6 a,
   backdrop-filter: blur(10px);
 }
 
+/* 强制固定侧边栏（最后防线） */
+@media (min-width: 64em) {
+  .sidebar {
+    position: fixed !important;
+    top: 100px !important;
+    left: 20px !important;
+    width: 220px !important;
+    transform: none !important;
+    will-change: auto !important;
+  }
+}
