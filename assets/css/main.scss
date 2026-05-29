@@ -161,11 +161,10 @@ html {
    侧边栏：取消跟随滑动
    ========================================================================== */
 
-@media (min-width: 64em) {
+@media (min-width: 64em) { 
   .sidebar {
-    position: sticky !important;
-    top: 100px !important;
-    /* 移除高度限制，让内容自然撑开 */
+    position: relative !important;
+    top: auto !important;
     max-height: none !important;
     overflow-y: visible !important;
   }
@@ -226,4 +225,41 @@ h1 a, h2 a, h3 a, h4 a, h5 a, h6 a,
 .post__content a:not(.btn):hover {
   text-decoration: none !important;
   border-bottom-color: $link-color-hover !important;
+}
+
+/* ==========================================================================
+   终极修复：毛玻璃内部通透化 & 头像侧边栏完美固定
+   ========================================================================== */
+
+/* 1. 修复毛玻璃分层：强制导航栏内部所有嵌套容器完全透明 */
+.masthead__inner-wrap,
+.greedy-nav,
+.greedy-nav .visible-links,
+.greedy-nav button.navicon {
+  background-color: transparent !important;
+  background: transparent !important;
+}
+
+/* 导航栏下拉折叠菜单（手机端）的背景修复，维持毛玻璃质感 */
+.greedy-nav .hidden-links {
+  background-color: rgba(248, 250, 252, 0.95) !important;
+  backdrop-filter: blur(10px);
+}
+
+/* 2. 头像侧边栏：死死钉在屏幕左侧，且避开顶部导航栏 */
+@media (min-width: 64em) {
+  .sidebar {
+    position: sticky !important; /* 关键：固定在视口中 */
+    position: -webkit-sticky !important; /* 兼容 Safari */
+    top: 100px !important; /* 关键：向下偏移 100px，完美躲开顶部毛玻璃导航栏 */
+    height: calc(100vh - 120px) !important; /* 限制最大高度，防止撑破屏幕底边 */
+    overflow-y: auto !important; /* 如果左侧内容太多，允许左侧独立出现隐藏滚动条 */
+    padding-bottom: 2em;
+  }
+  
+  /* 隐藏左侧区域丑陋的默认滚动条，保持极简感 */
+  .sidebar::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+  }
 }
