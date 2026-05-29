@@ -1,9 +1,12 @@
+# _data/navigation.yml
 main:
-  - title: "Posts"
-    url: /posts/
-  - title: "Categories"
-    url: /categories/
-  - title: "Tags"
-    url: /tags/
   - title: "About"
-    url: /about/
+    url: /#about
+  - title: "Research Interests"
+    url: /#research-interests
+  - title: "Research Experience"
+    url: /#research-experience
+  - title: "Education"
+    url: /#education
+  - title: "Life"
+    url: /#life
