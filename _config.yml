@@ -13,12 +13,12 @@
 # you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
-title: Welcome to Jingyi Li's Homepage
+title: Jingyi Li
 email: lijingyi1122_@tju.edu.cn
 description: "Jingyi Li's Homepage"
 twitter_username: 
 github_username: cvvvfvfvf
-minimal_mistakes_skin: contrast
+minimal_mistakes_skin: mint
 search: true
 
 # Build settings
@@ -57,9 +57,13 @@ plugins:
   - jekyll-include-cache
 
 author:
-  name   : "Jingyi Li"
-  avatar : "/assets/images/bio-photo.jpg"
-  bio    : "Hi! Here is Jingyi."
+  name: "Jingyi Li"
+  avatar: "/assets/images/bio-photo.jpg"
+  bio: |
+    Undergraduate
+    Data Science
+    School of Mathematics
+    Tianjin University
   links:
     # - label: "Website"
     #   icon: "fas fa-fw fa-link"
