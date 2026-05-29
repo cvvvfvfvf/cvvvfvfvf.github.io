@@ -123,17 +123,13 @@ h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
 }
 
 /* ==========================================================================
-   排版与空间结构：释放全局宽度 & 完美居中
+   排版与空间结构
    ========================================================================== */
 
 body {
   line-height: 1.8;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
-
-/* ==========================================================================
-   排版与空间结构：终极释放全局宽度
-   ========================================================================== */
 
 .page__content {
   max-width: 100% !important; 
@@ -142,13 +138,12 @@ body {
 
 @media (min-width: 64em) {
   #main {
-    max-width: 1440px !important; /* 从 1280px 提升到 1440px，适配更宽的带鱼屏 */
-    padding: 0 2% !important; /* 缩小最外层的两侧边距 */
+    max-width: 1440px !important;
+    padding: 0 2% !important;
     margin: 0 auto;
   }
   
   .archive {
-    /* 缩小左侧保留空间，让右侧内容区域进一步撑大 */
     width: calc(100% - 300px) !important; 
     padding-right: 0 !important; 
   }
@@ -166,25 +161,18 @@ body {
 
 html {
   scroll-behavior: smooth;
-<<<<<<< HEAD
-=======
-  /* 与 sticky 导航栏高度对齐，点击锚点时保留标题在导航栏下方 */
   scroll-padding-top: 5.5rem;
->>>>>>> e04ad8822fd03d86377881d28d32d93c0c0e1ff5
 }
 
 html, body, .initial-content, #main {
-  overflow: visible !important; /* 保证 Sticky 能生效的基础 */
+  overflow: visible !important;
 }
 
-<<<<<<< HEAD
-=======
 .page-section,
 .section-title {
   scroll-margin-top: 5.5rem;
 }
 
->>>>>>> e04ad8822fd03d86377881d28d32d93c0c0e1ff5
 .masthead {
   position: sticky;
   top: 0;
@@ -216,7 +204,7 @@ html, body, .initial-content, #main {
     position: -webkit-sticky !important; 
     position: sticky !important;
     top: 100px !important;
-    align-self: flex-start !important; /* 🔥 修复 Sticky 失效的核心 🔥 */
+    align-self: flex-start !important;
     height: auto !important; 
     max-height: calc(100vh - 120px) !important; 
     overflow-y: auto !important; 
@@ -244,23 +232,21 @@ html, body, .initial-content, #main {
 .page__footer-copyright a { color: #64748b !important; text-decoration: none; }
 .page__footer-copyright a:hover { color: #0d9488 !important; text-decoration: underline; }
 
-/* 2. 彻底解决“边距大”问题：强行撑满屏幕 */
+/* 彻底解决边距大问题 */
 .page__content {
   max-width: 100% !important; 
   padding: 0 !important;
 }
 
 @media (min-width: 64em) {
-  /* 打破主题设定的 1280px 或 1024px 紧箍咒，直接让整个主体占满屏幕宽度的 95%！ */
   #main {
-    max-width: 95vw !important; /* vw 代表屏幕视口宽度的百分比 */
+    max-width: 95vw !important;
     padding: 0 !important;
     margin: 0 auto !important;
-    display: flex !important; /* 强制使用最现代的 Flex 布局，干掉原版的浮动排版 */
+    display: flex !important;
     justify-content: space-between !important;
   }
   
-  /* 左侧头像区域：锁死宽度，不再多占一丝一毫 */
   .sidebar {
     width: 300px !important;
     min-width: 300px !important;
@@ -268,20 +254,15 @@ html, body, .initial-content, #main {
     padding-right: 0 !important;
   }
 
-  /* 右侧文章与卡片区域：极其贪婪地霸占所有剩余屏幕空间 */
   .archive {
-    width: calc(100% - 340px) !important; /* 100%屏幕减去左侧头像和40px的间隔 */
+    width: calc(100% - 340px) !important;
     max-width: none !important;
-    padding-right: 0 !important; /* 扒掉原版右侧恶心的默认留白 */
+    padding-right: 0 !important;
     padding-left: 20px !important;
   }
 }
 
-/* ==========================================================================
-   修复：清除首页空标题残留的“幽灵”链接符号
-   ========================================================================== */
-
-/* 仅在主页（layout--home）生效，不影响未来可能创建的其他页面 */
+/* 修复：清除首页空标题残留的幽灵链接符号 */
 .layout--home .page__title {
   display: none !important;
 }
