@@ -131,7 +131,10 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
-/* 🔥 修复宽度的核心：释放主容器限制 🔥 */
+/* ==========================================================================
+   排版与空间结构：终极释放全局宽度
+   ========================================================================== */
+
 .page__content {
   max-width: 100% !important; 
   padding: 0;
@@ -139,11 +142,14 @@ body {
 
 @media (min-width: 64em) {
   #main {
-    max-width: 1280px !important; /* 拓展大屏下的整体宽度 */
+    max-width: 1440px !important; /* 从 1280px 提升到 1440px，适配更宽的带鱼屏 */
+    padding: 0 2% !important; /* 缩小最外层的两侧边距 */
     margin: 0 auto;
   }
+  
   .archive {
-    width: calc(100% - 350px) !important; /* 右侧内容占据剩余全部空间 */
+    /* 缩小左侧保留空间，让右侧内容区域进一步撑大 */
+    width: calc(100% - 300px) !important; 
     padding-right: 0 !important; 
   }
 }
@@ -206,6 +212,14 @@ html, body, .initial-content, #main {
     width: 0px;
     background: transparent;
   }
+}
+
+/* ==========================================================================
+   精准修复：锚点跳转时，保护标题不被导航栏遮挡
+   ========================================================================== */
+
+h1[id], h2[id], h3[id], h4[id], h5[id], h6[id] {
+  scroll-margin-top: 120px !important; /* 强制在标题上方预留 120px 的安全呼吸空间 */
 }
 
 /* ==========================================================================
