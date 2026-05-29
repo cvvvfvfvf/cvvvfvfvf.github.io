@@ -2,6 +2,7 @@
 ---
 
 @import "minimal-mistakes";
+
 /* ==========================================================================
    Mint skin (优雅学术定制版 - Refined Academic Edition)
    ========================================================================== */
@@ -37,7 +38,7 @@ $masthead-link-color-hover: $primary-color !default;
     background-color: $link-color-hover !important;
     border-color: $link-color-hover !important;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3); /* 湖蓝色发光阴影，极具活力 */
+    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
   }
 }
 
@@ -65,12 +66,12 @@ a {
 /* 页脚社交图标 */
 .page__footer-follow .social-icons i,
 .page__footer-follow .social-icons .svg-inline--fa {
-  color: #94a3b8; /* 在深色页脚上默认使用低调的灰蓝色 */
+  color: #94a3b8;
   font-size: 1.2rem;
   transition: all 0.3s ease;
   
   &:hover {
-    color: #38bdf8; /* 悬停时点亮为明亮的浅蓝色，犹如星光 */
+    color: #38bdf8;
     transform: translateY(-3px);
   }
 }
@@ -117,7 +118,7 @@ a {
   
   &:hover {
     color: $link-color-hover !important;
-    background-color: rgba(14, 165, 233, 0.05); /* 增加微弱的背景反馈 */
+    background-color: rgba(14, 165, 233, 0.05);
   }
 }
 
@@ -138,21 +139,8 @@ a {
 
 /* 全局字体与间距优化 */
 body {
-  line-height: 1.8; /* 行高微调到 1.8，最适合中英文混排的学术长文 */
+  line-height: 1.8;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-}
-
-/* 主内容区域的优雅布局 */
-.page__footer-follow .social-icons i,
-.page__footer-follow .social-icons .svg-inline--fa {
-  color: #00a884;
-  font-size: 1.2rem;
-  transition: all 0.3s ease;
-  
-  &:hover {
-    color: #ff6b6b;
-    transform: translateY(-3px);
-  }
 }
 
 /* 导航栏的活力反馈 */
@@ -160,7 +148,7 @@ body {
   border-bottom: 1px solid $border-color;
   transition: box-shadow 0.3s ease;
   &:hover {
-    box-shadow: 0 4px 12px rgba(0,0,0,0.03); /* 极度克制的阴影，体现高级感 */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
   }
 }
 
@@ -175,33 +163,10 @@ body {
    单页布局专属优化：固定导航栏与平滑滚动
    ========================================================================== */
 
-/* 1. 开启全局平滑滚动体验 */
+/* 1. 开启全局平滑滚动体验 & 锚点跳转定位 */
 html {
   scroll-behavior: smooth;
-  /* 预留顶部高度，防止点击导航后，内容被固定导航栏遮挡 */
-  scroll-padding-top: 80px; 
-}
-
-/* 2. 固定顶部导航栏 (Sticky Header) */
-.masthead {
-  position: sticky;
-  top: 0;
-  z-index: 9999;
-  /* 使用毛玻璃特效（Frosted Glass），既固定又通透，极其高级 */
-  background-color: rgba(248, 250, 252, 0.9) !important; /* 匹配我们之前设定的背景色 */
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-}
-
-/* ==========================================================================
-   单页布局专属优化：平滑滚动 & 会呼吸的导航栏
-   ========================================================================== */
-
-/* 1. 让锚点跳转定位更精准，预留更多空间 */
-html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 100px; /* 增加这个值，确保点击导航跳转时，内容不会贴着导航栏，留出呼吸感 */
+  scroll-padding-top: 100px;
 }
 
 /* 2. 导航栏：极其自然的毛玻璃质感 (Apple-like Frosted Glass) */
@@ -209,43 +174,39 @@ html {
   position: sticky;
   top: 0;
   z-index: 9999;
-  /* 增加透明度，并加入饱和度提升，让透过去的背景色彩更生动 */
   background-color: rgba(248, 250, 252, 0.8) !important;
   backdrop-filter: saturate(180%) blur(16px);
   -webkit-backdrop-filter: saturate(180%) blur(16px);
-  
-  /* 用极其淡的主题色阴影替代生硬的边框 */
   border-bottom: 1px solid rgba(13, 148, 136, 0.08); 
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
   transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-/* 3. 完美解决左侧照片被遮挡的问题 (Sidebar 空间避让) */
 /* ==========================================================================
    侧边栏（头像区域）重置：取消跟随滑动
    ========================================================================== */
 
 @media (min-width: 64em) { 
   .sidebar {
-    position: relative !important; /* 恢复正常的排列逻辑，不再吸顶 */
-    top: auto !important; /* 取消顶部的距离限制 */
-    max-height: none !important; /* 取消高度限制 */
-    overflow-y: visible !important; /* 取消侧边栏内部的滚动条 */
+    position: relative !important;
+    top: auto !important;
+    max-height: none !important;
+    overflow-y: visible !important;
   }
 }
 
 /* 页脚左对齐样式 */
 .site-last-updated {
-  text-align: left;           /* 左对齐 */
-  font-size: 0.7rem;         /* 与版权信息字体大小一致 */
+  text-align: left;
+  font-size: 0.7rem;
   color: #64748b;
   padding-bottom: 0.5em;
   margin-top: 0;
 }
 
 .page__footer-copyright {
-  text-align: left;           /* 左对齐 */
-  font-size: 0.7rem;          /* 统一字体大小 */
+  text-align: left;
+  font-size: 0.7rem;
 }
 
 /* ==========================================================================
@@ -255,19 +216,13 @@ html {
 /* 针对所有标题链接（解决 Welcome to Jekyll! 的双黄线问题） */
 h1 a, h2 a, h3 a, h4 a, h5 a, h6 a,
 .archive__item-title a {
-  /* 1. 彻底关闭系统自带的默认下划线，干掉冲突 */
   text-decoration: none !important;
-  
-  /* 2. 重建一条优雅的底部边框作为下划线，默认处于半透明/较浅状态 */
   border-bottom: 2px solid rgba(13, 148, 136, 0.2) !important;
-  padding-bottom: 2px; /* 让线条和文字拉开一点微小的距离，增加透气感 */
-  
-  /* 3. 字体颜色维持默认 */
+  padding-bottom: 2px;
   color: $text-color !important;
-  transition: all 0.3s ease; /* 开启平滑过渡动画 */
+  transition: all 0.3s ease;
 
   &:hover {
-    /* 4. 核心效果：悬停时，文字和下划线同步加深为醒目的主题色 */
     color: $primary-color !important;
     border-bottom-color: $primary-color !important;
     text-decoration: none !important;
@@ -303,11 +258,11 @@ h1 a, h2 a, h3 a, h4 a, h5 a, h6 a,
 /* 2. 头像侧边栏：死死钉在屏幕左侧，且避开顶部导航栏 */
 @media (min-width: 64em) {
   .sidebar {
-    position: sticky !important; /* 关键：固定在视口中 */
-    position: -webkit-sticky !important; /* 兼容 Safari */
-    top: 100px !important; /* 关键：向下偏移 100px，完美躲开顶部毛玻璃导航栏 */
-    height: calc(100vh - 120px) !important; /* 限制最大高度，防止撑破屏幕底边 */
-    overflow-y: auto !important; /* 如果左侧内容太多，允许左侧独立出现隐藏滚动条 */
+    position: sticky !important;
+    position: -webkit-sticky !important;
+    top: 100px !important;
+    height: calc(100vh - 120px) !important;
+    overflow-y: auto !important;
     padding-bottom: 2em;
   }
   
