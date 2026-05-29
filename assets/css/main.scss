@@ -166,12 +166,25 @@ body {
 
 html {
   scroll-behavior: smooth;
+<<<<<<< HEAD
+=======
+  /* 与 sticky 导航栏高度对齐，点击锚点时保留标题在导航栏下方 */
+  scroll-padding-top: 5.5rem;
+>>>>>>> e04ad8822fd03d86377881d28d32d93c0c0e1ff5
 }
 
 html, body, .initial-content, #main {
   overflow: visible !important; /* 保证 Sticky 能生效的基础 */
 }
 
+<<<<<<< HEAD
+=======
+.page-section,
+.section-title {
+  scroll-margin-top: 5.5rem;
+}
+
+>>>>>>> e04ad8822fd03d86377881d28d32d93c0c0e1ff5
 .masthead {
   position: sticky;
   top: 0;
