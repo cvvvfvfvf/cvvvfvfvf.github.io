@@ -7,33 +7,25 @@
    Mint skin (优雅学术定制版 - Refined Academic Edition)
    ========================================================================== */
 
-/* 1. 核心色彩体系 - 告别红绿冲突，采用【青绿 + 湖蓝】的高级同类色 */
-$primary-color: #0d9488 !default;      /* 主色调：稳重且有生机的深青/薄荷色 (Teal) */
-$link-color: #0f766e !default;         /* 链接默认色：稍微加深，保证在白底上的阅读清晰度 */
-$link-color-hover: #0ea5e9 !default;   /* 活力高亮色：明亮的湖蓝色 (Ocean Blue)，和谐且极其灵动 */
-
-/* 2. 背景与文字 - 去除纯白刺眼感，采用高级灰度 */
-$background-color: #f8fafc !default;   /* 极浅的蓝灰底色，比纯白更透气护眼 */
-$text-color: #334155 !default;         /* 深岩灰色，比纯黑柔和，学术感强 */
-$muted-text-color: #64748b !default;   /* 辅助文字的柔和灰 */
-
-/* 3. 边框与区块 */
-$border-color: #e2e8f0 !default;       /* 极其轻盈的分割线 */
-$footer-background-color: #0f172a !default; /* 极深的夜空蓝页脚，稳稳压住整个页面的气场 */
-
-/* 导航栏悬停 */
+/* 1. 核心色彩体系 */
+$primary-color: #0d9488 !default;      
+$link-color: #0f766e !default;         
+$link-color-hover: #0ea5e9 !default;   
+$background-color: #f8fafc !default;   
+$text-color: #334155 !default;         
+$muted-text-color: #64748b !default;   
+$border-color: #e2e8f0 !default;       
+$footer-background-color: #0f172a !default; 
 $masthead-link-color-hover: $primary-color !default;
 
 /* ==========================================================================
    组件交互深度优化 (Components & Interactions)
    ========================================================================== */
 
-/* 主按钮：增加平滑的呼吸阴影 */
 .btn--primary {
   background-color: $primary-color !important;
   border-color: $primary-color !important;
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  
   &:hover {
     background-color: $link-color-hover !important;
     border-color: $link-color-hover !important;
@@ -42,19 +34,16 @@ $masthead-link-color-hover: $primary-color !default;
   }
 }
 
-/* 按钮的阅读更多模式 */
 .btn--inverse {
   color: $primary-color !important;
   border-color: $primary-color !important;
   transition: all 0.3s ease;
-  
   &:hover {
     background-color: $primary-color !important;
     color: white !important;
   }
 }
 
-/* 修复全局链接冲突 (移除了刺眼的橘红色) */
 a {
   transition: color 0.2s ease;
   &:hover {
@@ -63,59 +52,46 @@ a {
   }
 }
 
-/* 页脚社交图标 */
 .page__footer-follow .social-icons i,
 .page__footer-follow .social-icons .svg-inline--fa {
   color: #94a3b8;
   font-size: 1.2rem;
   transition: all 0.3s ease;
-  
   &:hover {
     color: #38bdf8;
     transform: translateY(-3px);
   }
 }
 
-/* 文章列表中的标题 */
 .archive__item-title a,
 .archive__item-title a:visited {
   color: $text-color !important; 
   transition: color 0.2s ease;
-  
   &:hover {
     color: $primary-color !important; 
   }
 }
 
-/* 正文区的文字链接（增加底部虚线/实线暗示，学术网站的经典设计） */
 .page__content a:not(.btn),
 .post__content a:not(.btn) {
   color: $primary-color !important;
   border-bottom: 1px solid rgba(13, 148, 136, 0.3); 
   text-decoration: none;
-  
   &:hover {
     color: $link-color-hover !important;
-    border-bottom-color: $link-color-hover;
+    border-bottom-color: $link-color-hover !important;
+    text-decoration: none !important;
   }
 }
 
-/* 文章元信息（日期、分类等）及侧边栏 */
-.page__meta a,
-.post__meta a,
-.author__urls a {
+.page__meta a, .post__meta a, .author__urls a {
   color: $muted-text-color !important;
-  
-  &:hover {
-    color: $primary-color !important;
-  }
+  &:hover { color: $primary-color !important; }
 }
 
-/* 分页器精细化 */
 .pagination a {
   color: $primary-color !important;
   transition: all 0.2s ease;
-  
   &:hover {
     color: $link-color-hover !important;
     background-color: rgba(14, 165, 233, 0.05);
@@ -127,32 +103,51 @@ a {
   border-color: $primary-color !important;
 }
 
-/* 高亮选中文本时的底色 */
 ::selection {
   background: rgba(13, 148, 136, 0.2);
   color: #0f172a;
 }
 
+/* 标题链接优雅下划线 */
+h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
+  text-decoration: none !important;
+  border-bottom: 2px solid rgba(13, 148, 136, 0.2) !important;
+  padding-bottom: 2px;
+  color: $text-color !important;
+  transition: all 0.3s ease;
+  &:hover {
+    color: $primary-color !important;
+    border-bottom-color: $primary-color !important;
+    text-decoration: none !important;
+  }
+}
+
 /* ==========================================================================
-   排版与空间结构 (Layout & Typography)
+   排版与空间结构：释放全局宽度 & 完美居中
    ========================================================================== */
 
-/* 全局字体与间距优化 */
 body {
   line-height: 1.8;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
-/* 导航栏的活力反馈 */
-.masthead {
-  border-bottom: 1px solid $border-color;
-  transition: box-shadow 0.3s ease;
-  &:hover {
-    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+/* 🔥 修复宽度的核心：释放主容器限制 🔥 */
+.page__content {
+  max-width: 100% !important; 
+  padding: 0;
+}
+
+@media (min-width: 64em) {
+  #main {
+    max-width: 1280px !important; /* 拓展大屏下的整体宽度 */
+    margin: 0 auto;
+  }
+  .archive {
+    width: calc(100% - 350px) !important; /* 右侧内容占据剩余全部空间 */
+    padding-right: 0 !important; 
   }
 }
 
-/* 页脚内间距，防止内容贴边 */
 .page__footer-inner {
   max-width: 1000px;
   margin: 0 auto;
@@ -160,16 +155,15 @@ body {
 }
 
 /* ==========================================================================
-   单页布局专属优化：固定导航栏与平滑滚动
+   单页体验：毛玻璃导航栏 & 内部通透化
    ========================================================================== */
 
-/* 1. 开启全局平滑滚动体验 & 锚点跳转定位 */
-html {
+html, body, .initial-content, #main {
+  overflow: visible !important; /* 保证 Sticky 能生效的基础 */
   scroll-behavior: smooth;
   scroll-padding-top: 100px;
 }
 
-/* 2. 导航栏：极其自然的毛玻璃质感 (Apple-like Frosted Glass) */
 .masthead {
   position: sticky;
   top: 0;
@@ -182,91 +176,32 @@ html {
   transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-/* ==========================================================================
-   侧边栏（头像区域）重置：取消跟随滑动
-   ========================================================================== */
-
-@media (min-width: 64em) { 
-  .sidebar {
-    position: relative !important;
-    top: auto !important;
-    max-height: none !important;
-    overflow-y: visible !important;
-  }
-}
-
-/* 页脚左对齐样式 */
-.site-last-updated {
-  text-align: left;
-  font-size: 0.7rem;
-  color: #64748b;
-  padding-bottom: 0.5em;
-  margin-top: 0;
-}
-
-.page__footer-copyright {
-  text-align: left;
-  font-size: 0.7rem;
-}
-
-/* ==========================================================================
-   修复：保留高质感单一下划线，悬停时标题与下划线同步加深
-   ========================================================================== */
-
-/* 针对所有标题链接（解决 Welcome to Jekyll! 的双黄线问题） */
-h1 a, h2 a, h3 a, h4 a, h5 a, h6 a,
-.archive__item-title a {
-  text-decoration: none !important;
-  border-bottom: 2px solid rgba(13, 148, 136, 0.2) !important;
-  padding-bottom: 2px;
-  color: $text-color !important;
-  transition: all 0.3s ease;
-
-  &:hover {
-    color: $primary-color !important;
-    border-bottom-color: $primary-color !important;
-    text-decoration: none !important;
-  }
-}
-
-/* 确保正文的普通链接悬停时也遵循这套同步加深的逻辑 */
-.page__content a:not(.btn):hover,
-.post__content a:not(.btn):hover {
-  text-decoration: none !important;
-  border-bottom-color: $link-color-hover !important;
-}
-
-/* ==========================================================================
-   终极修复：毛玻璃内部通透化 & 头像侧边栏完美固定
-   ========================================================================== */
-
-/* 1. 修复毛玻璃分层：强制导航栏内部所有嵌套容器完全透明 */
-.masthead__inner-wrap,
-.greedy-nav,
-.greedy-nav .visible-links,
-.greedy-nav button.navicon {
+.masthead__inner-wrap, .greedy-nav, .greedy-nav .visible-links, .greedy-nav button.navicon {
   background-color: transparent !important;
   background: transparent !important;
 }
 
-/* 导航栏下拉折叠菜单（手机端）的背景修复，维持毛玻璃质感 */
 .greedy-nav .hidden-links {
   background-color: rgba(248, 250, 252, 0.95) !important;
   backdrop-filter: blur(10px);
 }
 
-/* 2. 头像侧边栏：死死钉在屏幕左侧，且避开顶部导航栏 */
+/* ==========================================================================
+   左侧头像：打破 Flexbox 陷阱的完美固定
+   ========================================================================== */
+
 @media (min-width: 64em) {
   .sidebar {
+    position: -webkit-sticky !important; 
     position: sticky !important;
-    position: -webkit-sticky !important;
     top: 100px !important;
-    height: calc(100vh - 120px) !important;
-    overflow-y: auto !important;
+    align-self: flex-start !important; /* 🔥 修复 Sticky 失效的核心 🔥 */
+    height: auto !important; 
+    max-height: calc(100vh - 120px) !important; 
+    overflow-y: auto !important; 
+    z-index: 10 !important;
     padding-bottom: 2em;
   }
-  
-  /* 隐藏左侧区域丑陋的默认滚动条，保持极简感 */
   .sidebar::-webkit-scrollbar {
     width: 0px;
     background: transparent;
@@ -274,41 +209,15 @@ h1 a, h2 a, h3 a, h4 a, h5 a, h6 a,
 }
 
 /* ==========================================================================
-   自定义：减小页边距，让内容更饱满
+   页脚样式
    ========================================================================== */
 
-/* 1. 减小页面两侧的留白 */
-.page {
-  padding-left: 8px !important;
-  padding-right: 8px !important;
+.site-last-updated, .page__footer-copyright {
+  text-align: left;
+  font-size: 0.7rem;
+  color: #64748b;
+  line-height: 1.5;
 }
-
-/* 2. 减小主内容区域的内边距 */
-.page__inner-wrap {
-  padding: 0.8em !important;
-}
-
-/* 3. 让正文区域占满更多空间，移除宽度限制 */
-.archive,
-.page__content {
-  max-width: none !important;
-  width: 100% !important;
-}
-
-/* 4. 减小侧边栏与主内容的间距 */
-@media (min-width: 64em) {
-  .sidebar {
-    margin-right: 15px !important;
-  }
-}
-
-/* 5. 减小页脚内边距 */
-.page__footer-inner {
-  padding: 1em 8px !important;
-  max-width: none !important;
-}
-
-/* 6. 减小整体内容容器的内边距 */
-.page__main {
-  padding-top: 1em !important;
-}
+.site-last-updated { padding-bottom: 0.5em; margin-top: 0; }
+.page__footer-copyright a { color: #64748b !important; text-decoration: none; }
+.page__footer-copyright a:hover { color: #0d9488 !important; text-decoration: underline; }
