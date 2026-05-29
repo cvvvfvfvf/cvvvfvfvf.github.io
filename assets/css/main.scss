@@ -163,15 +163,10 @@ html {
 
 @media (min-width: 64em) { 
   .sidebar {
-    position: sticky !important;
-    top: 100px !important;
-    max-height: calc(100vh - 120px);
-    overflow-y: auto;
-    
-    &::-webkit-scrollbar {
-      width: 0;
-      background: transparent;
-    }
+    position: relative !important; /* 恢复正常的排列逻辑，不再吸顶 */
+    top: auto !important; /* 取消顶部的距离限制 */
+    max-height: none !important; /* 取消高度限制 */
+    overflow-y: visible !important; /* 取消侧边栏内部的滚动条 */
   }
 }
 
