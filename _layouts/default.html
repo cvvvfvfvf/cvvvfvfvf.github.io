@@ -14,9 +14,11 @@
     {% include_cached skip-links.html locale=locale %}
     {% include_cached masthead.html locale=locale %}
 
-    <div class="initial-content">
-      {{ content }}
-      {% include after-content.html %}
+    <div class="initial-content" style="padding-top: 2em; padding-bottom: 2em;">
+      <main class="page__content" aria-label="Content">
+        {{ content }}
+        {% include after-content.html %}
+      </main>
     </div>
 
     {% if site.search == true %}
@@ -25,8 +27,8 @@
       </div>
     {% endif %}
 
-    <div id="footer" class="page__footer">
-      <footer>
+    <div id="footer" class="page__footer" style="margin-top: 4em; border-top: 4px solid #11999e;">
+      <footer class="page__footer-inner">
         {% include footer/custom.html %}
         {% include_cached footer.html locale=locale %}
       </footer>
