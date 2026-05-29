@@ -4,47 +4,85 @@
 @import "minimal-mistakes";
 
 /* ==========================================================================
-   Mint skin (Pro & Vibrant Edition - 学术活力定制版)
+   Mint skin (鲜亮活力版 - Bright & Vibrant Edition)
    ========================================================================== */
 
-/* Colors */
-$background-color: #f8fbfa !default;
-$text-color: #2c3e50 !default;
-$muted-text-color: #7f8c8d !default;
-$primary-color: #11999e !default;
-$border-color: mix(#fff, $text-color, 85%) !default;
+/* 主色调 - 更鲜亮的薄荷绿 */
+$primary-color: #00d2a1 !default;      /* 亮薄荷绿，更有生机 */
+$link-color: #00b894 !default;          /* 链接色更鲜亮 */
+$link-color-hover: #ff6b6b !default;    /* 悬停用珊瑚红，更醒目 */
 
-/* Footer 优化 */
-$footer-background-color: #1f2833 !default;
+/* 背景色 - 更清爽 */
+$background-color: #ffffff !default;     /* 纯白背景，更干净 */
+$text-color: #2d3436 !default;           /* 深灰文字，不刺眼 */
+$muted-text-color: #636e72 !default;     /* 次要文字用柔灰 */
 
-/* 链接与交互色彩 */
-$link-color: #11999e !default;
-$link-color-hover: #ff6f59 !default;
-$masthead-link-color: $text-color !default;
-$masthead-link-color-hover: #ff6f59 !default;
-$navicon-link-color-hover: #ff6f59 !default;
+/* 边框色 - 更轻 */
+$border-color: #dfe6e9 !default;
 
-/* Footer 细节覆盖 */
-.page__footer {
-  color: rgba(255, 255, 255, 0.6) !important;
+/* 页脚 - 深色但有温度 */
+$footer-background-color: #1e272e !default;
+
+/* 导航栏悬停 */
+$masthead-link-color-hover: #00d2a1 !default;
+
+/* 按钮样式增强 */
+.btn--primary {
+  background-color: #00d2a1 !important;
+  border-color: #00d2a1 !important;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background-color: #ff6b6b !important;
+    border-color: #ff6b6b !important;
+    transform: translateY(-2px);
+  }
 }
 
+/* 链接悬停效果 */
+a {
+  transition: all 0.2s ease;
+  
+  &:hover {
+    color: #ff6b6b !important;
+    text-decoration: none;
+  }
+}
+
+/* 页脚社交图标 */
 .page__footer-follow .social-icons i,
 .page__footer-follow .social-icons .svg-inline--fa {
-  color: #30e3ca;
-  transition: color 0.3s ease;
-}
-
-.page__footer-follow .social-icons i:hover,
-.page__footer-follow .social-icons .svg-inline--fa:hover {
-  color: #ff6f59;
-}
-
-/* 额外彩蛋：主按钮的活力注入 */
-.btn--primary {
+  color: #00d2a1;
+  font-size: 1.2rem;
   transition: all 0.3s ease;
+  
   &:hover {
-    background-color: #ff6f59;
-    border-color: #ff6f59;
+    color: #ff6b6b;
+    transform: translateY(-3px);
   }
+}
+
+/* 文章标题悬停效果 */
+.archive__item-title a {
+  transition: all 0.2s ease;
+  
+  &:hover {
+    color: #00d2a1 !important;
+  }
+}
+
+/* 阅读更多按钮 */
+.btn--inverse {
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background-color: #00d2a1 !important;
+    border-color: #00d2a1 !important;
+    color: white !important;
+  }
+}
+
+/* 高亮选中文本 */
+::selection {
+  background: rgba(0, 210, 161, 0.3);
 }
