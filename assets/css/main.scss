@@ -163,10 +163,15 @@ html {
 
 @media (min-width: 64em) { 
   .sidebar {
-    position: relative !important;
-    top: auto !important;
-    max-height: none !important;
-    overflow-y: visible !important;
+    position: sticky !important;
+    top: 100px !important;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+    
+    &::-webkit-scrollbar {
+      width: 0;
+      background: transparent;
+    }
   }
 }
 
@@ -246,33 +251,3 @@ h1 a, h2 a, h3 a, h4 a, h5 a, h6 a,
   backdrop-filter: blur(10px);
 }
 
-/* ==========================================================================
-   终极修复：解除 Flexbox 锁定，强制开启侧边栏吸顶
-   ========================================================================== */
-
-/* 1. 扫清障碍：确保所有外层父容器都不会隐藏溢出内容，这是 sticky 生效的前提 */
-html, body, .initial-content, #main {
-  overflow: visible !important;
-}
-
-@media (min-width: 64em) {
-  .sidebar {
-    position: -webkit-sticky !important; /* 兼容苹果 Safari 浏览器 */
-    position: sticky !important;
-    top: 100px !important; /* 躲开顶部的毛玻璃导航栏 */
-    
-    /* 🔥 破局核心代码：阻止侧边栏被拉伸到和文章一样高 🔥 */
-    align-self: flex-start !important; 
-    
-    height: auto !important; /* 让高度根据头像和简介内容自适应 */
-    max-height: calc(100vh - 120px) !important; 
-    overflow-y: auto !important; 
-    z-index: 10 !important;
-  }
-  
-  /* 隐藏左侧滑动时可能出现的丑陋原生滚动条 */
-  .sidebar::-webkit-scrollbar {
-    width: 0px;
-    background: transparent;
-  }
-}
