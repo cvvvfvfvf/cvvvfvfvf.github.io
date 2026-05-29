@@ -3,26 +3,6 @@ layout: archive
 ---
 {%- assign locale = page.locale | default: layout.locale | default: site.locale %}
 
-<div class="researcher-intro" style="margin-bottom: 3em; padding-bottom: 2em; border-bottom: 1px solid #e0e6ed;">
+<div class="page__content" style="padding-top: 0;">
   {{ content }}
 </div>
-
-{% if page.feature_row %}
-  <h3 class="archive__subtitle">核心研究领域 (Research Areas)</h3>
-  {% include feature_row id="feature_row" type="center" %}
-{% endif %}
-
-<h3 class="archive__subtitle" style="margin-top: 3em;">{{ site.data.ui-text[locale].recent_posts | default: "Latest Updates & Publications" }}</h3>
-
-{% if paginator %}
-  {% assign posts = paginator.posts %}
-{% else %}
-  {% assign posts = site.posts %}
-{% endif %}
-
-{% assign entries_layout = page.entries_layout | default: 'grid' %}
-<div class="entries-{{ entries_layout }}">
-  {% include documents-collection.html locale=locale entries=posts type=entries_layout %}
-</div>
-
-{% include paginator.html locale=locale %}
