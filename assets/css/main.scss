@@ -1,38 +1,43 @@
+---
+---
+
+@import "minimal-mistakes";
+
 /* ==========================================================================
    Mint skin (Pro & Vibrant Edition - 学术活力定制版)
    ========================================================================== */
 
 /* Colors */
-$background-color: #f8fbfa !default; /* 微微调亮背景，更加透气、干净 */
-$text-color: #2c3e50 !default; /* 1. 学术色：深藏青色，比原版的灰绿色更深邃，提升阅读体验和严谨感 */
-$muted-text-color: #7f8c8d !default; /* 2. 层次色：真正的偏灰减淡色，用于日期、次要信息，拉开视觉空间 */
-$primary-color: #11999e !default; /* 3. 生机色：保留你喜欢的薄荷绿，作为主基调不变 */
-$border-color: mix(#fff, $text-color, 85%) !default; /* 让边框线更柔和，不喧宾夺主 */
+$background-color: #f8fbfa !default;
+$text-color: #2c3e50 !default;
+$muted-text-color: #7f8c8d !default;
+$primary-color: #11999e !default;
+$border-color: mix(#fff, $text-color, 85%) !default;
 
-/* Footer 优化：深色压阵，稳住气场 */
-$footer-background-color: #1f2833 !default; /* 改为深青黑，压住整个网页的底盘，显得更专业 */
+/* Footer 优化 */
+$footer-background-color: #1f2833 !default;
 
 /* 链接与交互色彩 */
-$link-color: #11999e !default; 
-$link-color-hover: #ff6f59 !default; /* 4. 活力色：引入珊瑚橘！鼠标悬停在链接上时瞬间亮起，充满灵感 */
+$link-color: #11999e !default;
+$link-color-hover: #ff6f59 !default;
 $masthead-link-color: $text-color !default;
-$masthead-link-color-hover: #ff6f59 !default; /* 顶部导航栏鼠标悬停也用珊瑚橘 */
+$masthead-link-color-hover: #ff6f59 !default;
 $navicon-link-color-hover: #ff6f59 !default;
 
 /* Footer 细节覆盖 */
 .page__footer {
-  color: rgba(255, 255, 255, 0.6) !important; // 配合深色底，使用半透明白，高级感拉满
+  color: rgba(255, 255, 255, 0.6) !important;
 }
 
 .page__footer-follow .social-icons i,
 .page__footer-follow .social-icons .svg-inline--fa {
-  color: #30e3ca; /* 在深色页脚上，用亮薄荷绿点缀你的社交图标（GitHub/邮箱等） */
-  transition: color 0.3s ease; /* 增加平滑的过渡动画 */
+  color: #30e3ca;
+  transition: color 0.3s ease;
 }
 
 .page__footer-follow .social-icons i:hover,
 .page__footer-follow .social-icons .svg-inline--fa:hover {
-  color: #ff6f59; /* 社交图标悬停时呼应珊瑚橘 */
+  color: #ff6f59;
 }
 
 /* 额外彩蛋：主按钮的活力注入 */
