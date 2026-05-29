@@ -247,3 +247,36 @@ html {
   text-align: left;           /* 左对齐 */
   font-size: 0.7rem;          /* 统一字体大小 */
 }
+
+/* ==========================================================================
+   修复：保留高质感单一下划线，悬停时标题与下划线同步加深
+   ========================================================================== */
+
+/* 针对所有标题链接（解决 Welcome to Jekyll! 的双黄线问题） */
+h1 a, h2 a, h3 a, h4 a, h5 a, h6 a,
+.archive__item-title a {
+  /* 1. 彻底关闭系统自带的默认下划线，干掉冲突 */
+  text-decoration: none !important;
+  
+  /* 2. 重建一条优雅的底部边框作为下划线，默认处于半透明/较浅状态 */
+  border-bottom: 2px solid rgba(13, 148, 136, 0.2) !important;
+  padding-bottom: 2px; /* 让线条和文字拉开一点微小的距离，增加透气感 */
+  
+  /* 3. 字体颜色维持默认 */
+  color: $text-color !important;
+  transition: all 0.3s ease; /* 开启平滑过渡动画 */
+
+  &:hover {
+    /* 4. 核心效果：悬停时，文字和下划线同步加深为醒目的主题色 */
+    color: $primary-color !important;
+    border-bottom-color: $primary-color !important;
+    text-decoration: none !important;
+  }
+}
+
+/* 确保正文的普通链接悬停时也遵循这套同步加深的逻辑 */
+.page__content a:not(.btn):hover,
+.post__content a:not(.btn):hover {
+  text-decoration: none !important;
+  border-bottom-color: $link-color-hover !important;
+}
