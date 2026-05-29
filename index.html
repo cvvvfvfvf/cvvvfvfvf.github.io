@@ -1,58 +1,162 @@
 ---
 layout: home
-title: ""  # 这里留空，因为左侧已经有你的名字和信息了，右侧不需要再重复显示一个巨大的名字
-author_profile: true # 开启左侧的个人名片（头像、简介）
+title: ""
+author_profile: true
 ---
 
-## About {#about}
-Hi, I am Jingyi Li, an undergraduate student majoring in Data Science at the School of Mathematics, Tianjin University. 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* 自定义样式 */
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #0d9488;
+            margin-top: 1.5em;
+            margin-bottom: 1em;
+            padding-bottom: 0.5em;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        
+        .research-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .research-card {
+            background: #ffffff;
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        
+        .research-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(13, 148, 136, 0.1);
+        }
+        
+        .research-card h3 {
+            margin-top: 0;
+            color: #0d9488;
+            font-size: 1.25rem;
+        }
+        
+        .research-meta {
+            font-size: 0.85rem;
+            color: #64748b;
+            margin-bottom: 1em;
+        }
+        
+        .research-summary {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #334155;
+            margin-bottom: 0;
+        }
+        
+        .interests-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .interests-list li {
+            padding: 0.5em 0;
+            border-bottom: 1px solid #f0f2f5;
+        }
+        
+        .interests-list li:last-child {
+            border-bottom: none;
+        }
+        
+        @media (max-width: 768px) {
+            .research-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
 
-I am passionate about discovering underlying patterns in complex data. My research focuses on leveraging mathematical modeling and machine learning to solve real-world problems. 
+<!-- About Section -->
+<h2 class="section-title" id="about">About</h2>
+<p>
+    Hi, I am <strong>Jingyi Li</strong>, an undergraduate student majoring in Data Science at the School of Mathematics, 
+    <strong>Tianjin University</strong>.
+</p>
+<p>
+    I am passionate about discovering underlying patterns in complex data. My research focuses on leveraging 
+    mathematical modeling and machine learning to solve real-world problems.
+</p>
 
----
+<hr>
 
-## Research Interests {#research-interests}
-* **High-Dimensional Statistical Modeling:** Mediation analysis, causal inference, and survival data frameworks.
-* **Environmental Data Science:** Predictive modeling of oceanographic variables using machine learning and time series analysis.
-* **Mathematical Combinatorics:** Integer partitions, generating functions, and number theory applications.
+<!-- Research Interests Section -->
+<h2 class="section-title" id="research-interests">Research Interests</h2>
+<ul class="interests-list">
+    <li><strong>High-Dimensional Statistical Modeling:</strong> Mediation analysis, causal inference, and survival data frameworks.</li>
+    <li><strong>Environmental Data Science:</strong> Predictive modeling of oceanographic variables using machine learning and time series analysis.</li>
+    <li><strong>Mathematical Combinatorics:</strong> Integer partitions, generating functions, and number theory applications.</li>
+</ul>
 
----
+<hr>
 
-## Research Experience {#research-experience}
+<!-- Research Experience Section -->
+<h2 class="section-title" id="research-experience">Research Experience</h2>
 
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5em; margin-top: 1.5em;">
-
-  <div style="background: #ffffff; padding: 1.5em; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid #e2e8f0; transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 10px 25px rgba(13,148,136,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(0,0,0,0.03)'">
-    <h3 style="margin-top: 0; color: #0d9488; font-size: 1.25rem;">Predictability Analysis of Marine Environmental Variables</h3>
-    <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 1em;">
-      <strong>Time:</strong> Continuous Observation Period<br>
-      <strong>Keywords:</strong> Time Series Modeling, XGBoost, Scikit-learn, Regression Analysis
-    </p>
-    <p style="font-size: 0.95rem; line-height: 1.6; color: #334155; margin-bottom: 0;">
-      Assessed the predictability of salinity and five types of nutrients (phosphate, ammonia nitrogen, nitrite, nitrate, inorganic nitrogen) in coastal waters. Developed a machine learning pipeline utilizing regression analysis and cluster analysis based on observation data from coastal marine environmental monitoring stations (e.g., FB_TJST01-03) to improve environmental forecasting models.
-    </p>
-  </div>
-
-  <div style="background: #ffffff; padding: 1.5em; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid #e2e8f0; transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 10px 25px rgba(13,148,136,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(0,0,0,0.03)'">
-    <h3 style="margin-top: 0; color: #0d9488; font-size: 1.25rem;">Mediation Analysis for High-Dimensional Survival Data</h3>
-    <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 1em;">
-      <strong>Application:</strong> DNA Information Storage Reliability<br>
-      <strong>Keywords:</strong> SCAD Penalty, BIC Tuning, Causal Inference, Joint Significance Testing
-    </p>
-    <p style="font-size: 0.95rem; line-height: 1.6; color: #334155; margin-bottom: 0;">
-      Constructed a high-dimensional survival data mediation analysis framework, treating DNA information failure time as the survival outcome. Implemented parameter tuning via Bayesian Information Criterion (BIC) over the SCAD penalty space, and conducted rigorous joint significance testing to identify key mechanistic pathways in DNA storage degradation.
-    </p>
-  </div>
-
+<div class="research-grid">
+    
+    <!-- Card 1 -->
+    <div class="research-card">
+        <h3>Predictability Analysis of Marine Environmental Variables</h3>
+        <div class="research-meta">
+            <strong>Time:</strong> Continuous Observation Period<br>
+            <strong>Keywords:</strong> Time Series Modeling, XGBoost, Scikit-learn, Regression Analysis
+        </div>
+        <div class="research-summary">
+            Assessed the predictability of salinity and five types of nutrients (phosphate, ammonia nitrogen, nitrite, nitrate, inorganic nitrogen) in coastal waters. Developed a machine learning pipeline utilizing regression analysis and cluster analysis based on observation data from coastal marine environmental monitoring stations (e.g., FB_TJST01-03) to improve environmental forecasting models.
+        </div>
+    </div>
+    
+    <!-- Card 2 -->
+    <div class="research-card">
+        <h3>Mediation Analysis for High-Dimensional Survival Data</h3>
+        <div class="research-meta">
+            <strong>Application:</strong> DNA Information Storage Reliability<br>
+            <strong>Keywords:</strong> SCAD Penalty, BIC Tuning, Causal Inference, Joint Significance Testing
+        </div>
+        <div class="research-summary">
+            Constructed a high-dimensional survival data mediation analysis framework, treating DNA information failure time as the survival outcome. Implemented parameter tuning via Bayesian Information Criterion (BIC) over the SCAD penalty space, and conducted rigorous joint significance testing to identify key mechanistic pathways in DNA storage degradation.
+        </div>
+    </div>
+    
 </div>
 
----
+<hr>
 
-## Education {#education}
-**B.S. in Data Science** *Tianjin University (TJU), Tianjin, China* *Expected Jun 2027* * **Core Courses:** Mathematical Analysis, Advanced Algebra, Probability and Statistics, Machine Learning, Data Structures.
-* **GPA:** 3.8/4.0 (Optional)
+<!-- Education Section -->
+<h2 class="section-title" id="education">Education</h2>
+<p>
+    <strong>B.S. in Data Science</strong><br>
+    <em>Tianjin University (TJU), Tianjin, China</em><br>
+    <em>Expected Jun 2027</em>
+</p>
+<p>
+    <strong>Core Courses:</strong> Mathematical Analysis, Advanced Algebra, Probability and Statistics, Machine Learning, Data Structures.
+</p>
 
----
+<hr>
 
-## Life {#life}
-Beyond research, I enjoy photography and traveling. (这里可以放两句轻松的话，甚至插入一张你喜欢的风景照或生活照，体现你的生机活力。)
+<!-- Life Section -->
+<h2 class="section-title" id="life">Life</h2>
+<p>
+    Beyond research, I enjoy photography and traveling. Exploring new places gives me fresh perspectives and inspires my work. 🌊📷
+</p>
+
+</body>
+</html>
