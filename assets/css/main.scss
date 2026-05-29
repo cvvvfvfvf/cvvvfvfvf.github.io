@@ -268,14 +268,3 @@ h1 a, h2 a, h3 a, h4 a, h5 a, h6 a,
   backdrop-filter: blur(10px);
 }
 
-/* 强制固定侧边栏（最后防线） */
-@media (min-width: 64em) {
-  .sidebar {
-    position: fixed !important;
-    top: 100px !important;
-    left: 20px !important;
-    width: 220px !important;
-    transform: none !important;
-    will-change: auto !important;
-  }
-}
