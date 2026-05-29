@@ -13,7 +13,7 @@
 # you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
-title: Jingyi Li
+title: Welcome to Jingyi Li's Homepage
 email: lijingyi1122_@tju.edu.cn
 description: "Jingyi Li's Homepage"
 twitter_username: 
@@ -24,8 +24,8 @@ search: true
 # Build settings
 markdown: kramdown
 remote_theme: mmistakes/minimal-mistakes@4.28.0
-url: "https://cvvvfvfvf.github.io"   # ✅ 改成你的用户名
-baseurl: ""                           # ✅ 保持为空，因为仓库名和用户名一致
+url: "https://cvvvfvfvf.github.io"   
+baseurl: ""                          
 # Outputting
 permalink: /:categories/:title/
 paginate: 5 # amount of posts to show
