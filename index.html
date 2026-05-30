@@ -5,7 +5,6 @@ author_profile: true
 ---
 
 <style>
-    /* 自定义样式 */
     .section-title {
         font-size: 1.5rem;
         font-weight: 600;
@@ -14,65 +13,106 @@ author_profile: true
         margin-bottom: 1em;
         padding-bottom: 0.5em;
         border-bottom: 2px solid #e2e8f0;
+        scroll-margin-top: 0;
     }
 
-    .page-section {
-        scroll-margin-top: 5.5rem;
+    .page-section > .section-title:first-child {
+        margin-top: 0;
+        padding-top: 0.25em;
     }
-    
+
     .research-grid {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 1.5rem;
         margin-top: 1.5rem;
     }
-    
-    .research-card {
+
+    .research-card,
+    .experience-card {
         background: #ffffff;
         padding: 1.5rem;
         border-radius: 12px;
         border: 1px solid #e2e8f0;
         transition: all 0.3s ease;
     }
-    
-    .research-card:hover {
+
+    .research-card:hover,
+    .experience-card:hover {
         transform: translateY(-5px);
         box-shadow: 0 10px 25px rgba(13, 148, 136, 0.1);
     }
-    
-    .research-card h3 {
+
+    .research-card h3,
+    .experience-card h3 {
         margin-top: 0;
         color: #0d9488;
         font-size: 1.25rem;
     }
-    
-    .research-meta {
+
+    .research-meta,
+    .experience-meta {
         font-size: 0.85rem;
         color: #64748b;
         margin-bottom: 1em;
     }
-    
-    .research-summary {
+
+    .research-summary,
+    .experience-summary {
         font-size: 0.95rem;
         line-height: 1.6;
         color: #334155;
         margin-bottom: 0;
     }
-    
-    .interests-list {
+
+    .research-summary ul,
+    .experience-summary ul {
+        margin: 0.5em 0 0;
+        padding-left: 1.2em;
+    }
+
+    .research-summary li,
+    .experience-summary li {
+        margin-bottom: 0.5em;
+    }
+
+    .interests-list,
+    .detail-list {
         list-style-type: none;
         padding-left: 0;
     }
-    
-    .interests-list li {
+
+    .interests-list li,
+    .detail-list li {
         padding: 0.5em 0;
         border-bottom: 1px solid #f0f2f5;
     }
-    
-    .interests-list li:last-child {
+
+    .interests-list li:last-child,
+    .detail-list li:last-child {
         border-bottom: none;
     }
-    
+
+    .interest-group {
+        margin-bottom: 1.25em;
+    }
+
+    .interest-group:last-child {
+        margin-bottom: 0;
+    }
+
+    .interest-group h3 {
+        margin: 0 0 0.35em;
+        color: #0d9488;
+        font-size: 1.05rem;
+    }
+
+    .interest-group p {
+        margin: 0;
+        color: #334155;
+        line-height: 1.6;
+    }
+
     @media (max-width: 768px) {
         .research-grid {
             grid-template-columns: 1fr;
@@ -80,54 +120,104 @@ author_profile: true
     }
 </style>
 
-<section id="about" class="page-section">
-    <h2 class="section-title">About</h2>
+<section class="page-section">
+    <h2 class="section-title" id="about">About</h2>
     <p>
-        Hi, I am <strong>Jingyi Li</strong>, an undergraduate student majoring in Data Science at the School of Mathematics, 
-        <strong>Tianjin University</strong>.
+        Hi, I am <strong>Jingyi Li</strong>, an undergraduate student in the
+        <strong>B.S. in Data Science and Big Data Technology</strong> program at the
+        <strong>School of Mathematics, Tianjin University</strong> (expected graduation: July 2027).
     </p>
     <p>
-        I am passionate about discovering underlying patterns in complex data. My research focuses on leveraging 
-        mathematical modeling and machine learning to solve real-world problems.
+        My research interests lie at the intersection of <strong>Data Science</strong> and
+        <strong>Statistics</strong>. I aim to advance statistical learning theory to build reliable,
+        interpretable models for complex data, with applications spanning high-dimensional inference,
+        biostatistics, and time series forecasting.
+    </p>
+    <p>
+        <strong>Email:</strong> lijingyi1122@tju.edu.cn &nbsp;|&nbsp;
+        <strong>Phone:</strong> (+86) 133-3352-9601
     </p>
 </section>
 
 <hr>
 
-<section id="research-interests" class="page-section">
-    <h2 class="section-title">Research Interests</h2>
-    <ul class="interests-list">
-        <li><strong>High-Dimensional Statistical Modeling:</strong> Mediation analysis, causal inference, and survival data frameworks.</li>
-        <li><strong>Environmental Data Science:</strong> Predictive modeling of oceanographic variables using machine learning and time series analysis.</li>
-        <li><strong>Mathematical Combinatorics:</strong> Integer partitions, generating functions, and number theory applications.</li>
-    </ul>
+<section class="page-section">
+    <h2 class="section-title" id="research-interests">Research Interests</h2>
+    <div class="interest-group">
+        <h3>Statistical Learning &amp; Inference</h3>
+        <p>
+            High-dimensional statistics, causal inference, optimality and efficiency of estimators.
+        </p>
+    </div>
+    <div class="interest-group">
+        <h3>Biostatistics and Medical Statistics</h3>
+        <p>
+            Survival analysis, causal mediation, and pathway analysis.
+        </p>
+    </div>
+    <div class="interest-group">
+        <h3>Time Series Analysis and Forecasting</h3>
+        <p>
+            Spatio-temporal modeling and Bayesian structural time series.
+        </p>
+    </div>
 </section>
 
 <hr>
 
-<section id="research-experience" class="page-section">
-    <h2 class="section-title">Research Experience</h2>
+<section class="page-section">
+    <h2 class="section-title" id="research-experience">Research Experience</h2>
 
     <div class="research-grid">
         <div class="research-card">
-            <h3>Predictability Analysis of Marine Environmental Variables</h3>
+            <h3>High-Dimensional Mediation Analysis with Survival Data</h3>
             <div class="research-meta">
-                <strong>Time:</strong> Continuous Observation Period<br>
-                <strong>Keywords:</strong> Time Series Modeling, XGBoost, Scikit-learn, Regression Analysis
+                <strong>Institution:</strong> Tianjin University, Tianjin, China<br>
+                <strong>Role:</strong> Research Intern<br>
+                <strong>Advisor:</strong> Prof. Haixiang Zhang<br>
+                <strong>Period:</strong> Sep. 2025 – Present
             </div>
             <div class="research-summary">
-                Assessed the predictability of salinity and five types of nutrients (phosphate, ammonia nitrogen, nitrite, nitrate, inorganic nitrogen) in coastal waters. Developed a machine learning pipeline utilizing regression analysis and cluster analysis based on observation data from coastal marine environmental monitoring stations (e.g., FB_TJST01-03) to improve environmental forecasting models.
+                <ul>
+                    <li>
+                        Proposed a deep partially linear model for high-dimensional survival mediation analysis
+                        with nonlinear confounding adjustment, enabling effective screening, estimation, and
+                        testing of mediators.
+                    </li>
+                    <li>
+                        Achieved robust estimation under complex confounding: in simulations with 10,000 potential
+                        mediators, our method attained a <strong>74.5% detection rate</strong> for key mediators
+                        and reduced estimation bias by up to <strong>12.6%</strong> compared to conventional linear
+                        approaches.
+                    </li>
+                    <li>
+                        Manuscript in preparation for a targeted statistical / machine learning journal
+                        (anticipated submission: Spring 2026).
+                    </li>
+                </ul>
             </div>
         </div>
 
         <div class="research-card">
-            <h3>Mediation Analysis for High-Dimensional Survival Data</h3>
+            <h3>Quaternion Matrix Optimization for Medical Image Denoising</h3>
             <div class="research-meta">
-                <strong>Application:</strong> DNA Information Storage Reliability<br>
-                <strong>Keywords:</strong> SCAD Penalty, BIC Tuning, Causal Inference, Joint Significance Testing
+                <strong>Institution:</strong> Tianjin University, Tianjin, China<br>
+                <strong>Role:</strong> Research Intern<br>
+                <strong>Advisor:</strong> Prof. Xinzhen Zhang<br>
+                <strong>Period:</strong> Mar. 2025 – Feb. 2026 (Expected)
             </div>
             <div class="research-summary">
-                Constructed a high-dimensional survival data mediation analysis framework, treating DNA information failure time as the survival outcome. Implemented parameter tuning via Bayesian Information Criterion (BIC) over the SCAD penalty space, and conducted rigorous joint significance testing to identify key mechanistic pathways in DNA storage degradation.
+                <ul>
+                    <li>
+                        Proposed a quaternion-valued convolutional neural network (Q-CNN) that processes
+                        multi-channel MRI data (T1, T1ce, T2, FLAIR), inherently capturing cross-channel
+                        correlations.
+                    </li>
+                    <li>
+                        Reduced model parameters by <strong>23.4%</strong> and improved reconstruction
+                        SSIM (Structural Similarity) by over <strong>4.5%</strong>.
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
@@ -135,23 +225,95 @@ author_profile: true
 
 <hr>
 
-<section id="education" class="page-section">
-    <h2 class="section-title">Education</h2>
-    <p>
-        <strong>B.S. in Data Science</strong><br>
-        <em>Tianjin University (TJU), Tianjin, China</em><br>
-        <em>Expected Jun 2027</em>
-    </p>
-    <p>
-        <strong>Core Courses:</strong> Mathematical Analysis, Advanced Algebra, Probability and Statistics, Machine Learning, Data Structures.
-    </p>
+<section class="page-section">
+    <h2 class="section-title" id="work-experience">Work Experience</h2>
+
+    <div class="experience-card">
+        <h3>Teaching Assistant in Linear Algebra</h3>
+        <div class="experience-meta">
+            <strong>Institution:</strong> Tianjin University, Tianjin, China<br>
+            <strong>Instructor:</strong> Prof. Yahui Shi<br>
+            <strong>Period:</strong> Sep. 2025 – Jan. 2026 (Expected)
+        </div>
+        <div class="experience-summary">
+            <ul>
+                <li>
+                    Held weekly office hours for a class of 120+ students, clarifying concepts in linear algebra.
+                </li>
+                <li>
+                    Graded homework, projects, and mid-term exams; provided detailed feedback to improve
+                    student understanding.
+                </li>
+                <li>
+                    Assisted the professor in preparing lecture materials and updating the course syllabus.
+                </li>
+            </ul>
+        </div>
+    </div>
 </section>
 
 <hr>
 
-<section id="life" class="page-section">
-    <h2 class="section-title">Life</h2>
+<section class="page-section">
+    <h2 class="section-title" id="education">Education</h2>
     <p>
-        Beyond research, I enjoy photography and traveling. Exploring new places gives me fresh perspectives and inspires my work. 🌊📷
+        <strong>B.S. in Data Science and Big Data Technology</strong><br>
+        <em>School of Mathematics, Tianjin University (TJU), Tianjin, China</em><br>
+        <em>Aug. 2023 – Jul. 2027 (Expected)</em><br>
+        <strong>GPA:</strong> 3.36 / 4.0
+    </p>
+    <p><strong>Main Courses:</strong></p>
+    <ul class="detail-list">
+        <li>Mathematical Analysis</li>
+        <li>Probability Theory</li>
+        <li>Mathematical Statistics</li>
+        <li>Algorithm Design &amp; Analysis</li>
+        <li>Data Science</li>
+        <li>Real Analysis</li>
+        <li>Ordinary Differential Equations (ODE)</li>
+    </ul>
+</section>
+
+<hr>
+
+<section class="page-section">
+    <h2 class="section-title" id="honors-awards">Honors &amp; Awards</h2>
+    <ul class="detail-list">
+        <li>
+            <strong>China Undergraduate Mathematical Contest in Modeling (CUMCM)</strong> —
+            Second Prize (Provincial Level), 2025
+        </li>
+        <li>
+            <strong>Mathematical Contest in Modeling (MCM)</strong> —
+            Honorable Mention, 2025
+        </li>
+    </ul>
+</section>
+
+<hr>
+
+<section class="page-section">
+    <h2 class="section-title" id="skills">Skills</h2>
+    <ul class="detail-list">
+        <li>
+            <strong>Languages:</strong> Chinese Mandarin (Native); English (CET-6, 523)
+        </li>
+        <li>
+            <strong>Technical Skills:</strong> Proficient in Python, LaTeX, and C++; experienced in
+            mathematical derivations; solid foundation in mathematics and statistics.
+        </li>
+        <li>
+            <strong>Teamwork:</strong> Technical communication and collaborative research.
+        </li>
+    </ul>
+</section>
+
+<hr>
+
+<section class="page-section">
+    <h2 class="section-title" id="life">Life</h2>
+    <p>
+        Beyond research, I enjoy photography and traveling. Exploring new places gives me fresh
+        perspectives and inspires my work.
     </p>
 </section>
