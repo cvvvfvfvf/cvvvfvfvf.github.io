@@ -62,21 +62,22 @@ author:
   bio: |
     Undergraduate
     Data Science
-    School of Mathematics
     Tianjin University
+  location: "Tianjin, China"
   links:
-    # - label: "Website"
-    #   icon: "fas fa-fw fa-link"
-    #   url: "https://"
-    # - label: "Twitter"
-    #   icon: "fab fa-fw fa-twitter-square"
-    #   url: "https://twitter.com/"
+    - label: "Email"
+      icon: "fas fa-fw fa-envelope"
+      url: "mailto:lijingyi1122_@tju.edu.cn"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
       url: "https://github.com/cvvvfvfvf"
-    # - label: "Instagram"
-    #   icon: "fab fa-fw fa-instagram"
-    #   url: "https://instagram.com/"
+    - label: "LinkedIn"
+      icon: "fab fa-fw fa-linkedin"
+      url: "https://www.linkedin.com/feed/"  # 替换为你的领英链接
+    # - label: "CV"
+    #   icon: "fas fa-fw fa-file-alt"
+    #   url: "/assets/files/CV.pdf"  # 将 CV 文件放在 assets/files/ 目录下
+    
 
 footer:
   links: []
