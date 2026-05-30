@@ -21,15 +21,25 @@ author_profile: true
         padding-top: 0.25em;
     }
 
-    .research-grid {
+    /* Research Interests: 并排三个卡片 */
+    .interests-grid {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+        margin-top: 1.5rem;
+    }
+
+    /* Research Experience: 竖向排列 */
+    .experience-grid {
+        display: flex;
+        flex-direction: column;
         gap: 1.5rem;
         margin-top: 1.5rem;
     }
 
     .research-card,
-    .experience-card {
+    .experience-card,
+    .interest-card {
         background: #ffffff;
         padding: 1.5rem;
         border-radius: 12px;
@@ -38,27 +48,31 @@ author_profile: true
     }
 
     .research-card:hover,
-    .experience-card:hover {
+    .experience-card:hover,
+    .interest-card:hover {
         transform: translateY(-5px);
         box-shadow: 0 10px 25px rgba(13, 148, 136, 0.1);
     }
 
     .research-card h3,
-    .experience-card h3 {
+    .experience-card h3,
+    .interest-card h3 {
         margin-top: 0;
         color: #0d9488;
         font-size: 1.25rem;
     }
 
     .research-meta,
-    .experience-meta {
+    .experience-meta,
+    .interest-meta {
         font-size: 0.85rem;
         color: #64748b;
         margin-bottom: 1em;
     }
 
     .research-summary,
-    .experience-summary {
+    .experience-summary,
+    .interest-summary {
         font-size: 0.95rem;
         line-height: 1.6;
         color: #334155;
@@ -66,13 +80,15 @@ author_profile: true
     }
 
     .research-summary ul,
-    .experience-summary ul {
+    .experience-summary ul,
+    .interest-summary ul {
         margin: 0.5em 0 0;
         padding-left: 1.2em;
     }
 
     .research-summary li,
-    .experience-summary li {
+    .experience-summary li,
+    .interest-summary li {
         margin-bottom: 0.5em;
     }
 
@@ -93,49 +109,27 @@ author_profile: true
         border-bottom: none;
     }
 
-    .interest-group {
-        margin-bottom: 1.25em;
-    }
-
-    .interest-group:last-child {
-        margin-bottom: 0;
-    }
-
-    .interest-group h3 {
-        margin: 0 0 0.35em;
-        color: #0d9488;
-        font-size: 1.05rem;
-    }
-
-    .interest-group p {
-        margin: 0;
-        color: #334155;
-        line-height: 1.6;
-    }
-
+    /* 手机适配 */
     @media (max-width: 768px) {
-        .research-grid {
+        .interests-grid {
             grid-template-columns: 1fr;
         }
     }
 </style>
 
 <section class="page-section">
-    <h2 class="section-title" id="about">About</h2>
+    <h2 class="section-title" id="about">About me</h2>
     <p>
-        Hi, I am <strong>Jingyi Li</strong>, an undergraduate student in the
-        <strong>B.S. in Data Science and Big Data Technology</strong> program at the
-        <strong>School of Mathematics, Tianjin University</strong> (expected graduation: July 2027).
+        Hi, I'm <strong>Jingyi Li</strong>, an undergraduate student pursuing a B.S.
+        <strong> in Data Science and Big Data Technology</strong> program at the
+        <strong>School of Mathematics, Tianjin University</strong> (expected graduation: July 2027). 
+        Currently, I am working as a <strong>Research Assistant</strong> at both 
+        Tianjin University (advised by <a href="https://zhxmath.github.io/" target="_blank" rel="noopener noreferrer">Dr. Haixiang Zhang) and UNC-Chapel Hill  (in the <a href="https://www.med.unc.edu/bigs2/" target="_blank" rel="noopener noreferrer">BIG-S2 lab, advised by <a href="https://www.med.unc.edu/bigs2/people/tengfei-li/" target="_blank" rel="noopener noreferrer">Dr. Tengfei Li).
     </p>
     <p>
         My research interests lie at the intersection of <strong>Data Science</strong> and
         <strong>Statistics</strong>. I aim to advance statistical learning theory to build reliable,
-        interpretable models for complex data, with applications spanning high-dimensional inference,
-        biostatistics, and time series forecasting.
-    </p>
-    <p>
-        <strong>Email:</strong> lijingyi1122@tju.edu.cn &nbsp;|&nbsp;
-        <strong>Phone:</strong> (+86) 133-3352-9601
+        interpretable models for complex data.
     </p>
 </section>
 
@@ -143,23 +137,25 @@ author_profile: true
 
 <section class="page-section">
     <h2 class="section-title" id="research-interests">Research Interests</h2>
-    <div class="interest-group">
-        <h3>Statistical Learning &amp; Inference</h3>
-        <p>
-            High-dimensional statistics, causal inference, optimality and efficiency of estimators.
-        </p>
-    </div>
-    <div class="interest-group">
-        <h3>Biostatistics and Medical Statistics</h3>
-        <p>
-            Survival analysis, causal mediation, and pathway analysis.
-        </p>
-    </div>
-    <div class="interest-group">
-        <h3>Time Series Analysis and Forecasting</h3>
-        <p>
-            Spatio-temporal modeling and Bayesian structural time series.
-        </p>
+    <div class="interests-grid">
+        <div class="interest-card">
+            <h3>Statistical Learning &amp; Inference</h3>
+            <div class="interest-summary">
+                High-dimensional Statistics, Causal Inference.
+            </div>
+        </div>
+        <div class="interest-card">
+            <h3>Biostatistics and Medical Statistics</h3>
+            <div class="interest-summary">
+                Survival analysis, DNA Data Storage, Neuroimaging Analysis.
+            </div>
+        </div>
+        <div class="interest-card">
+            <h3>AI for Science (AI4S)</h3>
+            <div class="interest-summary">
+                Large-scale data analytics, predictive modeling, and deep learning applications.
+            </div>
+        </div>
     </div>
 </section>
 
@@ -168,7 +164,7 @@ author_profile: true
 <section class="page-section">
     <h2 class="section-title" id="research-experience">Research Experience</h2>
 
-    <div class="research-grid">
+    <div class="experience-grid">
         <div class="research-card">
             <h3>High-Dimensional Mediation Analysis with Survival Data</h3>
             <div class="research-meta">
@@ -226,94 +222,42 @@ author_profile: true
 <hr>
 
 <section class="page-section">
-    <h2 class="section-title" id="work-experience">Work Experience</h2>
-
-    <div class="experience-card">
-        <h3>Teaching Assistant in Linear Algebra</h3>
-        <div class="experience-meta">
-            <strong>Institution:</strong> Tianjin University, Tianjin, China<br>
-            <strong>Instructor:</strong> Prof. Yahui Shi<br>
-            <strong>Period:</strong> Sep. 2025 – Jan. 2026 (Expected)
-        </div>
-        <div class="experience-summary">
-            <ul>
-                <li>
-                    Held weekly office hours for a class of 120+ students, clarifying concepts in linear algebra.
-                </li>
-                <li>
-                    Graded homework, projects, and mid-term exams; provided detailed feedback to improve
-                    student understanding.
-                </li>
-                <li>
-                    Assisted the professor in preparing lecture materials and updating the course syllabus.
-                </li>
-            </ul>
-        </div>
-    </div>
-</section>
-
-<hr>
-
-<section class="page-section">
     <h2 class="section-title" id="education">Education</h2>
     <p>
         <strong>B.S. in Data Science and Big Data Technology</strong><br>
         <em>School of Mathematics, Tianjin University (TJU), Tianjin, China</em><br>
         <em>Aug. 2023 – Jul. 2027 (Expected)</em><br>
-        <strong>GPA:</strong> 3.36 / 4.0
     </p>
-    <p><strong>Main Courses:</strong></p>
-    <ul class="detail-list">
-        <li>Mathematical Analysis</li>
-        <li>Probability Theory</li>
-        <li>Mathematical Statistics</li>
-        <li>Algorithm Design &amp; Analysis</li>
-        <li>Data Science</li>
-        <li>Real Analysis</li>
-        <li>Ordinary Differential Equations (ODE)</li>
-    </ul>
 </section>
 
 <hr>
 
 <section class="page-section">
-    <h2 class="section-title" id="honors-awards">Honors &amp; Awards</h2>
-    <ul class="detail-list">
-        <li>
-            <strong>China Undergraduate Mathematical Contest in Modeling (CUMCM)</strong> —
-            Second Prize (Provincial Level), 2025
-        </li>
-        <li>
-            <strong>Mathematical Contest in Modeling (MCM)</strong> —
-            Honorable Mention, 2025
-        </li>
-    </ul>
-</section>
-
-<hr>
-
-<section class="page-section">
-    <h2 class="section-title" id="skills">Skills</h2>
-    <ul class="detail-list">
-        <li>
-            <strong>Languages:</strong> Chinese Mandarin (Native); English (CET-6, 523)
-        </li>
-        <li>
-            <strong>Technical Skills:</strong> Proficient in Python, LaTeX, and C++; experienced in
-            mathematical derivations; solid foundation in mathematics and statistics.
-        </li>
-        <li>
-            <strong>Teamwork:</strong> Technical communication and collaborative research.
-        </li>
-    </ul>
-</section>
-
-<hr>
-
-<section class="page-section">
-    <h2 class="section-title" id="life">Life</h2>
-    <p>
-        Beyond research, I enjoy photography and traveling. Exploring new places gives me fresh
-        perspectives and inspires my work.
+    <h2 class="section-title" id="life">Life Beyond the Lab</h2>
+    
+    <p class="life-description">
+        Life outside the lab is all about staying active and exploring the world. I am an avid rower and tennis player. I also love exploring new destinations, as experiencing diverse cultures and landscapes constantly sparks fresh perspectives and fuels my scientific curiosity.
     </p>
+
+    <!-- <div class="media-gallery">
+        
+        <div class="media-card">
+            <img src="images/rowing.jpg" alt="Rowing practice with the team">
+            <div class="media-caption">Rowing practice on the weekend</div>
+        </div>
+
+        <div class="media-card">
+            <img src="images/travel.jpg" alt="Traveling around the world">
+            <div class="media-caption">Exploring new landscapes</div>
+        </div>
+
+        <div class="media-card">
+            <video controls muted>
+                <source src="videos/tennis.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="media-caption">Tennis training sessions</div>
+        </div>
+
+    </div> -->
 </section>
