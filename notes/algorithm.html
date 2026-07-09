@@ -1,0 +1,881 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Algorithm Design &amp; Analysis Notes — Jingyi Li</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']], processEscapes: true },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+<style>
+:root{--teal:#0d9488;--teal2:#0f766e;--ink:#334155;--muted:#64748b;--bg:#f8fafc;--border:#e2e8f0;}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--ink);line-height:1.75;
+ font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;}
+a{color:var(--teal2);text-decoration:none;} a:hover{text-decoration:underline;}
+.topbar{position:sticky;top:0;z-index:50;background:rgba(248,250,252,.85);
+ backdrop-filter:saturate(180%) blur(12px);border-bottom:1px solid var(--border);}
+.topbar .inner{max-width:1100px;margin:0 auto;padding:.8em 1.2em;display:flex;justify-content:space-between;align-items:center;}
+.topbar a.home{font-weight:600;color:var(--teal);}
+.wrap{max-width:1100px;margin:0 auto;padding:2em 1.2em 4em;display:grid;grid-template-columns:250px 1fr;gap:2.5em;}
+.toc{position:sticky;top:70px;align-self:start;max-height:calc(100vh - 90px);overflow:auto;
+ font-size:.86rem;border-right:1px solid var(--border);padding-right:1em;}
+.toc h4{margin:0 0 .6em;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-size:.72rem;}
+.toc ul{list-style:none;margin:0;padding:0;}
+.toc li{margin:.15em 0;}
+.toc a{color:var(--ink);display:block;padding:.2em 0;border-left:2px solid transparent;padding-left:.6em;}
+.toc a:hover{color:var(--teal);border-left-color:var(--teal);text-decoration:none;}
+.content{min-width:0;}
+.page-head h1{color:var(--teal);margin:0 0 .1em;font-size:1.9rem;}
+.page-head p{color:var(--muted);margin:0 0 1.5em;}
+.note-h2{color:var(--teal);border-bottom:2px solid var(--border);padding-bottom:.3em;margin-top:2em;scroll-margin-top:70px;}
+.note-h3{color:var(--teal2);margin-top:1.5em;}
+.note-h4{color:var(--ink);margin-top:1.2em;font-size:1rem;}
+.content ul,.content ol{padding-left:1.4em;}
+.content li{margin:.3em 0;}
+code{background:#eef2f5;padding:.1em .35em;border-radius:4px;font-size:.9em;}
+pre.code{background:#0f172a;color:#e2e8f0;padding:1em 1.2em;border-radius:10px;overflow:auto;font-size:.85rem;line-height:1.5;}
+pre.code code{background:none;padding:0;color:inherit;}
+.algo{background:#fff;border:1px solid var(--border);border-left:4px solid var(--teal);
+ border-radius:8px;padding:1em 1.2em;margin:1.2em 0;font-family:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;font-size:.9rem;line-height:1.7;overflow:auto;}
+.algo-cap{font-family:inherit;font-weight:700;color:var(--teal2);margin-bottom:.5em;
+ font-family:-apple-system,Segoe UI,Roboto,sans-serif;}
+.algo-line{white-space:pre-wrap;}
+.algo-cmt{color:var(--muted);font-style:italic;}
+.tbl-cap{font-size:.9rem;color:var(--muted);font-style:italic;margin:.6em 0 .2em;}
+.table-wrap{overflow-x:auto;margin:1.2em 0;}
+table.note-table{border-collapse:collapse;width:auto;min-width:40%;background:#fff;}
+table.note-table th,table.note-table td{border:1px solid var(--border);padding:.45em .8em;text-align:center;}
+table.note-table th{background:#ecfdf5;color:var(--teal2);}
+@media (max-width:800px){
+ .wrap{grid-template-columns:1fr;}
+ .toc{position:static;max-height:none;border-right:none;border-bottom:1px solid var(--border);padding-right:0;padding-bottom:1em;margin-bottom:1em;}
+}
+</style>
+</head>
+<body>
+<div class="topbar"><div class="inner">
+  <a class="home" href="../index.html">&larr; Jingyi Li · Home</a>
+  <span style="color:var(--muted);font-size:.85rem;">Course Notes</span>
+</div></div>
+<div class="wrap">
+  <nav class="toc"><h4>Contents</h4><ul><li><a href="#algorithms">Algorithms</a></li><li><a href="#program-performance">Program Performance</a></li><li><a href="#asymptotic-analysis">Asymptotic Analysis</a></li><li><a href="#np-hard-problems">NP-hard Problems</a></li><li><a href="#insertion-sort">Insertion Sort</a></li><li><a href="#optimal-binary-tree">Optimal Binary Tree</a></li><li><a href="#solving-recurrence-equations">Solving Recurrence Equations</a></li><li><a href="#recursive-function-example">Recursive Function Example</a></li><li><a href="#divide-and-conquer-algorithms">Divide-and-Conquer Algorithms</a></li><li><a href="#greedy-algorithms">Greedy Algorithms</a></li><li><a href="#topological-sort">Topological Sort</a></li><li><a href="#dynamic-programming">Dynamic Programming</a></li><li><a href="#backtracking-algorithm-framework">Backtracking Algorithm Framework</a></li><li><a href="#0-1-knapsack-problem">0/1 Knapsack Problem</a></li><li><a href="#branch-and-bound-algorithm-framework">Branch-and-Bound Algorithm Framework</a></li></ul></nav>
+  <main class="content">
+    <div class="page-head"><h1>Algorithm Design &amp; Analysis Notes</h1><p>Algorithm Design and Analysis · Fall 2025</p></div>
+    <h2 id="algorithms" class="note-h2">Algorithms</h2>
+<h3 class="note-h3">Definition</h3>
+<p>A description of the steps for solving a specific problem; a finite sequence of instructions.</p>
+<h3 class="note-h3">Five Characteristics</h3>
+<ul>
+<li>
+<p><strong>Input</strong>: Algorithms have zero or more inputs</p>
+</li>
+<li>
+<p><strong>Output</strong>: Algorithms produce at least one output</p>
+</li>
+<li>
+<p><strong>Definiteness</strong>: Each instruction must be precisely defined with no ambiguity</p>
+</li>
+<li>
+<p><strong>Effectiveness</strong>: Each instruction must be basic enough to be executed finitely using already implementable basic operations</p>
+</li>
+<li>
+<p><strong>Finiteness</strong>: Algorithms must always terminate after a finite number of steps</p>
+</li>
+</ul>
+<h3 class="note-h3">Programs</h3>
+<ul>
+<li>
+<p><strong>Definition</strong>: A concrete implementation of an algorithm using a programming language</p>
+</li>
+<li>
+<p><strong>Operating System</strong>: A program that executes in an infinite loop, therefore NOT an algorithm</p>
+</li>
+<li>
+<p>Various OS tasks can be viewed as individual problems, each solved by specific algorithms within subroutines that terminate after producing outputs</p>
+</li>
+</ul>
+<h3 class="note-h3">Why Study Algorithms?</h3>
+<ul>
+<li>
+<p>Algorithms are the foundation of computer science</p>
+</li>
+<li>
+<p>They form the bedrock of programming</p>
+</li>
+<li>
+<p>A solid grasp of algorithms is essential for becoming a well-trained software professional</p>
+</li>
+<li>
+<p>The purpose of algorithms is to solve problems</p>
+</li>
+</ul>
+<h3 class="note-h3">Six Common Application Problem Types</h3>
+<p>Search problems, sorting problems, graph problems, combinatorial problems, geometric problems, numerical computation problems</p>
+<h3 class="note-h3">Problem Solving</h3>
+<p><strong>Definition</strong>: Finding a method to achieve a goal. A key aspect of computer-based problem solving is finding a problem-solving strategy that yields an algorithm, which then produces the solution.</p>
+<h3 class="note-h3">Nine Steps of the Problem-Solving Process</h3>
+<ol>
+<li>
+<p>Understand the problem</p>
+</li>
+<li>
+<p>Enumerate all possible inputs</p>
+</li>
+<li>
+<p>Choose between exact and approximate solutions</p>
+</li>
+<li>
+<p>Determine appropriate data structures</p>
+</li>
+<li>
+<p>Algorithm design techniques: greedy, divide-and-conquer, dynamic programming, etc.</p>
+</li>
+<li>
+<p>Describe the algorithm</p>
+</li>
+<li>
+<p>Trace the algorithm</p>
+</li>
+<li>
+<p>Analyze algorithm efficiency</p>
+</li>
+<li>
+<p>Write code based on the algorithm</p>
+</li>
+</ol>
+<h3 class="note-h3">Four Algorithm Classifications</h3>
+<ul>
+<li>
+<p><strong>Exact algorithms</strong>: Always guarantee finding a solution</p>
+</li>
+<li>
+<p><strong>Heuristic algorithms</strong>: Reduce solution time using rules, simplifications, or intelligent guesses</p>
+</li>
+<li>
+<p><strong>Approximation algorithms</strong>: For optimization problems, algorithms that seek approximate rather than optimal solutions</p>
+</li>
+<li>
+<p><strong>Randomized algorithms</strong>: Algorithms that make random choices during execution</p>
+</li>
+</ul>
+<h3 class="note-h3">Algorithm Design</h3>
+<p>Using computer-oriented problem-solving strategies (algorithm design strategies)</p>
+<h3 class="note-h3">Four Algorithm Description Methods</h3>
+<p>Natural language, flowcharts, pseudocode, programming languages</p>
+<h3 class="note-h3">Four Ways to Validate Algorithms</h3>
+<ul>
+<li>
+<p><strong>Proof of Correctness</strong>: Using mathematical methods to prove correctness</p>
+</li>
+<li>
+<p><strong>Program testing</strong>: Running pre-prepared sample data (test cases) to discover errors and determine if the program meets design requirements</p>
+</li>
+<li>
+<p><strong>Algorithm analysis</strong>: Estimating execution time and space requirements</p>
+</li>
+<li>
+<strong>Performance measurement</strong>: After implementation, measuring actual time and space consumption using sample data
+</li>
+</ul>
+<h2 id="program-performance" class="note-h2">Program Performance</h2>
+<p>Memory space and computation time required during program execution</p>
+<h3 class="note-h3">Two Performance Evaluation Methods</h3>
+<p>Analytical methods, measurement methods</p>
+<h3 class="note-h3">Algorithm Complexity</h3>
+<p><strong>Time complexity</strong>, <strong>Space complexity</strong>. Depends only on problem size, input, and the algorithm itself.</p>
+<h3 class="note-h3">Space Complexity ($S_p(n)$)</h3>
+<p>Space requirements (ignoring instance-independent factors): the relationship between memory space needed during program execution and problem instance characteristics.</p>
+<ul>
+<li>
+<p>Instruction space: instance-independent constants</p>
+</li>
+<li>
+<p>Data space: constants and simple variables (instance-independent), composite variables (arrays, linked lists, trees, graphs), environment stack space (function calls) — recursive or not?</p>
+</li>
+<li>
+<p>Composite variable space requirements often depend on problem instance characteristics</p>
+</li>
+</ul>
+<h3 class="note-h3">Algorithm Complexity Examples</h3>
+<p>Swap: \(t(n)=n*(n-1)/2\) <br> Insertion Sort: best case: \((n-1)\) comparisons, worst case: \(n*(n-1)/2\) comparisons</p>
+<h2 id="asymptotic-analysis" class="note-h2">Asymptotic Analysis</h2>
+<p>Asymptotic upper bound: \(\lim_{n\to\infty} \left| \frac{f(n)}{g(n)} \right| = c, \quad 0 \leq c < \infty\), then \(f(n)=O(g(n))\) <br> Asymptotic lower bound: \(\lim_{n\to\infty} \left| \frac{f(n)}{g(n)} \right| = c, \quad 0 < c \leq \infty\), then \(f(n)=\Omega(g(n))\) <br> If \(\lim_{n\to\infty} \frac{f(n)}{g(n)} = c, \quad 0 < c < \infty\), then \(f(n)=\Theta(g(n))\)</p>
+<div class="table-wrap"><table class="note-table"><tr><th>\( f(n) \)</th><th>Asymptotic</th></tr><tr><td>\( c \)</td><td>\( \Theta(1) \)</td></tr><tr><td>\( \sum_{i=0}^{k} c_i n^i \)</td><td>\( \Theta(n^k) \)</td></tr><tr><td>\( \sum_{i=1}^{n} i \)</td><td>\( \Theta(n^2) \)</td></tr><tr><td>\( \sum_{i=1}^{n} i^2 \)</td><td>\( \Theta(n^3) \)</td></tr><tr><td>\( \sum_{i=1}^{n} i^k, \; k>0 \)</td><td>\( \Theta(n^{k+1}) \)</td></tr><tr><td>\( \sum_{i=0}^{n} r^i, \; r>1 \)</td><td>\( \Theta(r^n) \)</td></tr><tr><td>\( n! \)</td><td>\( \Theta\bigl(\sqrt{n} (n / e)^n \bigr) \)</td></tr></table></div>
+<h2 id="np-hard-problems" class="note-h2">NP-hard Problems</h2>
+<ul>
+<li>
+<p>If a problem has a polynomial-time algorithm, it belongs to the polynomial class P</p>
+</li>
+<li>
+<p>Many practically important problems have no known polynomial-time algorithms; these are called NP-hard problems — inherently difficult problems</p>
+</li>
+<li>
+<p>Such difficult problems can only be solved by approximation algorithms or heuristic algorithms</p>
+</li>
+</ul>
+<h2 id="insertion-sort" class="note-h2">Insertion Sort</h2>
+<div class="algo"><div class="algo-cap">INSERTION-SORT $(A, n)$(1-base)</div><div class="algo-line" style="padding-left:0.0em"><b>for</b> $j \gets 2$ <b>to</b> $n$ <b>do</b></div><div class="algo-line" style="padding-left:1.6em">$key \gets A[j]$</div><div class="algo-line" style="padding-left:1.6em">$i \gets j - 1$</div><div class="algo-line" style="padding-left:1.6em"><b>while</b> $i > 0$ <b>and</b> $A[i] > key$ <b>do</b></div><div class="algo-line" style="padding-left:3.2em">$A[i+1] \gets A[i]$</div><div class="algo-line" style="padding-left:3.2em">$i \gets i - 1$</div><div class="algo-line" style="padding-left:1.6em">$A[i+1] \gets key$</div></div>
+<pre class="code"><code>def insertion_sort(A):
+n = len(A)
+for j in range(1, n):  
+key = A[j]
+i = j - 1
+while i &gt;= 0 and A[i] &gt; key:  
+A[i + 1] = A[i]
+i = i - 1
+A[i + 1] = key
+return A</code></pre>
+\[
+	T(n) = \sum_{j=2}^n \Theta(j/2) = \Theta(n^2)
+	\]
+<h2 id="optimal-binary-tree" class="note-h2">Optimal Binary Tree</h2>
+<div class="algo"><div class="algo-cap">Optimal Binary Tree Algorithm (1-base)</div><div class="algo-line" style="padding-left:0.0em"><b>for</b> $m \gets 2$ to $n$ <b>do</b></div><div class="algo-line" style="padding-left:1.6em">\</div><div class="algo-line" style="padding-left:1.6em"><b>for</b> $i \gets 0$ to $n - m$ <b>do</b></div><div class="algo-line" style="padding-left:3.2em">$j \gets i + m$</div><div class="algo-line" style="padding-left:3.2em">$w(i, j) \gets w(i, j-1) + P(j) + Q(j)$</div><div class="algo-line" style="padding-left:3.2em">$c(i, j) \gets \min_{i<l<j} \{ c(i, l-1) + c(l, j) \} + w(i, j)$</div></div>
+<p>The outer loop m goes from 2 to n, representing the size of the subtree (number of keys in the subtree). l is the key index of the root node of the current subtree (i, j) (satisfying i $<l<j$)<br></p>
+\[
+	\Theta\left( \sum_{2 \leq m \leq n} m(n-m) \right) = \Theta(n^3)
+	\]
+<h2 id="solving-recurrence-equations" class="note-h2">Solving Recurrence Equations</h2>
+<ul>
+<li>
+<p>Recursion tree</p>
+</li>
+<li>
+<p>Substitution method</p>
+</li>
+<li>
+<p>Master method</p>
+</li>
+</ul>
+\[
+	T(n)=aT(n/b)+f(n)
+	\]
+<ul>
+<li>
+<p>\( f(n)=\Theta(n^{\log_b a - \epsilon}), \epsilon>0 \), for some constant \( T(n)=\Theta(n^{\log_b a}) \)</p>
+</li>
+<li>
+<p>\( f(n)=\Theta(n^{\log_b a} \lg^k n) \), \( k \geq 0 \) for some constant \( T(n)=\Theta(n^{\log_b a} \lg^{k+1} n) \)</p>
+</li>
+<li>
+<p>\( f(n)=\Theta(n^{\log_b a + \epsilon}) \), \( \epsilon>0 \) for some constant \( T(n)=\Theta(f(n)) \)</p>
+</li>
+</ul>
+<h3 class="note-h3">Master Method Analysis</h3>
+<ul>
+<li>
+<p>\(n=b^h, h=\log_b n, n^{\log_b a}=a^h\)</p>
+</li>
+<li>
+<p>\(\log_b a\) denotes the logarithm of a base b</p>
+</li>
+<li>
+\(T(n)=a^h T(1)+\sum_{k} a^k f(n/b^k)\)
+\[
+		=a^h T(1)+\sum_{k} a^k f(b^{h-k})
+		\]
+<p>\(\sum_k\) summation range: \(k=0,...,h-1\)</p>
+</li>
+<li>
+<p>\(\sum_k a^k f(b^{h-k})=\sum_k a^{h-k} f(b^k)\), (the latter sums from 1 to h)</p>
+</li>
+</ul>
+<h3 class="note-h3">Proof (Case 1)</h3>
+<ul>
+<li>
+<p>$n = b^h$, then $n^{\log_b a} = a^h$, $n^\epsilon = b^{\epsilon h}$. \(f(n) = O(n^{\log_b a - \epsilon})\), for sufficiently large \(c\), $
+		f(n) \leq c n^{\log_b a - \epsilon} = c a^h / b^{\epsilon h} \Rightarrow f(b^h) \leq c (a^h / b^{\epsilon h})
+		$</p>
+</li>
+<li>
+$T(n) = a^h T(1) + \sum a^k f(b^{h-k})(\sum : k = 0, \ldots, h-1) \leq a^h T(1) + c \sum a^k (a^{h-k} / b^{\epsilon (h-k)})
+		= a^h T(1) + c a^h \sum (1 / b^{\epsilon (h-k)})
+		\leq a^h T(1) + c a^h \sum_{1 \leq k < \infty} (1 / b^{\epsilon k})
+		\leq C a^h \quad (b > 1, \epsilon > 0$ the infinite sum converges)
+</li>
+</ul>
+<h3 class="note-h3">Proof of Case 2</h3>
+<ul>
+<li>
+<p>$f(b^h) \leq c a^h (\ln b^h)^k$</p>
+</li>
+<li>
+<p>\(T(n) \leq a^h T(1) + c a^h \sum_i j^k (\ln b)^k \leq = a^h T(1) + c a^h \ln^{k+1} (\lg b)^{k+1} / \lg b = c'' (n^{\log_b a} \lg^{k+1} n)\)</p>
+</li>
+<li>
+<p>The above derivation uses: $
+		1^k + \ldots + n^k = \Theta(\ln^{k+1})$</p>
+</li>
+</ul>
+<h3 class="note-h3">Proof of Case 3</h3>
+<ul>
+<li>
+<p>$
+		a^k f(n/b^k) \leq c^k f(n)\Rightarrow\sum a^k f(n/b^k) \leq \sum c^k f(n)$</p>
+</li>
+<li>
+<p>\(T(n) = a^n T(1) + \sum a^k f(n/b^k) \leq a^n T(1) + f(n) \sum c^k \leq a^n T(1) + f(n)(1-c)^{-1}\)</p>
+</li>
+<li>
+<p>Because \(f(n) = \Omega(n^{\log_b a + \epsilon})\) has a higher magnitude than \(a^n\), we have $T(n) = O(f(n))$</p>
+</li>
+<li>
+<p>Also, \(T(n) > f(n)\), therefore \(T(n) = \Theta(f(n))\)</p>
+</li>
+</ul>
+<h2 id="recursive-function-example" class="note-h2">Recursive Function Example</h2>
+<pre class="code"><code>void recursive(int n, int m, int o) {
+	if (n &lt;= 0) {
+		printf(&quot;%d, %d\n&quot;, m, o);
+	} else {
+		recursive(n - 1, m + 1, o);   // Recursive call 1
+		recursive(n - 1, m, o + 1);   // Recursive call 2
+	}
+}</code></pre>
+<p>The function termination condition is $n \geq 0$. Although parameters $m$ and $o$ change during recursion, they do not affect the recursion depth or branching factor. Each call produces two recursive calls, and $n$ decreases by 1 each time, so the time complexity satisfies:</p>
+\[
+	T(n) = 2T(n-1) = O(2^n)
+	\]
+<p>The function termination condition is \(n \geq 0\), followed by two recursive calls to itself. Since parameters \(m\) and \(o\) do not participate in the termination condition, the running time simplifies to \(T(n) = T(n - 1) + T(n - 1)\), i.e., \(T(n) = 2 \times T(n - 1)\). This is a recurrence relation:</p>
+<ul>
+<li>
+<p>\(T(n) = 2 \times T(n - 1)\)</p>
+</li>
+<li>
+<p>\(T(n - 1) = 2 \times 2 \times T(n - 2)\)</p>
+</li>
+<li>
+<p>\(T(n - 2) = 2 \times 2 \times 2 \times T(n - 3)\)</p>
+</li>
+<li>
+<p>...</p>
+</li>
+</ul>
+<p>Thus the complexity is \(O(2^n)\).</p>
+<h2 id="divide-and-conquer-algorithms" class="note-h2">Divide-and-Conquer Algorithms</h2>
+<h3 class="note-h3">Applicable Conditions</h3>
+<ul>
+<li>
+<p>The problem can be easily solved when reduced to a sufficiently small size</p>
+</li>
+<li>
+<p>The problem can be decomposed into several smaller subproblems of the same type</p>
+</li>
+<li>
+<p>The solutions of the subproblems can be combined into the solution of the original problem</p>
+</li>
+<li>
+<p>The subproblems are independent of each other, i.e., they do not share common subproblems</p>
+</li>
+</ul>
+<h3 class="note-h3">Divide-and-Conquer Algorithm Framework</h3>
+<div class="algo"><div class="algo-cap">Divide-and-Conquer Framework</div><div class="algo-line" style="padding-left:0.0em"><b>Input:</b> Problem instance $P$</div><div class="algo-line" style="padding-left:0.0em"><b>Output:</b> Problem solution</div><div class="algo-line" style="padding-left:0.0em"><b>if</b> $|P| \leq n_0$ <b>then</b></div><div class="algo-line" style="padding-left:1.6em">$S(P)$ <span class="algo-cmt">// Solve small-scale problem</span></div><div class="algo-line" style="padding-left:0.0em">Decompose $P$ into smaller sub-instances $P_1, P_2, \ldots, P_k$ <span class="algo-cmt">// Decompose the problem</span></div><div class="algo-line" style="padding-left:0.0em"><b>for</b> $i = 1$ <b>to</b> $k$ <b>do</b></div><div class="algo-line" style="padding-left:1.6em">$y_i \gets \text{divide-and-conquer}(P_i)$ <span class="algo-cmt">// Recursively solve each subproblem</span></div><div class="algo-line" style="padding-left:0.0em"><b>return</b> $\text{merge}(y_1, \ldots, y_k)$ <span class="algo-cmt">// Combine subproblem solutions into original problem solution</span></div></div>
+<h3 class="note-h3">Finding Minimum and Maximum Elements (Min-Max Problem)</h3>
+<p>Recursive<br></p>
+<div class="algo"><div class="algo-cap">Divide and Conquer to Find Maximum and Minimum</div><div class="algo-line" style="padding-left:0.0em"><b>Input:</b> Array $arr$, indices $low$, $high$</div><div class="algo-line" style="padding-left:0.0em"><b>Output:</b> Maximum and minimum values $(max, min)$</div><div class="algo-line" style="padding-left:0.0em"><b>Function</b> FFindMaxMin{$arr$, $low$, $high$}</div><div class="algo-line" style="padding-left:1.6em"><b>if</b> $low == high$ <b>then</b></div><div class="algo-line" style="padding-left:3.2em">$max \gets arr[low]$ \\ $min \gets arr[low]$ \\ <b>return</b> $(max, min)$</div><div class="algo-line" style="padding-left:1.6em"><b>else if</b> $high == low + 1$ <b>then</b></div><div class="algo-line" style="padding-left:3.2em"><b>if</b> $arr[low] > arr[high]$ <b>then</b></div><div class="algo-line" style="padding-left:4.8em">$max \gets arr[low]$ \\ $min \gets arr[high]$</div><div class="algo-line" style="padding-left:3.2em"><b>else</b></div><div class="algo-line" style="padding-left:4.8em">$max \gets arr[high]$ \\ $min \gets arr[low]$</div><div class="algo-line" style="padding-left:3.2em"><b>return</b> $(max, min)$</div><div class="algo-line" style="padding-left:1.6em"><b>else</b></div><div class="algo-line" style="padding-left:3.2em">$mid \gets \lfloor (low + high) / 2 \rfloor$ \\ $(leftMax, leftMin) \gets \text{FindMaxMin}(arr, low, mid)$ \\ $(rightMax, rightMin) \gets \text{FindMaxMin}(arr, mid+1, high)$ \\ $globalMax \gets \max(leftMax, rightMax)$ \\ $globalMin \gets \min(leftMin, rightMin)$ \\ <b>return</b> $(globalMax, globalMin)$</div></div>
+<p>T(n)=2T(n/2)+1=O(n)<br> Non-recursive<br></p>
+<div class="algo"><div class="algo-cap">Non-Recursive Divide and Conquer to Find Maximum and Minimum</div><div class="algo-line" style="padding-left:0.0em"><b>Input:</b> Array $arr$ of length $n$</div><div class="algo-line" style="padding-left:0.0em"><b>Output:</b> Maximum and minimum values $(max\_gold, min\_gold)$</div><div class="algo-line" style="padding-left:0.0em"><b>Function</b> FNonRecurFindMaxMin{$arr$, $n$}</div><div class="algo-line" style="padding-left:1.6em">$max\_gold \gets 0$</div><div class="algo-line" style="padding-left:1.6em">$min\_gold \gets 0$</div><div class="algo-line" style="padding-left:1.6em">$i \gets 0$</div><div class="algo-line" style="padding-left:1.6em"><b>if</b> $n \% 2 == 0$ <b>then</b></div><div class="algo-line" style="padding-left:3.2em"><span class="algo-cmt">// Even array length</span></div><div class="algo-line" style="padding-left:3.2em"><b>if</b> $arr[0] > arr[1]$ <b>then</b></div><div class="algo-line" style="padding-left:4.8em">$max\_gold \gets arr[0]$</div><div class="algo-line" style="padding-left:4.8em">$min\_gold \gets arr[1]$</div><div class="algo-line" style="padding-left:3.2em"><b>else</b></div><div class="algo-line" style="padding-left:4.8em">$max\_gold \gets arr[1]$</div><div class="algo-line" style="padding-left:4.8em">$min\_gold \gets arr[0]$</div><div class="algo-line" style="padding-left:3.2em">$i \gets 2$ <span class="algo-cmt">// Start traversing from the 3rd element</span></div><div class="algo-line" style="padding-left:1.6em"><b>else</b></div><div class="algo-line" style="padding-left:3.2em"><span class="algo-cmt">// Odd array length</span> $max\_gold \gets arr[0]$</div><div class="algo-line" style="padding-left:3.2em">$min\_gold \gets arr[0]$</div><div class="algo-line" style="padding-left:3.2em">$i \gets 1$ <span class="algo-cmt">// Start traversing from the 2nd element</span></div><div class="algo-line" style="padding-left:1.6em"><b>while</b> $i < n - 1$ <b>do</b></div><div class="algo-line" style="padding-left:3.2em"><span class="algo-cmt">// Core of iterative divide and conquer: compare in pairs</span></div><div class="algo-line" style="padding-left:3.2em"><b>if</b> $arr[i] > arr[i+1]$ <b>then</b></div><div class="algo-line" style="padding-left:4.8em">$group\_max \gets arr[i]$</div><div class="algo-line" style="padding-left:4.8em">$group\_min \gets arr[i+1]$</div><div class="algo-line" style="padding-left:3.2em"><b>else</b></div><div class="algo-line" style="padding-left:4.8em">$group\_max \gets arr[i+1]$</div><div class="algo-line" style="padding-left:4.8em">$group\_min \gets arr[i]$</div><div class="algo-line" style="padding-left:3.2em"><b>if</b> $group\_max > max\_gold$ <b>then</b></div><div class="algo-line" style="padding-left:4.8em">$max\_gold \gets group\_max$</div><div class="algo-line" style="padding-left:3.2em"><b>if</b> $group\_min < min\_gold$ <b>then</b></div><div class="algo-line" style="padding-left:4.8em">$min\_gold \gets group\_min$</div><div class="algo-line" style="padding-left:3.2em">$i \gets i + 2$ <span class="algo-cmt">// Move to next pair</span></div><div class="algo-line" style="padding-left:1.6em"><b>return</b> $(max\_gold, min\_gold)$</div></div>
+<h3 class="note-h3">Large Integer Multiplication</h3>
+\begin{align*}
+		X &= 2^{n/2} A + B \\
+		Y &= 2^{n/2} C + D \\
+		XY &= 2^n AC + 2^{n/2} (AD + BC) + BD
+	\end{align*}
+<p>Improvement:</p>
+\[
+	XY = 2^n AC + 2^{n/2} ((A-B)(D-C)+AC+BD) + BD
+	\]
+<p>or</p>
+\[
+	XY = 2^n AC + 2^{n/2} ((A+B)(C+D)-AC-BD) + BD
+	\]
+<h3 class="note-h3">Matrix Multiplication</h3>
+<pre class="code"><code>template &lt;class T&gt;
+void MatrixMulti(T** A, T** B, T** C, int n) {
+	for (int i=0; i&lt;n; i++)
+	for (int j=0; j&lt;n; j++) {
+		T sum=0;
+		for (int k=0; k&lt;n; k++)
+		sum += A[i][k] * B[k][j];
+		C[i][j] = sum;
+	}
+}</code></pre>
+<p>\(n^3\) multiplications and \(n^2(n-1)\) additions <br> \(T(n)=8T(n/2)+O(n^2)\) <br> Improvement: Strassen's algorithm: \(T(n)=7T(n/2)+O(n^2)\)<br></p>
+<div class="algo"><div class="algo-cap">Divide and Conquer Matrix Multiplication (Basic Version)</div><div class="algo-line" style="padding-left:0.0em"><b>Input:</b> Matrices $A$, $B$, dimension $n$</div><div class="algo-line" style="padding-left:0.0em"><b>Output:</b> Result matrix $C = A \times B$</div><div class="algo-line" style="padding-left:0.0em"><b>Function</b> FMatrixMultiply{$A$, $B$, $n$}</div><div class="algo-line" style="padding-left:1.6em">$C \gets \text{CreateMatrix}(n, n, 0)$ <span class="algo-cmt">// Initialize zero matrix</span></div><div class="algo-line" style="padding-left:1.6em"><b>if</b> $n == 1$ <b>then</b></div><div class="algo-line" style="padding-left:3.2em"><span class="algo-cmt">// Recursive termination condition</span> $C[0][0] \gets A[0][0] \times B[0][0]$</div><div class="algo-line" style="padding-left:3.2em"><b>return</b> $C$</div><div class="algo-line" style="padding-left:1.6em">$mid \gets \lfloor n / 2 \rfloor$ <span class="algo-cmt">// Calculate midpoint</span> $A_{11} \gets A[0:mid-1][0:mid-1]$, $A_{12} \gets A[0:mid-1][mid:n-1]$</div><div class="algo-line" style="padding-left:1.6em">$A_{21} \gets A[mid:n-1][0:mid-1]$, $A_{22} \gets A[mid:n-1][mid:n-1]$</div><div class="algo-line" style="padding-left:1.6em">$B_{11} \gets B[0:mid-1][0:mid-1]$, $B_{12} \gets B[0:mid-1][mid:n-1]$</div><div class="algo-line" style="padding-left:1.6em">$B_{21} \gets B[mid:n-1][0:mid-1]$, $B_{22} \gets B[mid:n-1][mid:n-1]$</div><div class="algo-line" style="padding-left:1.6em">$C_{11} \gets C[0:mid-1][0:mid-1]$, $C_{12} \gets C[0:mid-1][mid:n-1]$</div><div class="algo-line" style="padding-left:1.6em">$C_{21} \gets C[mid:n-1][0:mid-1]$, $C_{22} \gets C[mid:n-1][mid:n-1]$</div><div class="algo-line" style="padding-left:1.6em"><span class="algo-cmt">// Step 2: Recursively compute 8 submatrix multiplications</span> $M_1 \gets \text{MatrixMultiply}(A_{11}, B_{11}, mid)$</div><div class="algo-line" style="padding-left:1.6em">$M_2 \gets \text{MatrixMultiply}(A_{12}, B_{21}, mid)$</div><div class="algo-line" style="padding-left:1.6em">$M_3 \gets \text{MatrixMultiply}(A_{11}, B_{12}, mid)$</div><div class="algo-line" style="padding-left:1.6em">$M_4 \gets \text{MatrixMultiply}(A_{12}, B_{22}, mid)$</div><div class="algo-line" style="padding-left:1.6em">$M_5 \gets \text{MatrixMultiply}(A_{21}, B_{11}, mid)$</div><div class="algo-line" style="padding-left:1.6em">$M_6 \gets \text{MatrixMultiply}(A_{22}, B_{21}, mid)$</div><div class="algo-line" style="padding-left:1.6em">$M_7 \gets \text{MatrixMultiply}(A_{21}, B_{12}, mid)$</div><div class="algo-line" style="padding-left:1.6em">$M_8 \gets \text{MatrixMultiply}(A_{22}, B_{22}, mid)$</div><div class="algo-line" style="padding-left:1.6em"><span class="algo-cmt">// Step 3: Add submatrices to combine results</span> $C_{11} \gets \text{MatrixAdd}(M_1, M_2, mid)$ <span class="algo-cmt">// $C_{11} = A_{11}B_{11} + A_{12}B_{21}$</span> $C_{12} \gets \text{MatrixAdd}(M_3, M_4, mid)$ <span class="algo-cmt">// $C_{12} = A_{11}B_{12} + A_{12}B_{22}$</span> $C_{21} \gets \text{MatrixAdd}(M_5, M_6, mid)$ <span class="algo-cmt">// $C_{21} = A_{21}B_{11} + A_{22}B_{21}$</span> $C_{22} \gets \text{MatrixAdd}(M_7, M_8, mid)$ <span class="algo-cmt">// $C_{22} = A_{21}B_{12} + A_{22}B_{22}$</span> <b>return</b> $C$</div><div class="algo-line" style="padding-left:0.0em"><b>Function</b> FMatrixAdd{$X$, $Y$, $n$}</div><div class="algo-line" style="padding-left:1.6em">$Z \gets \text{CreateMatrix}(n, n, 0)$</div><div class="algo-line" style="padding-left:1.6em"><b>for</b> $i \gets 0$ <b>to</b> $n-1$ <b>do</b></div><div class="algo-line" style="padding-left:3.2em"><b>for</b> $j \gets 0$ <b>to</b> $n-1$ <b>do</b></div><div class="algo-line" style="padding-left:4.8em">$Z[i][j] \gets X[i][j] + Y[i][j]$</div><div class="algo-line" style="padding-left:1.6em"><b>return</b> $Z$</div></div>
+<h3 class="note-h3">Strassen Matrix Multiplication</h3>
+<p>Multiply \(2\times 2\) matrices with only 7 recursive mults.</p>
+\[
+	\begin{aligned}
+		P_1 &= a \cdot (f - h) \\
+		P_2 &= (a + b) \cdot h \\
+		P_3 &= (c + d) \cdot e \\
+		P_4 &= d \cdot (g - e) \\
+		P_5 &= (a + d) \cdot (e + h) \\
+		P_6 &= (b - d) \cdot (g + h) \\
+		P_7 &= (a - c) \cdot (e + f) \\
+	\end{aligned}
+	\]
+\[
+	\begin{aligned}
+		r' &= P_5 + P_4 - P_2 + P_6 \\
+		s' &= P_1 + P_2 \\
+		t' &= P_3 + P_4 \\
+		u' &= P_5 + P_1 - P_3 - P_7 \\
+	\end{aligned}
+	\]
+<p>7 mults, 18 adds/subs. Note: No reliance on commutativity of mult!</p>
+<div class="algo"><div class="algo-cap">Matrix Addition</div><div class="algo-line" style="padding-left:0.0em"><b>Function</b> FMatrixAdd{$X$, $Y$, $n$}</div><div class="algo-line" style="padding-left:1.6em">Let $Z$ be an $n \times n$ matrix</div><div class="algo-line" style="padding-left:1.6em"><b>for</b> $i \gets 0$ <b>to</b> $n-1$ <b>do</b></div><div class="algo-line" style="padding-left:3.2em"><b>for</b> $j \gets 0$ <b>to</b> $n-1$ <b>do</b></div><div class="algo-line" style="padding-left:4.8em">$Z[i][j] \gets X[i][j] + Y[i][j]$</div><div class="algo-line" style="padding-left:1.6em"><b>return</b> $Z$</div></div>
+<div class="algo"><div class="algo-cap">Matrix Subtraction</div><div class="algo-line" style="padding-left:0.0em"><b>Function</b> FMatrixSub{$X$, $Y$, $n$}</div><div class="algo-line" style="padding-left:1.6em">Let $Z$ be an $n \times n$ matrix</div><div class="algo-line" style="padding-left:1.6em"><b>for</b> $i \gets 0$ <b>to</b> $n-1$ <b>do</b></div><div class="algo-line" style="padding-left:3.2em"><b>for</b> $j \gets 0$ <b>to</b> $n-1$ <b>do</b></div><div class="algo-line" style="padding-left:4.8em">$Z[i][j] \gets X[i][j] - Y[i][j]$</div><div class="algo-line" style="padding-left:1.6em"><b>return</b> $Z$</div></div>
+<div class="algo"><div class="algo-cap">Strassen Divide and Conquer Matrix Multiplication</div><div class="algo-line" style="padding-left:0.0em"><b>Input:</b> Matrices $A$, $B$, dimension $n$ (power of 2)</div><div class="algo-line" style="padding-left:0.0em"><b>Output:</b> Result matrix $C = A \times B$</div><div class="algo-line" style="padding-left:0.0em"><b>Function</b> FStrassenMultiply{$A$, $B$, $n$}</div><div class="algo-line" style="padding-left:1.6em">$C \gets \text{CreateMatrix}(n, n, 0)$ <span class="algo-cmt">// Initialize zero matrix</span></div><div class="algo-line" style="padding-left:1.6em"><b>if</b> $n == 1$ <b>then</b></div><div class="algo-line" style="padding-left:3.2em"><span class="algo-cmt">// Recursive termination condition</span> $C[0][0] \gets A[0][0] \times B[0][0]$</div><div class="algo-line" style="padding-left:3.2em"><b>return</b> $C$</div><div class="algo-line" style="padding-left:1.6em">$mid \gets \lfloor n / 2 \rfloor$ <span class="algo-cmt">// Calculate midpoint</span> <span class="algo-cmt">// Step 1: Split into four quadrants</span> $(A_{11}, A_{12}, A_{21}, A_{22}) \gets \text{SplitMatrix}(A, mid)$</div><div class="algo-line" style="padding-left:1.6em">$(B_{11}, B_{12}, B_{21}, B_{22}) \gets \text{SplitMatrix}(B, mid)$</div><div class="algo-line" style="padding-left:1.6em"><span class="algo-cmt">// Step 2: Compute only 7 sub-multiplications (core optimization)</span> $S_1 \gets \text{StrassenMultiply}\bigl(\text{MatrixAdd}(A_{11}, A_{22}, mid), 
+			\text{MatrixAdd}(B_{11}, B_{22}, mid), mid\bigr)$</div><div class="algo-line" style="padding-left:1.6em">$S_2 \gets \text{StrassenMultiply}\bigl(\text{MatrixAdd}(A_{21}, A_{22}, mid), 
+			B_{11}, mid\bigr)$</div><div class="algo-line" style="padding-left:1.6em">$S_3 \gets \text{StrassenMultiply}\bigl(A_{11}, 
+			\text{MatrixSub}(B_{12}, B_{22}, mid), mid\bigr)$</div><div class="algo-line" style="padding-left:1.6em">$S_4 \gets \text{StrassenMultiply}\bigl(A_{22}, 
+			\text{MatrixSub}(B_{21}, B_{11}, mid), mid\bigr)$</div><div class="algo-line" style="padding-left:1.6em">$S_5 \gets \text{StrassenMultiply}\bigl(\text{MatrixAdd}(A_{11}, A_{12}, mid), 
+			B_{22}, mid\bigr)$</div><div class="algo-line" style="padding-left:1.6em">$S_6 \gets \text{StrassenMultiply}\bigl(\text{MatrixSub}(A_{21}, A_{11}, mid), 
+			\text{MatrixAdd}(B_{11}, B_{12}, mid), mid\bigr)$</div><div class="algo-line" style="padding-left:1.6em">$S_7 \gets \text{StrassenMultiply}\bigl(\text{MatrixSub}(A_{12}, A_{22}, mid), 
+			\text{MatrixAdd}(B_{21}, B_{22}, mid), mid\bigr)$</div><div class="algo-line" style="padding-left:1.6em"><span class="algo-cmt">// Step 3: Combine results using addition/subtraction</span> $C_{11} \gets \text{MatrixAdd}\bigl(\text{MatrixSub}(\text{MatrixAdd}(S_1, S_4, mid), S_5, mid), S_7, mid\bigr)$</div><div class="algo-line" style="padding-left:1.6em">$C_{12} \gets \text{MatrixAdd}(S_3, S_5, mid)$</div><div class="algo-line" style="padding-left:1.6em">$C_{21} \gets \text{MatrixAdd}(S_2, S_4, mid)$</div><div class="algo-line" style="padding-left:1.6em">$C_{22} \gets \text{MatrixAdd}\bigl(\text{MatrixSub}(\text{MatrixAdd}(S_1, S_3, mid), S_2, mid), S_6, mid\bigr)$</div><div class="algo-line" style="padding-left:1.6em"><span class="algo-cmt">// Merge submatrices into result matrix C</span> $C \gets \text{MergeMatrix}(C_{11}, C_{12}, C_{21}, C_{22}, mid)$</div><div class="algo-line" style="padding-left:1.6em"><b>return</b> $C$</div></div>
+<h3 class="note-h3">Tiling a Defective Chessboard</h3>
+<pre class="code"><code>void TileBoard(int tr, int tc, int dr, int dc, int size) {
+	if (size == 1) return;
+	int t = tile++, s = size/2;
+	// Top-left quadrant
+	if (dr &lt; tr + s &amp;&amp; dc &lt; tc + s)
+	TileBoard(tr, tc, dr, dc, s);
+	else {
+		Board[tr + s - 1][tc + s - 1] = t;
+		TileBoard(tr, tc, tr+s-1, tc+s-1, s);
+	}
+	// Top-right quadrant
+	if (dr &lt; tr + s &amp;&amp; dc &gt;= tc + s)
+	TileBoard(tr, tc+s, dr, dc, s);
+	else {
+		Board[tr + s - 1][tc + s] = t;
+		TileBoard(tr, tc+s, tr+s-1, tc+s, s);
+	}
+	// Bottom-left quadrant
+	if (dr &gt;= tr + s &amp;&amp; dc &lt; tc + s)
+	TileBoard(tr+s, tc, dr, dc, s);
+	else {
+		Board[tr + s][tc + s - 1] = t;
+		TileBoard(tr+s, tc, tr+s, tc+s-1, s);
+	}
+	// Bottom-right quadrant
+	if (dr &gt;= tr + s &amp;&amp; dc &gt;= tc + s)
+	TileBoard(tr+s, tc+s, dr, dc, s);
+	else {
+		Board[tr + s][tc + s] = t;
+		TileBoard(tr+s, tc+s, tr+s, tc+s, s);
+	}
+}</code></pre>
+<p>T(n)=O($4^k(k=log_2 n)$)=O($n^2$)</p>
+<h3 class="note-h3">Merge Sort</h3>
+<pre class="code"><code>template&lt;class T&gt;
+void sort(T E, int n) {
+	if (n &gt;= k) {
+		i = n/k;
+		j = n-i;
+		
+		sort(A,i);
+		sort(B,j);
+		merge(A,B,E,i,j); 
+	}
+	else Sort E using the insertion sort algorithm.
+}</code></pre>
+<h4 class="note-h4">Merge Sort Implementation</h4>
+<pre class="code"><code>void MergeSort(Array A, int left, int right) {
+	if (left &gt;= right) return;
+	int mid = (left + right) / 2;
+	MergeSort(A, left, mid);
+	MergeSort(A, mid + 1, right);
+	Array temp = new Array[right - left + 1];
+	int i = left, j = mid + 1, k = 0;
+	while (i &lt;= mid &amp;&amp; j &lt;= right) {
+		if (A[i] &lt;= A[j])
+		temp[k++] = A[i++];
+		else
+		temp[k++] = A[j++];
+	}
+	while (i &lt;= mid) temp[k++] = A[i++];
+	while (j &lt;= right) temp[k++] = A[j++];
+	for (int p = 0; p &lt; k; p++)
+	A[left + p] = temp[p];
+	delete[] temp;
+}</code></pre>
+<h4 class="note-h4">k-way Merge Sort (k$>$2)</h4>
+<pre class="code"><code>void KWayMerge(Array A, Array runs[], int k) {
+	MinHeap heap; 
+	for (int i = 0; i &lt; k; i++) {
+		if (runs[i] != NULL)
+		heap.insert(runs[i][0], i, 0);
+	}
+	while (!heap.empty()) {
+		(value, arr_idx, elem_idx) = heap.extractMin();
+		output the value to the result array;
+		elem_idx++;
+		if (elem_idx &lt; runs[arr_idx].length) {
+			heap.insert(runs[arr_idx][elem_idx], arr_idx, elem_idx);
+		}
+	}
+}</code></pre>
+<p>When \(k=2\), divide-and-conquer typically has the best performance; when \(k>2\) the recursion depth is \(\log_a n\) where \(a=k/(k-1)\), which exceeds \(\log_2 n\)</p>
+<h3 class="note-h3">Inversion Count</h3>
+<div class="algo"><div class="algo-cap">Divide-and-Conquer Algorithm for Inversion Count (Based on Merge Sort)</div><div class="algo-line" style="padding-left:0.0em"><b>Function</b> CountInversions($A[1..n]$)</div><div class="algo-line" style="padding-left:1.6em"><b>Input:</b> Array $A$</div><div class="algo-line" style="padding-left:1.6em"><b>Output:</b> Number of inversions</div><div class="algo-line" style="padding-left:1.6em"><b>if</b> $n \le 1$ <b>then</b></div><div class="algo-line" style="padding-left:3.2em"><b>return</b> $0$</div><div class="algo-line" style="padding-left:1.6em">$mid \gets \lfloor n/2 \rfloor$</div><div class="algo-line" style="padding-left:1.6em">$left\_inv \gets \textsc{CountInversions}(A[1..mid])$</div><div class="algo-line" style="padding-left:1.6em">$right\_inv \gets \textsc{CountInversions}(A[mid+1..n])$</div><div class="algo-line" style="padding-left:1.6em">$merge\_inv \gets \textsc{MergeCount}(A, 1, mid, n)$</div><div class="algo-line" style="padding-left:1.6em"><b>return</b> $left\_inv + right\_inv + merge\_inv$</div><div class="algo-line" style="padding-left:0.0em"><b>Function</b> MergeCount($A, left, mid, right$)</div><div class="algo-line" style="padding-left:1.6em"><span class="algo-cmt">// $A[left..mid]$ and $A[mid+1..right]$ are already sorted separately</span> $n_1 \gets mid - left + 1$</div><div class="algo-line" style="padding-left:1.6em">$n_2 \gets right - mid$</div><div class="algo-line" style="padding-left:1.6em">Create arrays $L[1..n_1+1], R[1..n_2+1]$</div><div class="algo-line" style="padding-left:1.6em"><b>for</b> $i \gets 1$ <b>to</b> $n_1$ <b>do</b></div><div class="algo-line" style="padding-left:3.2em">$L[i] \gets A[left + i - 1]$</div><div class="algo-line" style="padding-left:1.6em"><b>for</b> $j \gets 1$ <b>to</b> $n_2$ <b>do</b></div><div class="algo-line" style="padding-left:3.2em">$R[j] \gets A[mid + j]$</div><div class="algo-line" style="padding-left:1.6em">$L[n_1+1] \gets \infty$</div><div class="algo-line" style="padding-left:1.6em">$R[n_2+1] \gets \infty$</div><div class="algo-line" style="padding-left:1.6em">$i \gets 1$, $j \gets 1$, $inv\_count \gets 0$</div><div class="algo-line" style="padding-left:1.6em"><b>for</b> $k \gets left$ <b>to</b> $right$ <b>do</b></div><div class="algo-line" style="padding-left:3.2em"><b>if</b> $L[i] \le R[j]$ <b>then</b></div><div class="algo-line" style="padding-left:4.8em">$A[k] \gets L[i]$</div><div class="algo-line" style="padding-left:4.8em">$i \gets i + 1$</div><div class="algo-line" style="padding-left:3.2em"><b>else</b></div><div class="algo-line" style="padding-left:4.8em">$A[k] \gets R[j]$</div><div class="algo-line" style="padding-left:4.8em">$j \gets j + 1$</div><div class="algo-line" style="padding-left:4.8em">$inv\_count \gets inv\_count + (n_1 - i + 1)$ <span class="algo-cmt">// Key: counting inversions</span></div><div class="algo-line" style="padding-left:1.6em"><b>return</b> $inv\_count$</div></div>
+<h3 class="note-h3">Quicksort</h3>
+<h4 class="note-h4">PARTITION Algorithm</h4>
+<div class="algo"><div class="algo-cap">PARTITION Algorithm</div><div class="algo-line" style="padding-left:0.0em"><b>Input:</b> Array $A$, indices $p$, $q$</div><div class="algo-line" style="padding-left:0.0em"><b>Output:</b> Partition position $i$</div><div class="algo-line" style="padding-left:0.0em">$x \gets A[p]$ <span class="algo-cmt">// pivot = $A[p]$</span> $i \gets p$</div><div class="algo-line" style="padding-left:0.0em"><b>for</b> $j \gets p + 1$ <b>to</b> $q$ <b>do</b></div><div class="algo-line" style="padding-left:1.6em"><b>if</b> $A[j] \leq x$ <b>then</b></div><div class="algo-line" style="padding-left:3.2em">$i \gets i + 1$</div><div class="algo-line" style="padding-left:3.2em">exchange $A[i] \leftrightarrow A[j]$</div><div class="algo-line" style="padding-left:0.0em">exchange $A[p] \leftrightarrow A[i]$</div><div class="algo-line" style="padding-left:0.0em"><b>return</b> $i$</div></div>
+<p>Running time = $O(n)$ for $n$ elements.</p>
+<h3 class="note-h3">QUICKSORT Algorithm</h3>
+<div class="algo"><div class="algo-cap">QUICKSORT Algorithm</div><div class="algo-line" style="padding-left:0.0em"><b>Input:</b> Array $A$, indices $p$, $r$</div><div class="algo-line" style="padding-left:0.0em"><b>Output:</b> Sorted array</div><div class="algo-line" style="padding-left:0.0em"><b>if</b> $p < r$ <b>then</b></div><div class="algo-line" style="padding-left:1.6em">$q \gets \text{PARTITION}(A, p, r)$</div><div class="algo-line" style="padding-left:1.6em">$\text{QUICKSORT}(A, p, q-1)$</div><div class="algo-line" style="padding-left:1.6em">$\text{QUICKSORT}(A, q+1, r)$</div></div>
+<p>Worst-case time complexity: $T(n)=O(n)+O(n^2)=O(n^2)$ <br> Average-case complexity: $T(n)=\Theta(n \log n)$ Worst-case time complexity: \(T(n)=O(n)+O(n^2)=O(n^2)\) <br> Average-case complexity: \(T(n)=\Theta(n \log n)\)</p>
+<div class="table-wrap"><table class="note-table"><tr><th>Method</th><th>Worst-case Complexity</th><th>Average Complexity</th></tr><tr><td>Bubble Sort</td><td>\(n^2\)</td><td>\(n^2\)</td></tr><tr><td>Counting Sort</td><td>\(n^2\)</td><td>\(n^2\)</td></tr><tr><td>Insertion Sort</td><td>\(n^2\)</td><td>\(n^2\)</td></tr><tr><td>Selection Sort</td><td>\(n^2\)</td><td>\(n^2\)</td></tr><tr><td>Heap Sort</td><td>\(n\log n\)</td><td>\(n\log n\)</td></tr><tr><td>Merge Sort</td><td>\(n\log n\)</td><td>\(n\log n\)</td></tr><tr><td>Quicksort</td><td>\(n^2\)</td><td>\(n\log n\)</td></tr></table></div>
+<h3 class="note-h3">Selection Problem</h3>
+<h4 class="note-h4">RAND-SELECT Algorithm</h4>
+<div class="algo"><div class="algo-cap">RAND-SELECT Algorithm</div><div class="algo-line" style="padding-left:0.0em"><b>Input:</b> Array $A$, indices $p$, $q$, integer $i$</div><div class="algo-line" style="padding-left:0.0em"><b>Output:</b> The $i$-th smallest element in $A[p \ldots q]$</div><div class="algo-line" style="padding-left:0.0em"><b>if</b> $p = q$ <b>then</b></div><div class="algo-line" style="padding-left:1.6em"><b>return</b> $A[p]$</div><div class="algo-line" style="padding-left:0.0em">$r \gets \text{PARTITION}(A, p, q)$</div><div class="algo-line" style="padding-left:0.0em">$k \gets r - p + 1$ <span class="algo-cmt">// $k = \text{rank}(A[r])$</span></div><div class="algo-line" style="padding-left:0.0em"><b>if</b> $i = k$ <b>then</b></div><div class="algo-line" style="padding-left:1.6em"><b>return</b> $A[r]$</div><div class="algo-line" style="padding-left:0.0em"><b>if</b> $i < k$ <b>then</b></div><div class="algo-line" style="padding-left:1.6em"><b>return</b> $\text{RAND-SELECT}(A, p, r - 1, i)$</div><div class="algo-line" style="padding-left:0.0em"><b>else</b></div><div class="algo-line" style="padding-left:1.6em"><b>return</b> $\text{RAND-SELECT}(A, r + 1, q, i - k)$</div></div>
+<h4 class="note-h4">Improvement: Median of Medians</h4>
+<ul>
+<li>
+<p>Given an integer \(r\), divide the \(n\) elements of array \(a\) into \(\lceil n/r \rceil\) groups, each with \(r\) elements. Any remaining elements (less than \(r\)) are not candidates for pivot selection.</p>
+</li>
+<li>
+<p>Sort each group of \(r\) elements and find the median element</p>
+</li>
+<li>
+<p>Recursively apply the selection algorithm to select the median of the medians as the pivot element</p>
+</li>
+</ul>
+<h4 class="note-h4">Selection Algorithm</h4>
+\[
+	\Theta(n) \quad 
+	\begin{cases} 
+		1. \text{Divide the } n \text{ elements into groups of } 5. \text{ Find the median of each } 5\text{-element group by rote}. \\
+		2. \text{Recursively SELECT the median } x \text{ of the } \lfloor n/5 \rfloor \text{ group medians to be the pivot}. \\
+		3. \text{Partition around the pivot } x. \text{ Let } k = \text{rank}(x).
+	\end{cases}
+	\]
+\[
+	\Theta(n) \quad 
+	\begin{cases}
+		4. \text{if } i = k \text{ then return } x \\
+		\text{else if } i < k \\
+		\text{then recursively SELECT the } i\text{th smallest element in the lower part} \\
+		\text{else recursively SELECT the } (i-k)\text{th smallest element in the upper part}
+	\end{cases}
+	\]
+<p>When selecting the pivot using the "median of medians" rule, the following holds: if \(r=5\) and all elements in \(a\) are distinct, then for \(n \geq 24\), \(\max\{| \text{left} |, | \text{right} |\} \leq 3n/4\). Therefore, each recursive call reduces the problem size by at least $1/4$, giving the recurrence:</p>
+\[
+	T(n) \leq T(3n/4) + T(n/5) + O(n)
+	\]
+<p>which solves to $T(n) = O(n)$.</p>
+<h4 class="note-h4">Proof</h4>
+<p>According to the median of medians rule, at least \(\left\lceil \frac{3}{2} \right\rceil \frac{n}{5}\) median elements are not greater than the pivot (at least $n/5/2$ groups have their median $\le$ pivot, with 3 elements per group $\le$ pivot); the number of elements greater than the pivot has an upper bound</p>
+\[
+	n - \frac{3}{2} \left\lfloor \frac{n}{5} \right\rfloor \leq n - 1.5(n/5 - 4/5) = 0.7n + 1.2
+	\]
+<p>Therefore, when \(n \geq 24\), \(0.7n + 1.2 \leq 3n/4\)</p>
+<h3 class="note-h3">Closest Pair of Points Problem</h3>
+<div class="algo"><div class="algo-cap">Closest Pair Algorithm cpair2</div><div class="algo-line" style="padding-left:0.0em"><b>Input:</b> Point set $S$</div><div class="algo-line" style="padding-left:0.0em"><b>Output:</b> Closest pair distance</div><div class="algo-line" style="padding-left:0.0em">$n = |S|$</div><div class="algo-line" style="padding-left:0.0em"><b>if</b> $n < 2$ <b>then</b></div><div class="algo-line" style="padding-left:1.6em"><b>return</b></div><div class="algo-line" style="padding-left:0.0em">$m = \text{median of x-coordinates of points in } S$</div><div class="algo-line" style="padding-left:0.0em">Construct $S_1$ and $S_2$</div><div class="algo-line" style="padding-left:0.0em">// $S_1 = \{p \in S \mid x(p) \leq m\}$, $S_2 = \{p \in S \mid x(p) > m\}$</div><div class="algo-line" style="padding-left:0.0em">$d_1 = \text{cpair2}(S_1)$</div><div class="algo-line" style="padding-left:0.0em">$d_2 = \text{cpair2}(S_2)$</div><div class="algo-line" style="padding-left:0.0em">$d_m = \min(d_1, d_2)$</div><div class="algo-line" style="padding-left:0.0em">Let $P_1$ be the set of points in $S_1$ whose distance from the vertical dividing line is within $d_m$</div><div class="algo-line" style="padding-left:0.0em">Let $P_2$ be the set of points in $S_2$ whose distance from the dividing line is within $d_m$</div><div class="algo-line" style="padding-left:0.0em">Sort the points in $P_1$ and $P_2$ by their y-coordinates</div><div class="algo-line" style="padding-left:0.0em">Let $X$ and $Y$ be the corresponding sorted point sequences</div><div class="algo-line" style="padding-left:0.0em">Merging can be done by scanning and checking, for each point in $X$, all points in $Y$ within distance $d_m$ (at most 6 points)</div><div class="algo-line" style="padding-left:0.0em">When the scanning pointer in $X$ moves upward, the scanning pointer in $Y$ can move within a window of width $2d_m$</div><div class="algo-line" style="padding-left:0.0em">Let $d_0$ be the minimum distance between point pairs found by this scanning method</div><div class="algo-line" style="padding-left:0.0em">$d = \min(d_m, d_0)$</div><div class="algo-line" style="padding-left:0.0em"><b>return</b> $d$</div></div>
+<p><strong>Proof: At most six points</strong><br> Divide the width $2d$ of rectangle $R$ into three equal parts (each of width $2d/3$), and the height $d$ into two equal parts (each of height $d/2$), obtaining $6$ small rectangles of size $(2d/3) \times (d/2)$. The diagonal length of each small rectangle is:</p>
+\[
+	\sqrt{(2d/3)^2 + (d/2)^2} = \sqrt{4d^2/9 + d^2/4} = \sqrt{16d^2/36 + 9d^2/36} = \sqrt{25d^2/36} = \frac{5d}{6} < d.
+	\]
+<p>If two points existed within the same small rectangle, their distance would be $< d$, contradicting the definition of $d$. Therefore each small rectangle contains at most one point, so $R$ contains at most $6$ points.</p>
+<p>Let $u,v$ be two points in the same small rectangle, then $\text{distance}(u,v) < d.$ This contradicts the fact that $d$ is the minimum distance in rectangle $R$.</p>
+<h3 class="note-h3">Round Robin Tournament Schedule</h3>
+<div class="algo"><div class="algo-cap">Round Robin Tournament Schedule Algorithm</div><div class="algo-line" style="padding-left:0.0em"><b>Input:</b> Integer $k$ (generate schedule for $2^k$ players)</div><div class="algo-line" style="padding-left:0.0em"><b>Output:</b> Tournament schedule table $a[1..2^k][1..2^k]$</div><div class="algo-line" style="padding-left:0.0em">Initialize array $a[100][100]$</div><div class="algo-line" style="padding-left:0.0em">$n \gets 2$ <span class="algo-cmt">// Schedule for two players</span> $a[1][1] \gets 1$, $a[1][2] \gets 2$</div><div class="algo-line" style="padding-left:0.0em">$a[2][1] \gets 2$, $a[2][2] \gets 1$</div><div class="algo-line" style="padding-left:0.0em"><b>for</b> $t \gets 1$ <b>to</b> $k-1$ <b>do</b></div><div class="algo-line" style="padding-left:1.6em">$temp \gets n$</div><div class="algo-line" style="padding-left:1.6em">$n \gets n \times 2$ <span class="algo-cmt">// Fill bottom-left corner elements</span></div><div class="algo-line" style="padding-left:1.6em"><b>for</b> $i \gets temp + 1$ <b>to</b> $n$ <b>do</b></div><div class="algo-line" style="padding-left:3.2em"><b>for</b> $j \gets 1$ <b>to</b> $temp$ <b>do</b></div><div class="algo-line" style="padding-left:4.8em">$a[i][j] \gets a[i - temp][j] + temp$</div><div class="algo-line" style="padding-left:1.6em"><span class="algo-cmt">// Copy bottom-left corner to top-right corner</span></div><div class="algo-line" style="padding-left:1.6em"><b>for</b> $i \gets 1$ <b>to</b> $temp$ <b>do</b></div><div class="algo-line" style="padding-left:3.2em"><b>for</b> $j \gets temp + 1$ <b>to</b> $n$ <b>do</b></div><div class="algo-line" style="padding-left:4.8em">$a[i][j] \gets a[i + temp][j + temp]$</div><div class="algo-line" style="padding-left:1.6em"><span class="algo-cmt">// Copy top-left corner to bottom-right corner</span></div><div class="algo-line" style="padding-left:1.6em"><b>for</b> $i \gets temp + 1$ <b>to</b> $n$ <b>do</b></div><div class="algo-line" style="padding-left:3.2em"><b>for</b> $j \gets temp + 1$ <b>to</b> $n$ <b>do</b></div><div class="algo-line" style="padding-left:4.8em">$a[i][j] \gets a[i - temp][j - temp]$</div></div>
+<p>T(n)=O($n^2$)</p>
+<ul>
+<li>
+<p>Comparison algorithm: An algorithm whose operations are primarily limited to element comparisons and element movements</p>
+</li>
+<li>
+<p>Optimization problem: Problem solution, constraints, objective function</p>
+</li>
+</ul>
+<h2 id="greedy-algorithms" class="note-h2">Greedy Algorithms</h2>
+<ul>
+<li>
+<p>Greedy choice property: A globally optimal solution can be reached by a series of locally optimal choices</p>
+</li>
+<li>
+<p>Optimal substructure property: An optimal solution to a problem contains optimal solutions to its subproblems</p>
+</li>
+</ul>
+<h3 class="note-h3">Theorem</h3>
+<p>When algorithm Select reaches step \(k\), having selected \(k\) activities \(i_1=1, i_2, \ldots,i_k\), there exists an optimal solution \(A\) containing \(i_1=1, i_2, \ldots, i_k\). According to the theorem, the algorithm obtains the optimal solution by at most step \(n\)<br> Proof:<br> \(S=\{1,2,...,n\}\) is the activity set, with \(f_1 \leq \ldots \leq f_n\) <br> Inductive base: \(k=1\), prove there exists an optimal solution containing activity 1 <br> Take any optimal solution \(A\), with activities in \(A\) arranged in increasing order of deadlines. If the first activity in \(A\) is \(j\) where \(j \neq 1\), let $A' = (A - \{j\}) \cup \{1\}$. Since \(f_1 \leq f_j\), \(A'\) is also optimal and contains 1.<br> Assume the proposition holds for \(k\), prove it holds for \(k+1\). <br> The algorithm has executed \(k\) steps, selecting activities \(i_1=1, i_2, \ldots, i_k\). By the inductive hypothesis, there exists an optimal solution \(A\) containing \(i_1=1, i_2, \ldots, i_k\). The remaining activities in \(A\) are chosen from the set $S^* = \{i | i \in S, s_i \geq f_k\}$, and $A = \{i_1, i_2, \ldots, i_k\} \cup B$ where \(B\) is an optimal solution for \(S^*\). (If not, let \(B^*\) be an optimal solution for \(S^*\). Since \(B^*\) has more activities than \(B\), then \(B^* \cup \{1, i_2, \ldots, i_k\}\) would be an optimal solution for \(S^*\) with more activities than \(A\), contradicting the optimality of \(A\).) <br> By the inductive base, there exists an optimal solution \(B^*\) for \(S^*\) that contains the first activity in \(S^*\), i.e., \(i_{k+1}\), and \(|B^*| = |B|\). Thus $\{i_1, i_2, \ldots, i_k\} \cup B^* = \{i_1, i_2, \ldots, i_k, i_{k+1}\} \cup (B^* - \{i_{k+1}\})$ is also an optimal solution to the original problem.</p>
+<h3 class="note-h3">0/1 Knapsack Problem</h3>
+<div class="algo"><div class="algo-cap">Greedy Algorithm for Knapsack Problem (by density descending)</div><div class="algo-line" style="padding-left:0.0em"><b>Input:</b> Item set $S = \{1, 2, \dots, n\}$, each item has weight $w_i$ and value $v_i$, knapsack capacity $W$</div><div class="algo-line" style="padding-left:0.0em"><b>Output:</b> Decision vector $x[1 \dots n]$, where $x[i] \in \{0, 1\}$</div><div class="algo-line" style="padding-left:0.0em">Compute value density $\rho_i = v_i / w_i$ for each item, $i = 1, 2, \dots, n$</div><div class="algo-line" style="padding-left:0.0em">Sort items by $\rho_i$ in descending order, obtaining a new index order</div><div class="algo-line" style="padding-left:0.0em">$remaining \gets W$ <span class="algo-cmt">// Remaining knapsack capacity</span></div><div class="algo-line" style="padding-left:0.0em"><b>for</b> $i \gets 1$ <b>to</b> $n$ <b>do</b></div><div class="algo-line" style="padding-left:1.6em"><b>if</b> $w_i \leq remaining$ <b>then</b></div><div class="algo-line" style="padding-left:3.2em">$x[i] \gets 1$ <span class="algo-cmt">// Take the item</span> $remaining \gets remaining - w_i$ <span class="algo-cmt">// Update remaining capacity</span></div><div class="algo-line" style="padding-left:1.6em"><b>else</b></div><div class="algo-line" style="padding-left:3.2em">$x[i] \gets 0$ <span class="algo-cmt">// Discard the item</span></div><div class="algo-line" style="padding-left:0.0em"><b>return</b> $x[1 \dots n]$</div></div>
+<p>Time complexity: \(O(n \log n)\)</p>
+<h4 class="note-h4">k-optimization Algorithm</h4>
+<ul>
+<li>
+<p>First sort items by density in descending order</p>
+</li>
+<li>
+<p>First pack some items into the knapsack, then apply the greedy method to the remaining items</p>
+</li>
+<li>
+<p>The number of pre-packed items does not exceed \(k\)</p>
+</li>
+<li>
+<p>Execute the above process for all item subsets of size no more than \(k\), and select the solution with the maximum benefit as the solution of the k-optimization algorithm</p>
+</li>
+</ul>
+<h3 class="note-h3">Huffman Coding</h3>
+<h4 class="note-h4">Algorithm Huffman(C)</h4>
+<div class="algo"><div class="algo-cap">Huffman Coding Algorithm</div><div class="algo-line" style="padding-left:0.0em"><b>Input:</b> Character set $C=\{x_1, x_2, \ldots, x_n\}$, frequencies $f(x_i), i=1, 2, \ldots, n$</div><div class="algo-line" style="padding-left:0.0em"><b>Output:</b> Huffman tree queue $Q$</div><div class="algo-line" style="padding-left:0.0em">$n \gets |C|$</div><div class="algo-line" style="padding-left:0.0em">$Q \gets C$ <span class="algo-cmt">// Construct queue $Q$ in increasing order of frequency</span></div><div class="algo-line" style="padding-left:0.0em"><b>for</b> $k \gets 1$ <b>to</b> $n-1$ <b>do</b></div><div class="algo-line" style="padding-left:1.6em">$z \gets \text{Allocate-Node}()$ <span class="algo-cmt">// Generate node $z$</span> $z.\text{left} \gets \text{minimum element in } Q$ <span class="algo-cmt">// Take minimum from $Q$ as $z$'s left child</span> $z.\text{right} \gets \text{minimum element in } Q$ <span class="algo-cmt">// Take minimum from $Q$ as $z$'s right child</span> $f(z) \gets f(x) + f(y)$</div><div class="algo-line" style="padding-left:1.6em">$\text{Insert}(Q, z)$ <span class="algo-cmt">// Insert $z$ into $Q$</span></div><div class="algo-line" style="padding-left:0.0em"><b>return</b> $Q$</div></div>
+<h4 class="note-h4">Theorem</h4>
+<p>The Huffman algorithm produces an optimal prefix code binary tree for any character set \(C\) of size \(n\) (\(n \geq 2\)). <br> Inductive base \(n=2\), character set \(C=\{x_1,x_2\}\). The Huffman algorithm produces codes 0 and 1, which form an optimal prefix code. <br> Inductive step: Assume the Huffman algorithm produces an optimal prefix code for character sets of size \(k\). Consider a character set \(C=\{x_1, x_2, \ldots, x_{k+1}\}\) of size \(k+1\), where \(x_1, x_2 \in C\) are the two characters with smallest frequencies. Let $C^* = (C - \{x_1, x_2\}) \cup \{z\}, \quad f(z) = f(x_1) + f(x_2)$. By the inductive hypothesis, the Huffman algorithm produces an optimal prefix code binary tree \(T'\) for character set \(C^*\) with frequencies \(f(z)\) and \(f(x_i)\) (\(i=3,4,\ldots,k+1\)).</p>
+<h2 id="topological-sort" class="note-h2">Topological Sort</h2>
+<div class="algo"><div class="algo-cap">Topological Sort Algorithm</div><div class="algo-line" style="padding-left:0.0em">Compute in-degree of each vertex</div><div class="algo-line" style="padding-left:0.0em">Push vertices with in-degree 0 onto stack</div><div class="algo-line" style="padding-left:0.0em"><b>while</b> stack is not empty <b>do</b></div><div class="algo-line" style="padding-left:1.6em">Take a vertex $u$ with in-degree 0 and put it into topological sequence</div><div class="algo-line" style="padding-left:1.6em">Decrease in-degree of all adjacent vertices $v$ of $u$ by 1</div><div class="algo-line" style="padding-left:1.6em"><b>if</b> new vertices with in-degree 0 appear <b>then</b></div><div class="algo-line" style="padding-left:3.2em">Push them onto stack</div><div class="algo-line" style="padding-left:0.0em"><b>if</b> there are remaining vertices not processed <b>then</b></div><div class="algo-line" style="padding-left:1.6em">The graph has a cycle</div></div>
+<p>T(n)=O(|V| + |E|)</p>
+<h3 class="note-h3">Single-Source Shortest Paths</h3>
+<div class="algo"><div class="algo-cap">Dijkstra's Algorithm</div><div class="algo-line" style="padding-left:0.0em">$d[s] \gets 0$</div><div class="algo-line" style="padding-left:0.0em"><b>for</b> $v \in V - \{s\}$ <b>do</b></div><div class="algo-line" style="padding-left:1.6em">$d[v] \gets \infty$</div><div class="algo-line" style="padding-left:0.0em">$S \gets \emptyset$</div><div class="algo-line" style="padding-left:0.0em">$Q \gets V$ <span class="algo-cmt">// $Q$ is a priority queue maintaining vertices</span></div><div class="algo-line" style="padding-left:0.0em"><b>while</b> $Q \neq \emptyset$ <b>do</b></div><div class="algo-line" style="padding-left:1.6em">$u \gets \text{Extract-Min}(Q)$</div><div class="algo-line" style="padding-left:1.6em">$S \gets S \cup \{u\}$</div><div class="algo-line" style="padding-left:1.6em"><b>for</b> $v \in Adj[u]$ <b>do</b></div><div class="algo-line" style="padding-left:3.2em"><b>if</b> $d[v] > d[u] + w(u, v)$ <b>then</b></div><div class="algo-line" style="padding-left:4.8em">$d[v] \gets d[u] + w(u, v)$</div></div>
+<p>Time = \(\Theta(V) \cdot T_{\text{Extract-Min}} + \Theta(E) \cdot T_{\text{Decrease-Key}}\)</p>
+\[
+	\begin{array}{|c|c|c|c|}
+		\hline
+		Q & T_{\text{Extract-Min}} & T_{\text{Decrease-Key}} & \text{Total} \\ \hline
+		\text{array} & O(V) & O(1) & O(V^2) \\ \hline
+		\text{binary heap} & O(\lg V) & O(\lg V) & O(E \lg V) \\ \hline
+		\text{Fibonacci heap} & O(\lg V) \text{ amortized} & O(1) \text{ amortized} & O(E + V \lg V) \text{ worst case} \\ \hline
+	\end{array}
+	\]
+<p>Dense graph (where \(E \approx V^2\)) — number of edges in the graph</p>
+<div class="algo"><div class="algo-cap">Bellman-Ford Algorithm</div><div class="algo-line" style="padding-left:0.0em">$d[s] \gets 0$</div><div class="algo-line" style="padding-left:0.0em"><b>for</b> $v \in V - \{s\}$ <b>do</b></div><div class="algo-line" style="padding-left:1.6em">$d[v] \gets \infty$</div><div class="algo-line" style="padding-left:0.0em"><b>for</b> $i \gets 1$ <b>to</b> $|V| - 1$ <b>do</b></div><div class="algo-line" style="padding-left:1.6em"><b>for</b> edge $(u, v) \in E$ <b>do</b></div><div class="algo-line" style="padding-left:3.2em"><b>if</b> $d[v] > d[u] + w(u, v)$ <b>then</b></div><div class="algo-line" style="padding-left:4.8em">$d[v] \gets d[u] + w(u, v)$</div><div class="algo-line" style="padding-left:0.0em"><b>for</b> edge $(u, v) \in E$ <b>do</b></div><div class="algo-line" style="padding-left:1.6em"><b>if</b> $d[v] > d[u] + w(u, v)$ <b>then</b></div><div class="algo-line" style="padding-left:3.2em">Negative weight cycle exists in the graph</div></div>
+<p>\(d[v] = \delta(s, v)\). Time = \(O(VE)\).</p>
+<h4 class="note-h4">Single-Source Shortest Paths Summary</h4>
+<ul>
+<li>
+<p>Non-negative weights: Dijkstra's algorithm complexity: \(O(E + V \lg V)\)</p>
+</li>
+<li>
+<p>General case: Bellman-Ford algorithm complexity \(O(VE)\)</p>
+</li>
+</ul>
+<h4 class="note-h4">All-Pairs Shortest Paths</h4>
+<ul>
+<li>
+<p>Non-negative weights: Dijkstra's algorithm complexity \(O(VE + V^2 \lg V)\)</p>
+</li>
+<li>
+<p>General case (weights may be negative): Bellman-Ford algorithm complexity \(O(V^2 E)\) or \(O(V^4)\)</p>
+</li>
+</ul>
+<h3 class="note-h3">Minimum Spanning Tree</h3>
+<p>Given a connected undirected graph \(G\) with \(n\) vertices, each edge \(e\) has a non-negative weight \(c(e)\) (also called cost). Find a spanning tree with minimum cost.</p>
+<div class="algo"><div class="algo-cap">Kruskal's Algorithm (for sparse graphs)</div><div class="algo-line" style="padding-left:0.0em"><b>Input:</b> Connected graph $G$ (with $n$ vertices, $m$ edges)</div><div class="algo-line" style="padding-left:0.0em"><b>Output:</b> Minimum spanning tree $T$ of $G$</div><div class="algo-line" style="padding-left:0.0em">Sort edges of $G$ by weight in increasing order, so that $E = \{e_1, e_2, \ldots, e_m\}$</div><div class="algo-line" style="padding-left:0.0em">$T \gets \emptyset$</div><div class="algo-line" style="padding-left:0.0em"><b>while</b> $|T| < n-1$ <b>do</b></div><div class="algo-line" style="padding-left:1.6em">$e \gets \text{shortest edge in } E$</div><div class="algo-line" style="padding-left:1.6em"><b>if</b> the two endpoints of $e$ are not in the same connected component // If already in the same component, adding would create a cycle → skip <b>then</b></div><div class="algo-line" style="padding-left:3.2em">$T \gets T \cup \{e\}$</div><div class="algo-line" style="padding-left:1.6em">$E \gets E \setminus \{e\}$</div><div class="algo-line" style="padding-left:0.0em"><b>return</b> $T$</div></div>
+<h4 class="note-h4">Proposition</h4>
+<p>For any \(n>1\), the algorithm produces a minimum spanning tree for an \(n\)-vertex graph.<br> Proof: For \(n=2\), there is only one edge, so the proposition is obviously true. Assume the algorithm correctly produces a minimum spanning tree for graphs with \(n\) vertices. Consider a graph \(G\) with \(n+1\) vertices. Let \(e = \{i, j\}\) be the edge of minimum weight in \(G\). Short-circuit \(i\) and \(j\) in \(G\) to obtain graph \(G'\). By the inductive hypothesis, the algorithm produces a minimum spanning tree \(T'\) for \(G'\). Let \(T = T' \cup \{e\}\). Then \(T\) is a minimum spanning tree for \(G\). <br> Otherwise, suppose there exists a minimum spanning tree \(T^*\) for \(G\) that contains edge \(e\) and \(W(T^*) < W(T)\). (If \(e \notin T^*\), add edge \(e\) to \(T^*\) to form a cycle. Removing any other edge from the cycle yields a spanning tree with equal or smaller weight.) Short-circuit \(e\) in \(T^*\) to obtain a spanning tree \(T^* - \{e\}\) for \(G'\), and $W(T^* - \{e\}) = W(T^*) - \omega(e) < W(T) - \omega(e) = W(T')$, contradicting the optimality of \(T'\).</p>
+<h4 class="note-h4">Prim's Algorithm</h4>
+<div class="algo"><div class="algo-cap">Prim's Algorithm (for dense graphs)</div><div class="algo-line" style="padding-left:0.0em">$Q \gets V$</div><div class="algo-line" style="padding-left:0.0em"><b>for</b> $v \in V$ <b>do</b></div><div class="algo-line" style="padding-left:1.6em">$\text{key}[v] \gets \infty$</div><div class="algo-line" style="padding-left:0.0em">Choose arbitrary $s \in V$</div><div class="algo-line" style="padding-left:0.0em">$\text{key}[s] \gets 0$</div><div class="algo-line" style="padding-left:0.0em"><b>while</b> $Q \neq \emptyset$ <b>do</b></div><div class="algo-line" style="padding-left:1.6em">$u \gets \text{EXTRACT-MIN}(Q)$</div><div class="algo-line" style="padding-left:1.6em"><b>for</b> $v \in Adj[u]$ <b>do</b></div><div class="algo-line" style="padding-left:3.2em"><b>if</b> $v \in Q$ <b>and</b> $w(u, v) < \text{key}[v]$ <b>then</b></div><div class="algo-line" style="padding-left:4.8em">$\text{key}[v] \gets w(u, v)$</div><div class="algo-line" style="padding-left:4.8em">$\pi[v] \gets u$ # Record parent/predecessor (in the minimum spanning tree (MST), vertex v is connected to the tree via edge (u, v))</div><div class="algo-line" style="padding-left:0.0em"><span class="algo-cmt">// Finally, $\{(v, \pi[v]) \}$ forms the minimum spanning tree</span></div></div>
+<h4 class="note-h4">Theorem</h4>
+<p>For any \(k < n\), there exists a minimum spanning tree that contains the edges selected in the first \(k\) steps of the algorithm <br> Inductive base: \(k = 1\). There exists a minimum spanning tree \(T\) containing edge \(e = \{1, j\}\), where \(\{1, j\}\) is the smallest-weight edge incident to vertex 1. <br> Let \(T\) be a minimum spanning tree. Suppose \(T\) does not contain \(\{1, j\}\). Then \(T \cup \{\{1, j\}\}\) contains a cycle. In that cycle, there is another edge \(\{1, j'\}\) incident to vertex 1. Let $T' = (T - \{\{1, j'\}\}) \cup \{\{1, j\}\}$. Then \(T'\) is also a spanning tree, and \(W(T') \leq W(T)\).<br> Proof:<br> Suppose the algorithm has executed \(k-1\) steps, producing edges \(e_1, e_2, \ldots, e_{k-1}\). These edges have \(k\) endpoints that form set \(S\). By the inductive hypothesis, there exists a minimum spanning tree \(T\) of \(G\) containing these edges. <br> At the \(k\)-th step, the algorithm selects vertex \(i_{k+1}\), and the minimum-weight edge from \(i_{k+1}\) to a vertex in \(S\) is \(e_k = \{i_{k+1}, i_l\}\). Suppose \(T\) does not contain \(e_k\). Adding \(e_k\) to \(T\) creates a cycle. This cycle contains another edge \(e\) connecting \(S\) and \(V-S\). Let</p>
+\[
+	T^* = (T - \{e\}) \cup \{e_k\},
+	\]
+<p>Then \(T^*\) is a spanning tree of \(G\) that contains \(e_1, e_2, \ldots, e_k\), and \(W(T^*) \leq W(T)\). <br></p>
+<h3 class="note-h3">Bipartite Cover / Set Cover</h3>
+<p><strong>Set Cover Problem:</strong> A family $F = \{S_1, \cdots, S_n\}$ of $n$ sets satisfying $\bigcup_{i=1}^n S_i = U$. If $\{S_{i_1}, \cdots, S_{i_k}\}$ is a subfamily of $F$ such that $\bigcup_{j=1}^k S_{i_j} = U$, then it is called a cover of $U$.<br></p>
+<div class="algo"><div class="algo-cap">Bipartite Cover / Set Cover Algorithm</div><div class="algo-line" style="padding-left:0.0em"><b>Input:</b> Two vertex sets $A$ and $B$ of a bipartite graph</div><div class="algo-line" style="padding-left:0.0em"><b>Output:</b> Cover set $C$ or failure indication</div><div class="algo-line" style="padding-left:0.0em">$m \gets 0$</div><div class="algo-line" style="padding-left:0.0em"><b>for</b> $i \in A$ <b>do</b></div><div class="algo-line" style="padding-left:1.6em">$\text{New}[i] \gets \text{Degree}[i]$</div><div class="algo-line" style="padding-left:0.0em"><b>for</b> $j \in B$ <b>do</b></div><div class="algo-line" style="padding-left:1.6em">$\text{Cov}[j] \gets \text{false}$ // Mark whether vertex j in set B is covered</div><div class="algo-line" style="padding-left:0.0em"><b>while</b> there exists $i \in A$ such that $\text{New}[i] > 0$ <b>do</b></div><div class="algo-line" style="padding-left:1.6em">$v \gets$ vertex $i \in A$ with maximum $\text{New}[i]$ value <span class="algo-cmt">// $O(|A|)$ if linear search</span> $coverSet[m++] \gets v$ <span class="algo-cmt">// Add vertex $v$ to cover set</span>;</div><div class="algo-line" style="padding-left:1.6em"><b>for</b> vertex $j$ adjacent to $v$ <b>do</b></div><div class="algo-line" style="padding-left:3.2em"><b>if</b> $\text{Cov}[j] = \text{false}$ <b>then</b></div><div class="algo-line" style="padding-left:4.8em">$\text{Cov}[j] \gets \text{true}$</div><div class="algo-line" style="padding-left:4.8em"><b>for</b> $k \in A$ adjacent to $j$ <b>do</b></div><div class="algo-line" style="padding-left:6.4em">$\text{New}[k] \gets \text{New}[k] - 1$</div><div class="algo-line" style="padding-left:0.0em"><b>if</b> there exists $j \in B$ such that $\text{Cov}[j] = \text{false}$ <b>then</b></div><div class="algo-line" style="padding-left:1.6em"><b>return</b> failure</div><div class="algo-line" style="padding-left:0.0em"><b>else</b></div><div class="algo-line" style="padding-left:1.6em"><b>return</b> success</div></div>
+<p>If using adjacency matrix, \(O(n^2)\); if using adjacency list, it takes \(O(n+e)\) time</p>
+<h2 id="dynamic-programming" class="note-h2">Dynamic Programming</h2>
+<p>Applicable conditions:</p>
+<ul>
+<li>
+<p>Optimal substructure: An optimal solution to a problem contains optimal solutions to its subproblems</p>
+</li>
+<li>
+<p>Overlapping subproblems: During problem solving, many subproblem solutions are used multiple times</p>
+</li>
+<li>
+<p>Subproblem independence: Subproblems are independent, meaning solving one subproblem does not affect or depend on the solution process or resources of another</p>
+</li>
+<li>
+<p>The problem can be divided into multiple decision stages: The problem can naturally be decomposed into a series of ordered, interrelated decision stages</p>
+</li>
+</ul>
+<h3 class="note-h3">Matrix Chain Multiplication</h3>
+<p>Steps:</p>
+<ol>
+<li>
+<p>Describe the structure of the optimal solution</p>
+</li>
+<li>
+<p>Recursively define the value of the optimal solution: establish the state transition equation</p>
+</li>
+<li>
+<p>Compute the value of the optimal solution</p>
+</li>
+<li>
+<p>Construct an optimal solution from the computed results</p>
+</li>
+</ol>
+<h3 class="note-h3">Recursive Implementation</h3>
+<div class="algo"><div class="algo-cap">Matrix Chain Multiplication Recursive Algorithm</div><div class="algo-line" style="padding-left:0.0em"><b>Function</b> $\text{RecursiveMatrixChain}(p, i, j)$</div><div class="algo-line" style="padding-left:1.6em"><b>Input:</b> Array $p[0..n]$ storing matrix chain dimensions, matrix $A_i$ has dimensions $p[i-1] \times p[i]$</div><div class="algo-line" style="padding-left:1.6em"><b>Output:</b> Minimum number of multiplications $m[i, j]$ for subchain $A_i \ldots A_j$ and optimal split position $s[i, j]$</div><div class="algo-line" style="padding-left:1.6em"><b>if</b> $i == j$ <b>then</b></div><div class="algo-line" style="padding-left:3.2em">$m[i, j] \gets 0$</div><div class="algo-line" style="padding-left:3.2em">$s[i, j] \gets i$</div><div class="algo-line" style="padding-left:3.2em"><b>return</b> $m[i, j]$</div><div class="algo-line" style="padding-left:1.6em">$m[i, j] \gets \infty$ <span class="algo-cmt">// Initialize minimum cost to $\infty$</span> $s[i, j] \gets i$ <span class="algo-cmt">// Initialize to $i$</span></div><div class="algo-line" style="padding-left:1.6em"><b>for</b> $k \gets i$ <b>to</b> $j-1$ <b>do</b></div><div class="algo-line" style="padding-left:3.2em">$q \gets \text{RecursiveMatrixChain}(p, i, k)$ \\ $+ \text{RecursiveMatrixChain}(p, k+1, j) + p[i-1] \times p[k] \times p[j]$</div><div class="algo-line" style="padding-left:3.2em"><b>if</b> $q < m[i, j]$ <b>then</b></div><div class="algo-line" style="padding-left:4.8em">$m[i, j] \gets q$ <span class="algo-cmt">// Update minimum cost</span> $s[i, j] \gets k$ <span class="algo-cmt">// Update optimal split point</span></div><div class="algo-line" style="padding-left:1.6em"><b>return</b> $m[i, j]$ <span class="algo-cmt">// Return minimum multiplication cost for the current subchain</span></div></div>
+\(T(n) = O(2^{n-1})\)
+<h3 class="note-h3">Dynamic Programming Implementation</h3>
+<div class="algo"><div class="algo-cap">Matrix Chain Multiplication Dynamic Programming Algorithm MatrixChain<b> (Bottom-Up)</b></div><div class="algo-line" style="padding-left:0.0em"><b>Input:</b> Array $p[0..n]$ storing matrix chain dimensions, matrix $A_i$ has dimensions $p[i-1] \times p[i]$</div><div class="algo-line" style="padding-left:0.0em"><b>Output:</b> Minimum multiplication count table $m[]$, optimal split position table $s[]$</div><div class="algo-line" style="padding-left:0.0em">Initialize tables $m[],s[]$ as new tables \\</div><div class="algo-line" style="padding-left:0.0em"><b>for</b> $i \gets 1$ <b>to</b> $n$ <b>do</b></div><div class="algo-line" style="padding-left:1.6em">$m[i][i] \gets 0$ <span class="algo-cmt">// Initialize multiplication count for single matrix to 0</span></div><div class="algo-line" style="padding-left:0.0em"><b>for</b> $l \gets 2$ <b>to</b> $n$ <b>do</b></div><div class="algo-line" style="padding-left:1.6em"><b>for</b> $i \gets 1$ <b>to</b> $n - l + 1$ <b>do</b></div><div class="algo-line" style="padding-left:3.2em">$j \gets i + l - 1$ <span class="algo-cmt">// Calculate end position $j$ of the chain</span> $m[i][j] \gets \infty$ <span class="algo-cmt">// Initialize to infinity</span></div><div class="algo-line" style="padding-left:3.2em"><b>for</b> $k \gets i$ <b>to</b> $j - 1$ <b>do</b></div><div class="algo-line" style="padding-left:4.8em">$q \gets m[i][k] + m[k+1][j] + p[i-1] \times p[k] \times p[j]$</div><div class="algo-line" style="padding-left:4.8em"><b>if</b> $q < m[i][j]$ <b>then</b></div><div class="algo-line" style="padding-left:6.4em">$m[i][j] \gets q$ <span class="algo-cmt">// Update minimum cost</span> $s[i][j] \gets k$ <span class="algo-cmt">// Update optimal split point</span></div><div class="algo-line" style="padding-left:0.0em"><b>return</b> $(m, s)$</div></div>
+\(T(n) = O(n^3)\)
+<div class="algo"><div class="algo-cap">Matrix Chain Multiplication with Memoization <b>(Top-Down)</b></div><div class="algo-line" style="padding-left:0.0em"><b>Input:</b> Array $p[0..n]$ storing matrix chain dimensions, indices $i$, $j$</div><div class="algo-line" style="padding-left:0.0em"><b>Output:</b> Minimum multiplication count table $m$, optimal split position table $s$</div><div class="algo-line" style="padding-left:0.0em">Initialize new tables $m[i..j][i..j]$</div><div class="algo-line" style="padding-left:0.0em">Initialize new tables $s[i..j][i..j]$ <span class="algo-cmt">// Store optimal split points</span></div><div class="algo-line" style="padding-left:0.0em"><b>for</b> $x \gets i$ <b>to</b> $j$ <b>do</b></div><div class="algo-line" style="padding-left:1.6em"><b>for</b> $y \gets x$ <b>to</b> $j$ <b>do</b></div><div class="algo-line" style="padding-left:3.2em">$m[x, y] \gets \infty$ <span class="algo-cmt">// Initialize as uncomputed</span> $s[x, y] \gets \infty$</div><div class="algo-line" style="padding-left:0.0em">$\text{LOOKUP-CHAIN}(m, s, p, i, j)$ <span class="algo-cmt">// Call recursive procedure</span> <b>return</b> $(m, s)$</div></div>
+<div class="algo"><div class="algo-cap">LOOKUP-CHAIN Helper Function</div><div class="algo-line" style="padding-left:0.0em"><b>Function</b> $\text{LOOKUP-CHAIN}(m, s, p, i, j)$</div><div class="algo-line" style="padding-left:1.6em"><b>Input:</b> Tables $m, s$, array $p$, indices $i, j$</div><div class="algo-line" style="padding-left:1.6em"><b>Output:</b> Minimum multiplication count $m[i, j]$</div><div class="algo-line" style="padding-left:1.6em"><b>if</b> $m[i, j] < \infty$ <b>then</b></div><div class="algo-line" style="padding-left:3.2em"><b>return</b> $m[i, j]$ <span class="algo-cmt">// Directly return stored result</span></div><div class="algo-line" style="padding-left:1.6em"><b>if</b> $i = j$ <b>then</b></div><div class="algo-line" style="padding-left:3.2em">$m[i, j] \gets 0$ <span class="algo-cmt">// Base case: single matrix</span></div><div class="algo-line" style="padding-left:1.6em"><b>else</b></div><div class="algo-line" style="padding-left:3.2em"><b>for</b> $k \gets i$ <b>to</b> $j-1$ <b>do</b></div><div class="algo-line" style="padding-left:4.8em">$q \gets \text{LOOKUP-CHAIN}(m, s, p, i, k)$ \\ $+ \text{LOOKUP-CHAIN}(m, s, p, k+1, j) + p[i-1] \times p[k] \times p[j]$</div><div class="algo-line" style="padding-left:4.8em"><b>if</b> $q < m[i, j]$ <b>then</b></div><div class="algo-line" style="padding-left:6.4em">$m[i, j] \gets q$ <span class="algo-cmt">// Update minimum cost</span> $s[i, j] \gets k$ <span class="algo-cmt">// Update optimal split point</span></div><div class="algo-line" style="padding-left:1.6em"><b>return</b> $m[i, j]$</div></div>
+<h3 class="note-h3">Rod Cutting Problem</h3>
+<h4 class="note-h4">Bottom-Up Dynamic Programming</h4>
+<div class="algo"><div class="algo-cap">Rod Cutting Dynamic Programming Algorithm CUT</div><div class="algo-line" style="padding-left:0.0em"><b>Input:</b> Price array $p[1..n]$, rod length $n$, result array $r[0..n]$</div><div class="algo-line" style="padding-left:0.0em"><b>Output:</b> Optimal revenue array $r$</div><div class="algo-line" style="padding-left:0.0em">$r[0] \gets 0$</div><div class="algo-line" style="padding-left:0.0em"><b>for</b> $j \gets 1$ <b>to</b> $n$ <b>do</b></div><div class="algo-line" style="padding-left:1.6em">$temp \gets -\infty$</div><div class="algo-line" style="padding-left:1.6em"><b>for</b> $i \gets 1$ <b>to</b> $j$ <b>do</b></div><div class="algo-line" style="padding-left:3.2em">$temp \gets \max(temp, p[i] + r[j - i])$</div><div class="algo-line" style="padding-left:1.6em">$r[j] \gets temp$</div></div>
+$T(n) = \sum j=O(n^2)$
+<h4 class="note-h4">Top-Down Memoized Search</h4>
+<div class="algo"><div class="algo-cap">Rod Cutting Memoized Search Algorithm</div><div class="algo-line" style="padding-left:0.0em"><b>Function</b> $\text{CUT}(p, n, r)$</div><div class="algo-line" style="padding-left:1.6em"><b>Input:</b> Price array $p$, length $n$, memoization array $r$</div><div class="algo-line" style="padding-left:1.6em"><b>Output:</b> Optimal revenue</div><div class="algo-line" style="padding-left:1.6em"><b>if</b> $r[n] > 0$ <b>then</b></div><div class="algo-line" style="padding-left:3.2em"><b>return</b> $r[n]$ <span class="algo-cmt">// No need to recompute $r[n]$</span></div><div class="algo-line" style="padding-left:1.6em"><b>if</b> $n = 0$ <b>then</b></div><div class="algo-line" style="padding-left:3.2em">$temp \gets 0$</div><div class="algo-line" style="padding-left:1.6em"><b>else</b></div><div class="algo-line" style="padding-left:3.2em">$temp \gets -\infty$</div><div class="algo-line" style="padding-left:3.2em"><b>for</b> $i \gets 1$ <b>to</b> $n$ <b>do</b></div><div class="algo-line" style="padding-left:4.8em">$temp \gets \max(temp, p[i] + \text{CUT}(p, n - i, r))$</div><div class="algo-line" style="padding-left:1.6em">$r[n] \gets temp$</div><div class="algo-line" style="padding-left:1.6em"><b>return</b> $temp$</div></div>
+<p>Pure recursion: T(n)=O($2^n$), memoized recursion: T(n)=O($n^2$)</p>
+<h3 class="note-h3">Longest Common Subsequence (LCS)</h3>
+<div class="algo"><div class="algo-cap">Longest Common Subsequence Algorithm</div><div class="algo-line" style="padding-left:0.0em"><b>Input:</b> Sequences $X[1..m]$, $Y[1..n]$</div><div class="algo-line" style="padding-left:0.0em"><b>Output:</b> LCS length table $LCS[0..m][0..n]$, direction table $b[1..m][1..n]$</div><div class="algo-line" style="padding-left:0.0em"><b>for</b> $i \gets 0$ <b>to</b> $m$ <b>do</b></div><div class="algo-line" style="padding-left:1.6em">$LCS[i, 0] \gets 0$</div><div class="algo-line" style="padding-left:0.0em"><b>for</b> $j \gets 1$ <b>to</b> $n$ <b>do</b></div><div class="algo-line" style="padding-left:1.6em">$LCS[0, j] \gets 0$</div><div class="algo-line" style="padding-left:0.0em"><b>for</b> $i \gets 1$ <b>to</b> $m$ <b>do</b></div><div class="algo-line" style="padding-left:1.6em"><b>for</b> $j \gets 1$ <b>to</b> $n$ <b>do</b></div><div class="algo-line" style="padding-left:3.2em"><b>if</b> $X[i] = Y[j]$ <b>then</b></div><div class="algo-line" style="padding-left:4.8em">$LCS[i, j] \gets LCS[i-1, j-1] + 1$</div><div class="algo-line" style="padding-left:4.8em">$b[i][j] \gets \nwarrow$ <span class="algo-cmt">// Indicates diagonal direction</span></div><div class="algo-line" style="padding-left:3.2em"><b>else if</b> $LCS[i-1, j] \geq LCS[i, j-1]$ <b>then</b></div><div class="algo-line" style="padding-left:4.8em">$LCS[i, j] \gets LCS[i-1, j]$</div><div class="algo-line" style="padding-left:4.8em">$b[i, j] \gets "\uparrow"$ <span class="algo-cmt">// Indicates upward direction</span></div><div class="algo-line" style="padding-left:3.2em"><b>else</b></div><div class="algo-line" style="padding-left:4.8em">$LCS[i, j] \gets LCS[i, j-1]$</div><div class="algo-line" style="padding-left:4.8em">$b[i, j] \gets "\leftarrow"$ <span class="algo-cmt">// Indicates left direction</span></div><div class="algo-line" style="padding-left:0.0em"><b>return</b> $(LCS, b)$</div></div>
+<p>Time complexity $O(mn)$, space complexity $O(mn)$</p>
+<h3 class="note-h3">Optimal Binary Search Tree</h3>
+<div class="algo"><div class="algo-cap">Optimal Binary Search Tree Algorithm</div><div class="algo-line" style="padding-left:0.0em"><b>Input:</b> Successful probabilities $p[1..n]$, failure probabilities $q[0..n]$, number of nodes $n$</div><div class="algo-line" style="padding-left:0.0em"><b>Output:</b> Cost table $C[0..n,0..n]$, root table $Root[0..n,0..n]$, weight table $W[0..n,0..n]$</div><div class="algo-line" style="padding-left:0.0em">Initialize new tables $C[0..n,0..n]$, $W[0..n,0..n]$, $Root[0..n,0..n]$</div><div class="algo-line" style="padding-left:0.0em"><b>for</b> $i \gets 0$ <b>to</b> $n$ <b>do</b></div><div class="algo-line" style="padding-left:1.6em">$C(i, i) \gets 0$</div><div class="algo-line" style="padding-left:1.6em">$W(i, i) \gets q[i]$</div><div class="algo-line" style="padding-left:0.0em"><b>for</b> $x \gets 1$ <b>to</b> $n$ <b>do</b></div><div class="algo-line" style="padding-left:1.6em"><b>for</b> $i \gets 0$ <b>to</b> $n - x$ <b>do</b></div><div class="algo-line" style="padding-left:3.2em">$j \gets i + x$</div><div class="algo-line" style="padding-left:3.2em">$C(i, j) \gets \infty$</div><div class="algo-line" style="padding-left:3.2em">$W(i, j) \gets W(i, j-1) + p[j] + q[j]$</div><div class="algo-line" style="padding-left:3.2em"><b>for</b> $k \gets i$ <b>to</b> $j$ <b>do</b></div><div class="algo-line" style="padding-left:4.8em">$t \gets W(i, j)$ //$k$ is the root position</div><div class="algo-line" style="padding-left:4.8em"><b>if</b> $k - 1 \geq i$ //Left subtree is non-empty <b>then</b></div><div class="algo-line" style="padding-left:6.4em">$t \gets t + C(i, k-1)$</div><div class="algo-line" style="padding-left:4.8em"><b>if</b> $k + 1 \leq j$ //Right subtree is non-empty <b>then</b></div><div class="algo-line" style="padding-left:6.4em">$t \gets t + C(k+1, j)$</div><div class="algo-line" style="padding-left:4.8em"><b>if</b> $t < C(i, j)$ <b>then</b></div><div class="algo-line" style="padding-left:6.4em">$C(i, j) \gets t$</div><div class="algo-line" style="padding-left:6.4em">$Root(i, j) \gets k$</div><div class="algo-line" style="padding-left:0.0em"><b>return</b> $(C, Root, W)$</div></div>
+<p>Time complexity $O(n^3)$, space complexity $O(n^2)$</p>
+<h3 class="note-h3">Maximum Subset Sum Problem</h3>
+<div class="algo"><div class="algo-cap">Dynamic Programming for Maximum Subset Sum (Subset Sum Equals a Given Value)</div><div class="algo-line" style="padding-left:0.0em"><b>Input:</b> Positive integer array $s[1..n]$, positive integer $c$</div><div class="algo-line" style="padding-left:0.0em"><b>Output:</b> Whether there exists a subset with sum $c$, and if so, output the subset $J$</div><div class="algo-line" style="padding-left:0.0em">Create boolean array $dp[0..n][0..c]$</div><div class="algo-line" style="padding-left:0.0em"><b>for</b> $i \gets 0$ <b>to</b> $n$ <b>do</b></div><div class="algo-line" style="padding-left:1.6em">$dp[i][0] \gets \text{true}$ <span class="algo-cmt">// Sum 0 can always be achieved with empty set</span></div><div class="algo-line" style="padding-left:0.0em"><b>for</b> $y \gets 1$ <b>to</b> $c$ <b>do</b></div><div class="algo-line" style="padding-left:1.6em">$dp[0][y] \gets \text{false}$</div><div class="algo-line" style="padding-left:0.0em"><b>for</b> $i \gets 1$ <b>to</b> $n$ <b>do</b></div><div class="algo-line" style="padding-left:1.6em"><b>for</b> $y \gets 1$ <b>to</b> $c$ <b>do</b></div><div class="algo-line" style="padding-left:3.2em"><b>if</b> $y \geq s[i]$ <b>then</b></div><div class="algo-line" style="padding-left:4.8em">$dp[i][y] \gets dp[i-1][y] \ \text{OR} \ dp[i-1][y - s[i]]$</div><div class="algo-line" style="padding-left:3.2em"><b>else</b></div><div class="algo-line" style="padding-left:4.8em">$dp[i][y] \gets dp[i-1][y]$</div><div class="algo-line" style="padding-left:0.0em"><b>if</b> $\text{not} \ dp[n][c]$ <b>then</b></div><div class="algo-line" style="padding-left:1.6em">Output "No subset sums to $c$"</div><div class="algo-line" style="padding-left:1.6em"><b>return</b></div><div class="algo-line" style="padding-left:0.0em">$J \gets \emptyset$</div><div class="algo-line" style="padding-left:0.0em">$y \gets c$</div><div class="algo-line" style="padding-left:0.0em"><b>for</b> $i \gets n$ to $1$ <b>do</b></div><div class="algo-line" style="padding-left:1.6em"><b>if</b> $y \geq s[i]$ <b>and</b> $dp[i-1][y - s[i]] = \text{true}$ <b>then</b></div><div class="algo-line" style="padding-left:3.2em">$J \gets J \cup \{i\}$ <span class="algo-cmt">// Indicates $s[i]$ is selected</span> $y \gets y - s[i]$</div><div class="algo-line" style="padding-left:0.0em">Output "Subset $J = $" $J$</div></div>
+<h3 class="note-h3">Flow Shop Scheduling Problem</h3>
+\[
+	T(S, t) = \min_{i \in S} \left\{ a_i + T\left(S \setminus \{i\},\; b_i + \max\{t - a_i, 0\}\right) \right\}
+	\]
+<ul>
+<li>
+<p>$S$: Set of jobs to be scheduled</p>
+</li>
+<li>
+<p>$t$: Time offset when machine $M_2$ can start processing</p>
+</li>
+<li>
+<p>$a_i$: Processing time of job $i$ on machine $M_1$; $b_i$: Processing time of job $i$ on machine $M_2$</p>
+</li>
+</ul>
+<h4 class="note-h4">Johnson's Inequality</h4>
+<p>Definition: Jobs $i$ and $j$ satisfy $\min\{b_i, a_j\} \geq \min\{b_j, a_i\}$, then we say jobs $i$ and $j$ satisfy <strong>Johnson's Inequality</strong>.</p>
+<ul>
+<li>
+<strong>Analysis of the first two jobs in an optimal schedule</strong><br> Let the first two jobs in an optimal schedule be $i$ and $j$:
+\begin{align*}
+			T(S, t) &= a_i + T\bigl(S \setminus \{i\},\; b_i + \max\{t - a_i, 0\}\bigr) \\
+			&= a_i + a_j + T\bigl(S \setminus \{i, j\},\; t_{ij}\bigr)
+		\end{align*}
+\begin{align*}
+			t_{ij} &= b_j + \max\{b_i + \max\{t - a_i, 0\} - a_j,\; 0\} \\
+			&= b_j + b_i - a_j + \max\{\max\{t - a_i, 0\},\; a_j - b_i\} \\
+			&= b_j + b_i - a_j + \max\{t - a_i,\; a_j - b_i,\; 0\} \\
+			&= b_j + b_i - a_j - a_i + \max\{t,\; a_i + a_j - b_i,\; a_i\}
+		\end{align*}
+</li>
+<li>
+<p><strong>Effect of swapping job order</strong><br> After swapping the order of jobs $i$ and $j$: $t_{ji} = b_j + b_i - a_j - a_i + \max\{t,\; a_i + a_j - b_j,\; a_i\}$</p>
+</li>
+<li>
+<strong>Equivalent form</strong> If Johnson's inequality holds:
+\begin{align*}
+			\min\{b_i, a_j\} &\geq \min\{b_j, a_i\} \\
+			-\max\{-b_i, -a_j\} &\geq -\max\{-b_j, -a_i\} \quad \text{(multiply by -1 and reverse)}\\
+			\max\{-b_i, -a_j\} &\leq \max\{-b_j, -a_i\} \\
+			a_i + a_j + \max\{-b_i, -a_j\} &\leq a_i + a_j + \max\{-b_j, -a_i\} \\
+			\max\{a_i + a_j - b_i,\; a_i\} &\leq \max\{a_i + a_j - b_j,\; a_i\}
+		\end{align*}
+\[
+		\max\{t,\; a_i + a_j - b_i,\; a_i\} \leq \max\{t,\; a_i + a_j - b_j,\; a_i\}
+		\]
+</li>
+<li>
+<strong>Conclusion</strong>
+\[
+		t_{ij} = b_j + b_i - a_j - a_i + \max\{t,\; a_i + a_j - b_i,\; a_i\}
+		\]
+\[
+		t_{ji} = b_j + b_i - a_j - a_i + \max\{t,\; a_i + a_j - b_j,\; a_i\}
+		\]
+and $\max\{t,\; a_i + a_j - b_i,\; a_i\} \leq \max\{t,\; a_i + a_j - b_j,\; a_i\}$, so $t_{ij} \leq t_{ji}$
+<p>This means: If jobs $i$ and $j$ satisfy Johnson's inequality, then scheduling $i$ before $j$ is no worse than scheduling $j$ before $i$.</p>
+</li>
+</ul>
+<h3 class="note-h3">Johnson's Scheduling Rule</h3>
+<ol>
+<li>
+<p>Divide jobs into two categories:</p>
+<ul>
+<li>
+<p>Jobs with $a_i \leq b_i$ (Class U)</p>
+</li>
+<li>
+<p>Jobs with $a_i > b_i$ (Class V)</p>
+</li>
+</ul>
+<li>
+<p>Sort Class U jobs in increasing order of $a_i$</p>
+</li>
+<li>
+<p>Sort Class V jobs in decreasing order of $b_i$</p>
+</li>
+<li>
+<p>Schedule Class U jobs first, then Class V jobs in order</p>
+</li>
+</ol>
+<p>This rule ensures that adjacent jobs satisfy Johnson's inequality, thus achieving a globally optimal schedule.</p>
+<h3 class="note-h3">0/1 Knapsack Problem</h3>
+<div class="algo"><div class="algo-cap">Tuple\_Knapsack Algorithm</div><div class="algo-line" style="padding-left:0.0em">$S \gets \{(0, 0)\}$</div><div class="algo-line" style="padding-left:0.0em"><b>for</b> $i \gets 1$ <b>to</b> $n$ <b>do</b></div><div class="algo-line" style="padding-left:1.6em">$S\_temp \gets S$</div><div class="algo-line" style="padding-left:1.6em"><b>for</b> $(w, v) \in S$ <b>do</b></div><div class="algo-line" style="padding-left:3.2em">$w' \gets w + w[i]$</div><div class="algo-line" style="padding-left:3.2em">$v' \gets v + v[i]$</div><div class="algo-line" style="padding-left:3.2em"><b>if</b> $w' \leq C$ <b>then</b></div><div class="algo-line" style="padding-left:4.8em">Add $(w', v')$ to $S\_temp$</div><div class="algo-line" style="padding-left:1.6em">$S\_new \gets \emptyset$</div><div class="algo-line" style="padding-left:1.6em">Sort $S\_temp$ by weight in ascending order</div><div class="algo-line" style="padding-left:1.6em">$max\_v \gets -\infty$</div><div class="algo-line" style="padding-left:1.6em"><b>for</b> $(w, v) \in S\_temp$ <b>do</b></div><div class="algo-line" style="padding-left:3.2em"><b>if</b> $v > max\_v$ <b>then</b></div><div class="algo-line" style="padding-left:4.8em">Add $(w, v)$ to $S\_new$</div><div class="algo-line" style="padding-left:4.8em">$max\_v \gets v$</div><div class="algo-line" style="padding-left:1.6em">$S \gets S\_new$</div><div class="algo-line" style="padding-left:0.0em">$max\_value \gets 0$</div><div class="algo-line" style="padding-left:0.0em"><b>for</b> $(w, v) \in S$ <b>do</b></div><div class="algo-line" style="padding-left:1.6em">$max\_value \gets \max(max\_value, v)$</div><div class="algo-line" style="padding-left:0.0em"><b>return</b> $max\_value$</div></div>
+<div class="algo"><div class="algo-cap">0/1 Knapsack Problem Dynamic Programming Algorithm</div><div class="algo-line" style="padding-left:0.0em"><b>Input:</b> Number of items $n$, weights $w[1..n]$, values $v[1..n]$, capacity $C$</div><div class="algo-line" style="padding-left:0.0em"><b>Output:</b> Maximum value table $m[1..n][0..C]$</div><div class="algo-line" style="padding-left:0.0em"><b>for</b> $j \gets 0$ <b>to</b> $\min(w_n - 1, C)$ <b>do</b></div><div class="algo-line" style="padding-left:1.6em">$m[n, j] \gets 0$</div><div class="algo-line" style="padding-left:0.0em"><b>for</b> $j \gets w_n$ <b>to</b> $C$ <b>do</b></div><div class="algo-line" style="padding-left:1.6em">$m[n, j] \gets v_n$</div><div class="algo-line" style="padding-left:0.0em"><span class="algo-cmt">// When only the last item is considered: if capacity j $< w_n$: cannot fit → value 0; if capacity $j >= w_n$: fits → value $v_n$</span></div><div class="algo-line" style="padding-left:0.0em"><b>for</b> $i \gets n-1$ <b>to</b> $1$ <b>do</b></div><div class="algo-line" style="padding-left:1.6em"><b>for</b> $j \gets 0$ <b>to</b> $\min(w_i - 1, C)$ <b>do</b></div><div class="algo-line" style="padding-left:3.2em">$m[i, j] \gets m[i + 1, j]$</div><div class="algo-line" style="padding-left:1.6em"><b>for</b> $j \gets w_i$ <b>to</b> $C$ <b>do</b></div><div class="algo-line" style="padding-left:3.2em">$m[i, j] \gets \max\{ m[i + 1, j], m[i + 1, j - w_i] + v_i \}$</div><div class="algo-line" style="padding-left:0.0em"><b>return</b> $m[1, C]$</div></div>
+<h2 id="backtracking-algorithm-framework" class="note-h2">Backtracking Algorithm Framework</h2>
+<h3 class="note-h3">Recursive Backtracking Framework</h3>
+<div class="algo"><div class="algo-cap">Recursive Backtracking Framework</div><div class="algo-line" style="padding-left:0.0em"><b>Function</b> $\text{Backtrack}(t)$</div><div class="algo-line" style="padding-left:1.6em"><b>Input:</b> Recursion depth $t$</div><div class="algo-line" style="padding-left:1.6em"><b>if</b> $t > n$ <b>then</b></div><div class="algo-line" style="padding-left:3.2em">$\text{Output}(x)$ <span class="algo-cmt">// Reached leaf node, output solution</span></div><div class="algo-line" style="padding-left:1.6em"><b>else</b></div><div class="algo-line" style="padding-left:3.2em"><b>for</b> $i \gets f(n, t)$ <b>to</b> $g(n, t)$ <b>do</b></div><div class="algo-line" style="padding-left:4.8em">$x[t] \gets h(i)$ <span class="algo-cmt">// $h(i)$ represents the $i$-th optional value for $x[t]$</span></div><div class="algo-line" style="padding-left:4.8em"><b>if</b> $\text{Constraint}(t) \land \text{Bound}(t)$ <b>then</b></div><div class="algo-line" style="padding-left:6.4em">$\text{Backtrack}(t + 1)$ <span class="algo-cmt">// Recursively search</span></div></div>
+<h3 class="note-h3">Subset Tree Framework</h3>
+<div class="algo"><div class="algo-cap">Subset Tree Backtracking Framework (for problems like 0/1 Knapsack)</div><div class="algo-line" style="padding-left:0.0em"><b>Function</b> $\text{Backtrack}(t)$</div><div class="algo-line" style="padding-left:1.6em"><b>Input:</b> Recursion depth $t$</div><div class="algo-line" style="padding-left:1.6em"><b>if</b> $t > n$ <b>then</b></div><div class="algo-line" style="padding-left:3.2em">$\text{Output}(x)$</div><div class="algo-line" style="padding-left:1.6em"><b>else</b></div><div class="algo-line" style="padding-left:3.2em"><b>for</b> $i \gets 0$ <b>to</b> $1$ <b>do</b></div><div class="algo-line" style="padding-left:4.8em">$x[t] \gets i$</div><div class="algo-line" style="padding-left:4.8em"><b>if</b> $\text{Constraint}(t) \land \text{Bound}(t)$ <b>then</b></div><div class="algo-line" style="padding-left:6.4em">$\text{Backtrack}(t + 1)$</div></div>
+<h3 class="note-h3">Permutation Tree Framework</h3>
+<div class="algo"><div class="algo-cap">Permutation Tree Backtracking Framework (for problems like TSP)</div><div class="algo-line" style="padding-left:0.0em"><b>Function</b> $\text{Backtrack}(t)$</div><div class="algo-line" style="padding-left:1.6em"><b>Input:</b> Recursion depth $t$</div><div class="algo-line" style="padding-left:1.6em"><b>if</b> $t > n$ <b>then</b></div><div class="algo-line" style="padding-left:3.2em">$\text{Output}(x)$ <span class="algo-cmt">// Sorting complete</span></div><div class="algo-line" style="padding-left:1.6em"><b>else</b></div><div class="algo-line" style="padding-left:3.2em"><b>for</b> $i \gets t$ <b>to</b> $n$ <b>do</b></div><div class="algo-line" style="padding-left:4.8em">$\text{Swap}(x[t], x[i])$ <span class="algo-cmt">// Swap the $t$-th element with $x[i]$</span></div><div class="algo-line" style="padding-left:4.8em"><b>if</b> $\text{Constraint}(t) \land \text{Bound}(t)$ <b>then</b></div><div class="algo-line" style="padding-left:6.4em">$\text{Backtrack}(t + 1)$</div><div class="algo-line" style="padding-left:4.8em">$\text{Swap}(x[t], x[i])$ <span class="algo-cmt">// Swap back, backtrack</span></div></div>
+<h2 id="0-1-knapsack-problem" class="note-h2">0/1 Knapsack Problem</h2>
+<div class="algo"><div class="algo-cap">0/1 Knapsack Problem Backtracking Algorithm</div><div class="algo-line" style="padding-left:0.0em"><b>Function</b> $\text{Backtrack}(i)$</div><div class="algo-line" style="padding-left:1.6em"><b>Input:</b> Current item index $i$</div><div class="algo-line" style="padding-left:1.6em"><b>if</b> $i > n$ <b>then</b></div><div class="algo-line" style="padding-left:3.2em"><b>if</b> $cp > bestp$ <b>then</b></div><div class="algo-line" style="padding-left:4.8em">$bestp \gets cp$</div><div class="algo-line" style="padding-left:4.8em">$bestx[1..n] \gets x[1..n]$ <span class="algo-cmt">// Record optimal solution</span></div><div class="algo-line" style="padding-left:3.2em"><b>return</b></div><div class="algo-line" style="padding-left:1.6em"><span class="algo-cmt">// Left subtree: select item $i$</span></div><div class="algo-line" style="padding-left:1.6em"><b>if</b> $cw + w[i] \leq c$ <b>then</b></div><div class="algo-line" style="padding-left:3.2em">$x[i] \gets 1$ <span class="algo-cmt">// Select item $i$</span> $cw \gets cw + w[i]$</div><div class="algo-line" style="padding-left:3.2em">$cp \gets cp + p[i]$</div><div class="algo-line" style="padding-left:3.2em">$\text{Backtrack}(i + 1)$ <span class="algo-cmt">// Recursively search left subtree</span> $cw \gets cw - w[i]$ <span class="algo-cmt">// Backtrack</span> $cp \gets cp - p[i]$</div><div class="algo-line" style="padding-left:1.6em"><span class="algo-cmt">// Right subtree: do not select item $i$</span></div><div class="algo-line" style="padding-left:1.6em"><b>if</b> $\text{Bound}(i + 1) > bestp$ <b>then</b></div><div class="algo-line" style="padding-left:3.2em">$x[i] \gets 0$ <span class="algo-cmt">// Do not select item $i$</span> $\text{Backtrack}(i + 1)$ <span class="algo-cmt">// Recursively search right subtree</span></div><div class="algo-line" style="padding-left:0.0em"><b>Function</b> $\text{Bound}(i)$</div><div class="algo-line" style="padding-left:1.6em"><b>Input:</b> Starting item index $i$</div><div class="algo-line" style="padding-left:1.6em"><b>Output:</b> Upper bound on value</div><div class="algo-line" style="padding-left:1.6em">$cleft \gets c - cw$ <span class="algo-cmt">// Remaining capacity</span> $b \gets cp$ <span class="algo-cmt">// Current value</span> <span class="algo-cmt">// Greedily pack whole items</span></div><div class="algo-line" style="padding-left:1.6em"><b>while</b> $i \leq n \&\& w[i] \leq cleft$ <b>do</b></div><div class="algo-line" style="padding-left:3.2em">$cleft \gets cleft - w[i]$</div><div class="algo-line" style="padding-left:3.2em">$b \gets b + p[i]$</div><div class="algo-line" style="padding-left:3.2em">$i \gets i + 1$</div><div class="algo-line" style="padding-left:1.6em"><span class="algo-cmt">// Pack fractional item</span></div><div class="algo-line" style="padding-left:1.6em"><b>if</b> $i \leq n$ <b>then</b></div><div class="algo-line" style="padding-left:3.2em">$b \gets b + p[i] \times cleft / w[i]$ <span class="algo-cmt">// Fractional knapsack value</span></div><div class="algo-line" style="padding-left:1.6em"><b>return</b> $b$</div></div>
+<h3 class="note-h3">Maximum Clique Problem</h3>
+<div class="algo"><div class="algo-cap">Maximum Clique Problem Backtracking Algorithm</div><div class="algo-line" style="padding-left:0.0em"><b>Function</b> $\text{Backtrack}(i)$</div><div class="algo-line" style="padding-left:1.6em"><b>Input:</b> Current vertex index $i$</div><div class="algo-line" style="padding-left:1.6em">a[i][j]: adjacency matrix, 1 indicates an edge, 0 indicates no edge\\</div><div class="algo-line" style="padding-left:1.6em"><b>if</b> $i > n$ <b>then</b></div><div class="algo-line" style="padding-left:3.2em"><b>if</b> $cn > bestn$ <b>then</b></div><div class="algo-line" style="padding-left:4.8em">$bestn \gets cn$</div><div class="algo-line" style="padding-left:4.8em">$bestx[1..n] \gets x[1..n]$ <span class="algo-cmt">// Record maximum clique</span></div><div class="algo-line" style="padding-left:3.2em"><b>return</b></div><div class="algo-line" style="padding-left:1.6em">$OK \gets \text{true}$ <span class="algo-cmt">// Check if vertex $i$ can join the current clique</span></div><div class="algo-line" style="padding-left:1.6em"><b>for</b> $j \gets 1$ <b>to</b> $i-1$ <b>do</b></div><div class="algo-line" style="padding-left:3.2em"><b>if</b> $x[j] = 1 \&\& a[i][j] = 0$ <b>then</b></div><div class="algo-line" style="padding-left:4.8em">$OK \gets \text{false}$ <span class="algo-cmt">// Vertex $i$ has no edge to vertices in the clique</span> <b>break</b></div><div class="algo-line" style="padding-left:1.6em"><span class="algo-cmt">// Left subtree: add vertex $i$ to the clique</span></div><div class="algo-line" style="padding-left:1.6em"><b>if</b> $OK$ <b>then</b></div><div class="algo-line" style="padding-left:3.2em">$x[i] \gets 1$</div><div class="algo-line" style="padding-left:3.2em">$cn \gets cn + 1$</div><div class="algo-line" style="padding-left:3.2em">$\text{Backtrack}(i + 1)$</div><div class="algo-line" style="padding-left:3.2em">$x[i] \gets 0$</div><div class="algo-line" style="padding-left:3.2em">$cn \gets cn - 1$</div><div class="algo-line" style="padding-left:1.6em"><span class="algo-cmt">// Right subtree: do not add vertex $i$ to the clique, n - i: number of remaining unprocessed vertices</span></div><div class="algo-line" style="padding-left:1.6em"><b>if</b> $cn + n - i > bestn$ <b>then</b></div><div class="algo-line" style="padding-left:3.2em">$x[i] \gets 0$</div><div class="algo-line" style="padding-left:3.2em">$\text{Backtrack}(i + 1)$</div></div>
+<h3 class="note-h3">n-Queens Problem</h3>
+<h4 class="note-h4">Position Check Function</h4>
+<div class="algo"><div class="algo-cap">n-Queens Position Check Function</div><div class="algo-line" style="padding-left:0.0em"><b>Function</b> $\text{Place}(k)$</div><div class="algo-line" style="padding-left:1.6em"><b>Input:</b> Row number $k$</div><div class="algo-line" style="padding-left:1.6em"><b>Output:</b> Whether a queen can be placed</div><div class="algo-line" style="padding-left:1.6em"><b>for</b> $j \gets 1$ <b>to</b> $k-1$ <b>do</b></div><div class="algo-line" style="padding-left:3.2em"><b>if</b> $\text{abs}(k - j) = \text{abs}(x[j] - x[k]) ||  x[j] = x[k]$ <b>then</b></div><div class="algo-line" style="padding-left:4.8em"><b>return</b> false <span class="algo-cmt">// Same diagonal or same column, conflict</span></div><div class="algo-line" style="padding-left:1.6em"><b>return</b> true <span class="algo-cmt">// Can place</span></div></div>
+<h4 class="note-h4">Recursive Implementation</h4>
+<div class="algo"><div class="algo-cap">n-Queens Problem Recursive Algorithm</div><div class="algo-line" style="padding-left:0.0em"><b>Function</b> $\text{Backtrack}(t)$</div><div class="algo-line" style="padding-left:1.6em"><b>Input:</b> Current row number $t$</div><div class="algo-line" style="padding-left:1.6em"><b>if</b> $t > n$ <b>then</b></div><div class="algo-line" style="padding-left:3.2em">$sum \gets sum + 1$ <span class="algo-cmt">// Found a solution</span></div><div class="algo-line" style="padding-left:1.6em"><b>else</b></div><div class="algo-line" style="padding-left:3.2em"><b>for</b> $i \gets 1$ <b>to</b> $n$ <b>do</b></div><div class="algo-line" style="padding-left:4.8em">$x[t] \gets i$ <span class="algo-cmt">// Place queen in column $i$</span></div><div class="algo-line" style="padding-left:4.8em"><b>if</b> $\text{Place}(t)$ <b>then</b></div><div class="algo-line" style="padding-left:6.4em">$\text{Backtrack}(t + 1)$</div></div>
+<h3 class="note-h3">Traveling Salesman Problem</h3>
+<div class="algo"><div class="algo-cap">Traveling Salesman Problem Backtracking Algorithm</div><div class="algo-line" style="padding-left:0.0em"><b>Function</b> $\text{Backtrack}(i)$</div><div class="algo-line" style="padding-left:1.6em"><b>Input:</b> Current path position $i$</div><div class="algo-line" style="padding-left:1.6em">cc: current path length (portion already traveled); distance matrix a[1..n][1..n]\\</div><div class="algo-line" style="padding-left:1.6em"><b>if</b> $i = n$ <b>then</b></div><div class="algo-line" style="padding-left:3.2em"><b>if</b> $a[x[n-1]][x[n]] \neq \text{NoEdge} \&\& a[x[n]][1] \neq \text{NoEdge}$ <b>then</b></div><div class="algo-line" style="padding-left:4.8em"><b>if</b> $cc + a[x[n-1]][x[n]] + a[x[n]][1] < bestc || bestc = \text{NoEdge}$ <b>then</b></div><div class="algo-line" style="padding-left:6.4em">$bestc \gets cc + a[x[n-1]][x[n]] + a[x[n]][1]$</div><div class="algo-line" style="padding-left:6.4em">$bestx[1..n] \gets x[1..n]$ <span class="algo-cmt">// Record optimal path</span></div><div class="algo-line" style="padding-left:1.6em"><b>else</b></div><div class="algo-line" style="padding-left:3.2em"><b>for</b> $j \gets i$ <b>to</b> $n$ <b>do</b></div><div class="algo-line" style="padding-left:4.8em"><b>if</b> $a[x[i-1]][x[j]] \neq \text{NoEdge}$ <b>then</b></div><div class="algo-line" style="padding-left:6.4em"><b>if</b> $cc + a[x[i-1]][x[j]] < bestc || bestc = \text{NoEdge}$ <b>then</b></div><div class="algo-line" style="padding-left:8.0em">$\text{Swap}(x[i], x[j])$</div><div class="algo-line" style="padding-left:8.0em">$cc \gets cc + a[x[i-1]][x[i]]$</div><div class="algo-line" style="padding-left:8.0em">$\text{Backtrack}(i + 1)$</div><div class="algo-line" style="padding-left:8.0em">$cc \gets cc - a[x[i-1]][x[i]]$</div><div class="algo-line" style="padding-left:8.0em">$\text{Swap}(x[i], x[j])$</div></div>
+$T(n) = O(n!)$
+<h3 class="note-h3">Vertex Cover</h3>
+<div class="algo"><div class="algo-cap">Backtracking for Minimum Vertex Cover (Minimum number of vertices)</div><div class="algo-line" style="padding-left:0.0em"><b>Function</b> cover()</div><div class="algo-line" style="padding-left:1.6em">$i \gets 1$</div><div class="algo-line" style="padding-left:1.6em"><b>while</b> $i \leq n$ <b>do</b></div><div class="algo-line" style="padding-left:3.2em"><b>if</b> $c[i] == 0$ <b>then</b></div><div class="algo-line" style="padding-left:4.8em">$t \gets 0$</div><div class="algo-line" style="padding-left:4.8em"><b>for</b> $j \gets 1$ <b>to</b> $n$ <b>do</b></div><div class="algo-line" style="padding-left:6.4em"><b>if</b> $e[i][j] == 1$ <b>and</b> $c[j] == 1$ <b>then</b></div><div class="algo-line" style="padding-left:8.0em">$t \gets 1$</div><div class="algo-line" style="padding-left:8.0em">Break</div><div class="algo-line" style="padding-left:4.8em"><b>if</b> $t == 0$ <b>then</b></div><div class="algo-line" style="padding-left:6.4em"><b>return</b> $0$</div><div class="algo-line" style="padding-left:3.2em">$i \gets i + 1$</div><div class="algo-line" style="padding-left:1.6em"><b>return</b> $1$</div><div class="algo-line" style="padding-left:0.0em"><b>Function</b> cut($i$, $cnt$)</div><div class="algo-line" style="padding-left:1.6em"><b>if</b> $cnt \geq bestn$ <b>then</b></div><div class="algo-line" style="padding-left:3.2em"><b>return</b></div><div class="algo-line" style="padding-left:1.6em"><b>if</b> $i > n$ <b>then</b></div><div class="algo-line" style="padding-left:3.2em"><b>if</b> cover() <b>then</b></div><div class="algo-line" style="padding-left:4.8em">$bestn \gets cnt$</div><div class="algo-line" style="padding-left:4.8em">$bestc[1..n] \gets c[1..n]$</div><div class="algo-line" style="padding-left:3.2em"><b>return</b></div><div class="algo-line" style="padding-left:1.6em">$c[i] \gets 0$</div><div class="algo-line" style="padding-left:1.6em">cut($i+1$, $cnt$)</div><div class="algo-line" style="padding-left:1.6em">$c[i] \gets 1$</div><div class="algo-line" style="padding-left:1.6em">cut($i+1$, $cnt + 1$)</div><div class="algo-line" style="padding-left:0.0em">$bestn \gets \infty$</div><div class="algo-line" style="padding-left:0.0em">$c[1..n] \gets 0$</div><div class="algo-line" style="padding-left:0.0em">cut($1$, $0$)</div><div class="algo-line" style="padding-left:0.0em">Return $bestn, bestc[1..n]$</div></div>
+<h3 class="note-h3">Subset Sum Problem</h3>
+<div class="algo"><div class="algo-cap">Recursive Solution for Subset Sum Problem</div><div class="algo-line" style="padding-left:0.0em"><b>Function</b> subset\_sum($i$, $current\_sum$)</div><div class="algo-line" style="padding-left:1.6em"><b>Input:</b> $i$: current element index being considered, $current\_sum$: sum of selected elements so far</div><div class="algo-line" style="padding-left:1.6em"><b>Output:</b> Whether there exists a subset with sum $c$</div><div class="algo-line" style="padding-left:1.6em"><span class="algo-cmt">// Base case 1: found a solution</span></div><div class="algo-line" style="padding-left:1.6em"><b>if</b> $current\_sum == c$ <b>then</b></div><div class="algo-line" style="padding-left:3.2em"><b>return</b> $true$</div><div class="algo-line" style="padding-left:1.6em"><span class="algo-cmt">// Base case 2: exceeded target or considered all elements</span></div><div class="algo-line" style="padding-left:1.6em"><b>if</b> $current\_sum > c$ <b>or</b> $i \geq n$ <b>then</b></div><div class="algo-line" style="padding-left:3.2em"><b>return</b> $false$</div><div class="algo-line" style="padding-left:1.6em"><span class="algo-cmt">// Branch 1: select current element</span></div><div class="algo-line" style="padding-left:1.6em"><b>if</b> subset\_sum($i+1$, $current\_sum + data[i]$) <b>then</b></div><div class="algo-line" style="padding-left:3.2em"><span class="algo-cmt">// Record selected element (if specific solution needs to be output)</span> $solution[i] \gets 1$</div><div class="algo-line" style="padding-left:3.2em"><b>return</b> $true$</div><div class="algo-line" style="padding-left:1.6em"><span class="algo-cmt">// Branch 2: do not select current element</span></div><div class="algo-line" style="padding-left:1.6em"><b>if</b> subset\_sum($i+1$, $current\_sum$) <b>then</b></div><div class="algo-line" style="padding-left:3.2em"><span class="algo-cmt">// Record unselected element</span> $solution[i] \gets 0$</div><div class="algo-line" style="padding-left:3.2em"><b>return</b> $true$</div><div class="algo-line" style="padding-left:1.6em"><b>return</b> $false$</div><div class="algo-line" style="padding-left:0.0em"><span class="algo-cmt">// Main program call</span> $solution[0..n-1] \gets \{0\}$</div><div class="algo-line" style="padding-left:0.0em"><span class="algo-cmt">// Record specific solution</span> $result \gets$ subset_sum($0$, $0$)</div><div class="algo-line" style="padding-left:0.0em"><b>if</b> $result$ <b>then</b></div><div class="algo-line" style="padding-left:1.6em">Output "A subset with sum $c$ exists: " and output elements with value 1 in $solution$</div><div class="algo-line" style="padding-left:0.0em"><b>else</b></div><div class="algo-line" style="padding-left:1.6em">Output "No subset with sum $c$ exists"</div></div>
+<h3 class="note-h3">Procurement Problem</h3>
+<div class="algo"><div class="algo-cap">Backtracking Algorithm for Machine Design Problem</div><div class="algo-line" style="padding-left:0.0em"><b>Input:</b> Number of components $n$, number of suppliers $m$, weight matrix $w[1..n][1..m]$, $w[i][j]$, price matrix $c[1..n][1..m]$, $c[i][j]$ represents the price of component $i$ from supplier $j$, cost upper bound $C$</div><div class="algo-line" style="padding-left:0.0em"><b>Output:</b> Whether a feasible solution exists, minimum weight $best\_weight$, optimal selection $best\_solution[1..n]$, actual total cost $\sum_{i=1}^{n} c[i][best\_solution[i]]$</div><div class="algo-line" style="padding-left:0.0em">$best\_weight \gets \infty$ <span class="algo-cmt">// Optimal weight</span></div><div class="algo-line" style="padding-left:0.0em"><b>Function</b> FBacktrack{$i$}</div><div class="algo-line" style="padding-left:1.6em"><b>if</b> $i > n$ <b>then</b></div><div class="algo-line" style="padding-left:3.2em"><b>if</b> $current\_cost \leq C$ <b>and</b> $current\_weight < best\_weight$ <b>then</b></div><div class="algo-line" style="padding-left:4.8em">$best\_weight \gets current\_weight$</div><div class="algo-line" style="padding-left:4.8em">$best\_solution[1..n] \gets current\_choice[1..n]$</div><div class="algo-line" style="padding-left:3.2em"><b>return</b></div><div class="algo-line" style="padding-left:1.6em"><b>if</b> $current\_cost > C$ <b>then</b></div><div class="algo-line" style="padding-left:3.2em"><b>return</b></div><div class="algo-line" style="padding-left:1.6em"><b>for</b> $j \gets 1$ <b>to</b> $m$ <b>do</b></div><div class="algo-line" style="padding-left:3.2em">$current\_choice[i] \gets j$</div><div class="algo-line" style="padding-left:3.2em">$current\_weight \gets current\_weight + w[i][j]$</div><div class="algo-line" style="padding-left:3.2em">$current\_cost \gets current\_cost + c[i][j]$</div><div class="algo-line" style="padding-left:3.2em">FBacktrack$i+1$</div><div class="algo-line" style="padding-left:3.2em">$current\_weight \gets current\_weight - w[i][j]$</div><div class="algo-line" style="padding-left:3.2em">$current\_cost \gets current\_cost - c[i][j]$</div><div class="algo-line" style="padding-left:3.2em">$current\_choice[i] \gets 0$</div><div class="algo-line" style="padding-left:0.0em">Initialize all global variables</div><div class="algo-line" style="padding-left:0.0em">FBacktrack$1$</div><div class="algo-line" style="padding-left:0.0em"><b>if</b> $best\_weight = \infty$ <b>then</b></div><div class="algo-line" style="padding-left:1.6em">Output "No solution: cannot find a solution within cost upper bound C"</div><div class="algo-line" style="padding-left:0.0em"><b>else</b></div><div class="algo-line" style="padding-left:1.6em">Output "Minimum weight: " $best\_weight$</div><div class="algo-line" style="padding-left:1.6em">Output "Selection: " $best\_solution[1..n]$</div><div class="algo-line" style="padding-left:1.6em">Output "Actual cost: " $\sum_{i=1}^{n} c[i][best\_solution[i]]$</div></div>
+<h2 id="branch-and-bound-algorithm-framework" class="note-h2">Branch-and-Bound Algorithm Framework</h2>
+<h3 class="note-h3">LC Search Framework</h3>
+<div class="algo"><div class="algo-cap">LC (Minimum Cost) Branch-and-Bound Framework</div><div class="algo-line" style="padding-left:0.0em"><b>Function</b> $\text{LC\_Search}()$</div><div class="algo-line" style="padding-left:1.6em">$E \gets T$ <span class="algo-cmt">// Initialize: $E$ is the root node</span> Initialize the live node list as a priority queue (sorted by cost function value in ascending order)</div><div class="algo-line" style="padding-left:1.6em"><b>while</b> true <b>do</b></div><div class="algo-line" style="padding-left:3.2em"><b>if</b> $E$ is a leaf node <b>then</b></div><div class="algo-line" style="padding-left:4.8em">Output or save the current solution <span class="algo-cmt">// In LC search, the first leaf node reached is the minimum cost solution</span> <b>return</b></div><div class="algo-line" style="padding-left:3.2em"><span class="algo-cmt">// Expand $E$: generate all child nodes</span></div><div class="algo-line" style="padding-left:3.2em"><b>for</b> each child node $x$ of $E$ <b>do</b></div><div class="algo-line" style="padding-left:4.8em"><b>if</b> $x$ is a feasible partial solution <b>then</b></div><div class="algo-line" style="padding-left:6.4em">Compute $c(x) =$ cost of selected path so far $+$ lower bound estimate</div><div class="algo-line" style="padding-left:6.4em">Insert $x$ into the live node list, sorted by $c(x)$</div><div class="algo-line" style="padding-left:6.4em">$parent(x) \gets E$ <span class="algo-cmt">// Record parent node</span></div><div class="algo-line" style="padding-left:3.2em"><b>if</b> live node list is empty <b>then</b></div><div class="algo-line" style="padding-left:4.8em">Output "no answer"</div><div class="algo-line" style="padding-left:4.8em"><b>return</b></div><div class="algo-line" style="padding-left:3.2em">$E \gets \text{deleteMin}(\text{live node list})$ <span class="algo-cmt">// // Remove and return the minimum element, assign to E</span></div></div>
+<h3 class="note-h3">0/1 Knapsack Problem</h3>
+<div class="algo"><div class="algo-cap">LC Branch-and-Bound for 0/1 Knapsack Problem</div><div class="algo-line" style="padding-left:0.0em"><b>Input:</b> Number of items $n$, weights $w[1..n]$, values $p[1..n]$, capacity $c$ (items already sorted by $p[i]/w[i]$ descending)</div><div class="algo-line" style="padding-left:0.0em"><b>Output:</b> Maximum value $max\_profit$, optimal solution $best\_x[1..n]$</div><div class="algo-line" style="padding-left:0.0em">Define node structure Node.E {level, profit, weight, bound, $x[1..n]$}</div><div class="algo-line" style="padding-left:0.0em">Create priority queue $PQ$ (sorted by $bound$ descending)</div><div class="algo-line" style="padding-left:0.0em">$max\_profit \gets 0$; $best\_x[1..n] \gets 0$;$PQ.insert(E)$;</div><div class="algo-line" style="padding-left:0.0em"><b>while</b> true <b>do</b></div><div class="algo-line" style="padding-left:1.6em">$E \gets PQ.deleteMax()$</div><div class="algo-line" style="padding-left:1.6em"><b>if</b> $E.bound \leq max\_profit$ <b>then</b></div><div class="algo-line" style="padding-left:3.2em"><b>continue</b></div><div class="algo-line" style="padding-left:1.6em"><b>if</b> $E.level = n$ <b>then</b></div><div class="algo-line" style="padding-left:3.2em"><b>if</b> $E.profit > max\_profit$ <b>then</b></div><div class="algo-line" style="padding-left:4.8em">$max\_profit \gets E.profit$</div><div class="algo-line" style="padding-left:4.8em">$best\_x \gets E.x$</div><div class="algo-line" style="padding-left:3.2em"><b>continue</b></div><div class="algo-line" style="padding-left:1.6em">$next\_level \gets E.level + 1$</div><div class="algo-line" style="padding-left:1.6em"><span class="algo-cmt">// Child node 1: select item $next\_level$</span></div><div class="algo-line" style="padding-left:1.6em"><b>if</b> $E.weight + w[next\_level] \leq c$ <b>then</b></div><div class="algo-line" style="padding-left:3.2em">Create child node $child1$</div><div class="algo-line" style="padding-left:3.2em">$child1.level \gets next\_level$; $child1.weight \gets E.weight + w[next\_level]$</div><div class="algo-line" style="padding-left:3.2em">$child1.profit \gets E.profit + p[next\_level]$; $child1.x \gets E.x$;$child1.x[next\_level] \gets 1$</div><div class="algo-line" style="padding-left:3.2em"><b>if</b> $child1.profit > max\_profit$ <b>then</b></div><div class="algo-line" style="padding-left:4.8em">$max\_profit \gets child1.profit$</div><div class="algo-line" style="padding-left:4.8em">$best\_x \gets child1.x$ (pad with $0$ to $n$ bits)</div><div class="algo-line" style="padding-left:3.2em">$child1.bound \gets \text{Bound}(child1)$</div><div class="algo-line" style="padding-left:3.2em"><b>if</b> $child1.bound > max\_profit$ <b>then</b></div><div class="algo-line" style="padding-left:4.8em">$PQ.insert(child1)$</div><div class="algo-line" style="padding-left:1.6em"><span class="algo-cmt">// Child node 2: do not select item $next\_level$</span> Create child node $child2$</div><div class="algo-line" style="padding-left:1.6em">$child2.level \gets next\_level$; $child2.weight \gets E.weight$</div><div class="algo-line" style="padding-left:1.6em">$child2.profit \gets E.profit$;$child2.x \gets E.x$;$child2.x[next\_level] \gets 0$</div><div class="algo-line" style="padding-left:1.6em">$child2.bound \gets \text{Bound}(child2)$</div><div class="algo-line" style="padding-left:1.6em"><b>if</b> $child2.bound > max\_profit$ <b>then</b></div><div class="algo-line" style="padding-left:3.2em">$PQ.insert(child2)$</div><div class="algo-line" style="padding-left:0.0em"><b>return</b> $(max\_profit, best\_x)$</div></div>
+<div class="algo"><div class="algo-cap">Upper Bound Function Bound</div><div class="algo-line" style="padding-left:0.0em"><b>Function</b> Bound(Node $u$)</div><div class="algo-line" style="padding-left:1.6em"><b>Input:</b> Current node $u$</div><div class="algo-line" style="padding-left:1.6em"><b>Output:</b> Upper bound on maximum value achievable from node $u$</div><div class="algo-line" style="padding-left:1.6em"><b>if</b> $u.weight \geq c$ <b>then</b></div><div class="algo-line" style="padding-left:3.2em"><b>return</b> $0$ <span class="algo-cmt">// Exceeds capacity, upper bound is $0$</span></div><div class="algo-line" style="padding-left:1.6em">$profit\_bound \gets u.profit$</div><div class="algo-line" style="padding-left:1.6em">$j \gets u.level + 1$ <span class="algo-cmt">// Start from the next item</span> $total\_weight \gets u.weight$</div><div class="algo-line" style="padding-left:1.6em"><span class="algo-cmt">// Greedily pack whole items</span></div><div class="algo-line" style="padding-left:1.6em"><b>while</b> $j \leq n$ <b>and</b> $total\_weight + w[j] \leq c$ <b>do</b></div><div class="algo-line" style="padding-left:3.2em">$total\_weight \gets total\_weight + w[j]$</div><div class="algo-line" style="padding-left:3.2em">$profit\_bound \gets profit\_bound + p[j]$</div><div class="algo-line" style="padding-left:3.2em">$j \gets j + 1$</div><div class="algo-line" style="padding-left:1.6em"><span class="algo-cmt">// Pack fractional item</span></div><div class="algo-line" style="padding-left:1.6em"><b>if</b> $j \leq n$ <b>then</b></div><div class="algo-line" style="padding-left:3.2em">$profit\_bound \gets profit\_bound + (c - total\_weight) \times p[j] / w[j]$</div><div class="algo-line" style="padding-left:1.6em"><b>return</b> $profit\_bound$</div></div>
+<h3 class="note-h3">Job Scheduling with Deadlines</h3>
+<div class="algo"><div class="algo-cap">Branch-and-Bound Algorithm for Job Scheduling with Deadlines</div><div class="algo-line" style="padding-left:0.0em"><b>Function</b> $\text{BranchAndBoundJobScheduling}(S)$</div><div class="algo-line" style="padding-left:1.6em"><b>Input:</b> Job set $S = \{(p_1,d_1,t_1),\ldots,(p_n,d_n,t_n)\}$</div><div class="algo-line" style="padding-left:1.6em"><b>Output:</b> Minimum penalty $U$, optimal job subset $J$</div><div class="algo-line" style="padding-left:1.6em">Initialize: $U \gets \infty$, $bestX \gets \text{null}$</div><div class="algo-line" style="padding-left:1.6em">Create priority queue $PQ$ (sorted by $c(x)$ ascending)</div><div class="algo-line" style="padding-left:1.6em">$u=\sum p_i$</div><div class="algo-line" style="padding-left:1.6em"><b>if</b> $u(x) < U$ <b>then</b></div><div class="algo-line" style="padding-left:3.2em">$U \gets u(x)$; $bestX \gets x$</div><div class="algo-line" style="padding-left:1.6em">Add root node to $PQ$</div><div class="algo-line" style="padding-left:1.6em"><b>while</b> $PQ$ is not empty <b>do</b></div><div class="algo-line" style="padding-left:3.2em">Take node $x$ with smallest $c(x)$ from $PQ$</div><div class="algo-line" style="padding-left:3.2em"><b>if</b> $c(x) \geq U$ <b>then</b></div><div class="algo-line" style="padding-left:4.8em"><b>continue</b></div><div class="algo-line" style="padding-left:3.2em"><b>if</b> $x$ is a leaf node <b>then</b></div><div class="algo-line" style="padding-left:4.8em">Compute $c(x) = \sum_{j=1}^{n} (1-x(j)) p_j$</div><div class="algo-line" style="padding-left:4.8em"><b>if</b> $c(x) < U$ <b>then</b></div><div class="algo-line" style="padding-left:6.4em">$U \gets c(x)$; $bestX \gets x$</div><div class="algo-line" style="padding-left:4.8em"><b>continue</b></div><div class="algo-line" style="padding-left:3.2em"><b>if</b> the job subset containing job $k$ can be scheduled within deadlines <b>then</b></div><div class="algo-line" style="padding-left:4.8em">$y \gets (x(1),\ldots,x(k-1),1,0,\ldots,0)$</div><div class="algo-line" style="padding-left:4.8em">Compute $c(y) = \sum_{i=1}^{k} (1-y(i)) p_i$</div><div class="algo-line" style="padding-left:4.8em">Compute upper bound $u(y) = \sum_{i=1}^{n} (1-y(i)) p_i$ (jobs with $j>k$ default to 0)</div><div class="algo-line" style="padding-left:4.8em"><b>if</b> $u(y) < U$ <b>then</b></div><div class="algo-line" style="padding-left:6.4em">$U \gets u(y)$</div><div class="algo-line" style="padding-left:4.8em"><b>if</b> $c(y) < U$ <b>then</b></div><div class="algo-line" style="padding-left:6.4em">Add $y$ to $PQ$</div><div class="algo-line" style="padding-left:3.2em">$z \gets (x(1),\ldots,x(k-1),0,0,\ldots,0)$</div><div class="algo-line" style="padding-left:3.2em">Compute $c(z) = \sum_{i=1}^{k} (1-z(i)) p_i$</div><div class="algo-line" style="padding-left:3.2em">Compute upper bound $u(z) = \sum_{i=1}^{n} (1-z(i)) p_i$ (jobs with $j>k$ default to 0)</div><div class="algo-line" style="padding-left:3.2em"><b>if</b> $u(z) < U$ <b>then</b></div><div class="algo-line" style="padding-left:4.8em">$U \gets u(z)$</div><div class="algo-line" style="padding-left:3.2em"><b>if</b> $c(z) < U$ <b>then</b></div><div class="algo-line" style="padding-left:4.8em">Add $z$ to $PQ$</div><div class="algo-line" style="padding-left:1.6em"><b>return</b> $(U, bestX)$ <span class="algo-cmt">// $bestX$ represents the set of accepted jobs</span></div></div>
+<h3 class="note-h3">TSP</h3>
+<div class="algo"><div class="algo-cap">Branch-and-Bound Algorithm for Traveling Salesman Problem (TSP)</div><div class="algo-line" style="padding-left:0.0em"><b>Input:</b> Graph $G=(V,E)$, vertices numbered $1$ to $n$, weight matrix $w$</div><div class="algo-line" style="padding-left:0.0em"><b>Output:</b> Shortest tour starting from vertex $1$</div><div class="algo-line" style="padding-left:0.0em"><span class="algo-cmt">// Initialization</span> $down \gets 0$ //lower bound of objective function; $up \gets \infty$ //upper bound of objective function</div><div class="algo-line" style="padding-left:0.0em">Create priority queue $Q$ (sorted by $f$ ascending)</div><div class="algo-line" style="padding-left:0.0em">Initialize node: node:</div><div class="algo-line" style="padding-left:0.0em">path,visited ,cost,parent,f = f(node) <span class="algo-cmt">// lower bound estimate</span> Insert $node$ into priority queue $Q$</div><div class="algo-line" style="padding-left:0.0em"><b>while</b> $Q \neq \emptyset$ <b>do</b></div><div class="algo-line" style="padding-left:1.6em">$p \gets \textsc{Dequeue}(Q)$ <span class="algo-cmt">// Take node with smallest $f$ value</span></div><div class="algo-line" style="padding-left:1.6em"><b>for</b> vertex $v \in V \setminus p.visited$ <b>do</b></div><div class="algo-line" style="padding-left:3.2em">Create new node $d$</div><div class="algo-line" style="padding-left:3.2em">$d.path \gets p.path + [v]$ <span class="algo-cmt">// Extend path</span> $d.visited \gets p.visited \cup \{v\}$</div><div class="algo-line" style="padding-left:3.2em">$d.cost \gets p.cost + w(p.path[-1], v)$ <span class="algo-cmt">// w(p.path[-1], v): weight of edge from last node of p's path to node v</span> $d.parent \gets p$ <span class="algo-cmt">// Set parent pointer</span> Compute $d.f \gets \text{EvaluateLowerBound}(d)$ <span class="algo-cmt">// Compute lower bound estimate</span></div><div class="algo-line" style="padding-left:3.2em"><b>if</b> $d.f < up$ <b>then</b></div><div class="algo-line" style="padding-left:4.8em"><b>if</b> $|d.visited| = n$ cp{Leaf node: all vertices visited} <b>then</b></div><div class="algo-line" style="padding-left:6.4em"><span class="algo-cmt">// Compute complete tour length</span> $complete\_cost \gets d.cost + w(v, 1)$ <span class="algo-cmt">// Return to start</span></div><div class="algo-line" style="padding-left:6.4em"><b>if</b> $complete\_cost < up$ <b>then</b></div><div class="algo-line" style="padding-left:8.0em">$up \gets complete\_cost$</div><div class="algo-line" style="padding-left:8.0em">$best\_solution \gets d$ <span class="algo-cmt">// Save optimal solution node</span> Delete all nodes in $Q$ with $f$ value $\geq up$</div><div class="algo-line" style="padding-left:4.8em"><b>else</b></div><div class="algo-line" style="padding-left:6.4em">Insert node $d$ into priority queue $Q$</div><div class="algo-line" style="padding-left:0.0em"><span class="algo-cmt">// Output optimal solution</span></div><div class="algo-line" style="padding-left:0.0em"><b>if</b> $best\_solution \neq \text{null}$ <b>then</b></div><div class="algo-line" style="padding-left:1.6em">Backtrack from $best\_solution$ along parent pointers to the root node</div><div class="algo-line" style="padding-left:1.6em">Output the complete path obtained from backtracking (including the edge back to the start)</div><div class="algo-line" style="padding-left:1.6em"><b>return</b> $best\_solution.path$ and $up$</div><div class="algo-line" style="padding-left:0.0em"><b>else</b></div><div class="algo-line" style="padding-left:1.6em"><b>return</b> No solution</div></div>
+<div class="algo"><div class="algo-cap">TSP Lower Bound Estimation Function $f(node)$</div><div class="algo-line" style="padding-left:0.0em"><b>Input:</b> $node$: {path, visited, cost}</div><div class="algo-line" style="padding-left:0.0em"><b>Output:</b> Lower bound estimate</div><div class="algo-line" style="padding-left:0.0em">$R \gets V \setminus node.visited$</div><div class="algo-line" style="padding-left:0.0em">$last \gets node.path[-1]$</div><div class="algo-line" style="padding-left:0.0em"><b>if</b> $R = \emptyset$ <b>then</b></div><div class="algo-line" style="padding-left:1.6em"><b>return</b> $node.cost + w(last, 1)$</div><div class="algo-line" style="padding-left:0.0em">$lb \gets \min_{v \in R} w[last][v] + \min_{v \in R} w[v][1]$</div><div class="algo-line" style="padding-left:0.0em"><b>return</b> $node.cost + lb$</div></div>
+<h3 class="note-h3">Loading Problem</h3>
+<div class="algo"><div class="algo-cap">Two-Ship Loading Problem</div><div class="algo-line" style="padding-left:0.0em"><b>Input:</b> $w[1..n], C_1, C_2, n$</div><div class="algo-line" style="padding-left:0.0em"><b>Output:</b> Whether a feasible allocation exists</div><div class="algo-line" style="padding-left:0.0em">$T \gets \sum w[i]$</div><div class="algo-line" style="padding-left:0.0em"><b>if</b> $T > C_1 + C_2$ <b>then</b></div><div class="algo-line" style="padding-left:1.6em"><b>return</b> false</div><div class="algo-line" style="padding-left:0.0em">$L \gets \max(0, T - C_2)$; $U \gets C_1$</div><div class="algo-line" style="padding-left:0.0em"><b>if</b> $L > U$ <b>then</b></div><div class="algo-line" style="padding-left:1.6em"><b>return</b> false</div><div class="algo-line" style="padding-left:0.0em">$Q \gets \text{empty queue}$</div><div class="algo-line" style="padding-left:0.0em">Add initial node (current weight=0, remaining total weight=T, next decision index=1) to queue</div><div class="algo-line" style="padding-left:0.0em"><b>while</b> $Q$ is not empty <b>do</b></div><div class="algo-line" style="padding-left:1.6em">$(c, r, i) \gets Q.pop()$</div><div class="algo-line" style="padding-left:1.6em"><b>if</b> $L \leq c \leq U$ <b>then</b></div><div class="algo-line" style="padding-left:3.2em"><b>return</b> true</div><div class="algo-line" style="padding-left:1.6em"><b>if</b> $i > n$ <b>then</b></div><div class="algo-line" style="padding-left:3.2em"><b>return</b></div><div class="algo-line" style="padding-left:1.6em"><span class="algo-cmt">// Pruning</span></div><div class="algo-line" style="padding-left:1.6em"><b>if</b> $c + r < L$ <b>or</b> $c > U$ <b>then</b></div><div class="algo-line" style="padding-left:3.2em"><b>return</b></div><div class="algo-line" style="padding-left:1.6em">$Q.push((c + w[i], r - w[i], i+1))$</div><div class="algo-line" style="padding-left:1.6em">$Q.push((c, r - w[i], i+1))$</div><div class="algo-line" style="padding-left:0.0em"><b>return</b> false</div></div>
+<h3 class="note-h3">n-Queens Problem</h3>
+<div class="algo"><div class="algo-cap">Optimized FIFO Branch-and-Bound Algorithm for n-Queens</div><div class="algo-line" style="padding-left:0.0em"><b>Input:</b> Board size $n$</div><div class="algo-line" style="padding-left:0.0em"><b>Output:</b> A feasible solution $x[1..n]$</div><div class="algo-line" style="padding-left:0.0em"><b>Function</b> isSafe($row$, $col$, $current$, $k$)</div><div class="algo-line" style="padding-left:1.6em"><b>for</b> $i \gets 1$ <b>to</b> $k$ <b>do</b></div><div class="algo-line" style="padding-left:3.2em"><b>if</b> $current[i] = col$ and $|row - i| = |col - current[i]|$ <b>then</b></div><div class="algo-line" style="padding-left:4.8em"><b>return</b> false</div><div class="algo-line" style="padding-left:1.6em"><b>return</b> true</div><div class="algo-line" style="padding-left:0.0em">Create queue $Q$</div><div class="algo-line" style="padding-left:0.0em">Add initial node $(\text{empty array}, 0)$ to queue</div><div class="algo-line" style="padding-left:0.0em"><b>while</b> $Q$ is not empty <b>do</b></div><div class="algo-line" style="padding-left:1.6em">$(current, depth) \gets Q.\text{dequeue}()$</div><div class="algo-line" style="padding-left:1.6em"><b>if</b> $depth = n$ <b>then</b></div><div class="algo-line" style="padding-left:3.2em"><b>return</b> $current$ <span class="algo-cmt">// Found a solution</span></div><div class="algo-line" style="padding-left:1.6em">$next\_row \gets depth + 1$</div><div class="algo-line" style="padding-left:1.6em"><b>for</b> $col \gets 1$ <b>to</b> $n$ <b>do</b></div><div class="algo-line" style="padding-left:3.2em"><b>if</b> isSafe($next\_row$, $col$, $current$, $depth$) <b>then</b></div><div class="algo-line" style="padding-left:4.8em">$new\_sol \gets current + [col]$ <span class="algo-cmt">// Append new column</span> $Q.\text{enqueue}((new\_sol, next\_row))$</div><div class="algo-line" style="padding-left:0.0em"><b>return</b> "No solution"</div></div>
+<h3 class="note-h3">Maximum Cut</h3>
+<div class="algo"><div class="algo-cap">Branch-and-Bound Algorithm for Maximum Cut Problem</div><div class="algo-line" style="padding-left:0.0em">$encode.x[1 \dots n] \gets 0$</div><div class="algo-line" style="padding-left:0.0em">$best \gets 0$</div><div class="algo-line" style="padding-left:0.0em">Create queue $Q$</div><div class="algo-line" style="padding-left:0.0em">Create root node $root$</div><div class="algo-line" style="padding-left:0.0em">$Q.add(root)$</div><div class="algo-line" style="padding-left:0.0em"><b>while</b> $true$ <b>do</b></div><div class="algo-line" style="padding-left:1.6em"><b>if</b> reached leaf node <b>then</b></div><div class="algo-line" style="padding-left:3.2em"><b>if</b> $current.cut > best$ <b>then</b></div><div class="algo-line" style="padding-left:4.8em">$best \gets current.cut$</div><div class="algo-line" style="padding-left:4.8em">Update optimal solution</div><div class="algo-line" style="padding-left:1.6em"><b>else</b></div><div class="algo-line" style="padding-left:3.2em"><span class="algo-cmt">// Create left child node (assign to S)</span> $left\_node \gets$ new node</div><div class="algo-line" style="padding-left:3.2em">$Q.add(left\_node)$</div><div class="algo-line" style="padding-left:3.2em"><span class="algo-cmt">// Create right child node (assign to T)</span> $right\_node \gets$ new node</div><div class="algo-line" style="padding-left:3.2em"><b>if</b> $right\_node.cut + right\_node.e > best$ <b>then</b></div><div class="algo-line" style="padding-left:4.8em"><span class="algo-cmt">// Upper bound pruning</span> $Q.add(right\_node)$</div><div class="algo-line" style="padding-left:1.6em"><b>if</b> node traversal complete <b>then</b></div><div class="algo-line" style="padding-left:3.2em">Break</div><div class="algo-line" style="padding-left:1.6em"><b>else</b></div><div class="algo-line" style="padding-left:3.2em">$current \gets Q.dequeue()$</div><div class="algo-line" style="padding-left:3.2em"><span class="algo-cmt">// Take front element</span></div><div class="algo-line" style="padding-left:0.0em"><b>return</b> $best$</div></div>
+<h3 class="note-h3">Machine Design</h3>
+<div class="algo"><div class="algo-cap">Branch-and-Bound for Procurement Optimization Problem (using priority queue)</div><div class="algo-line" style="padding-left:0.0em"><b>Input:</b> $n$ products, $m$ suppliers, $c[i][j]$: price of product $i$ from supplier $j$, $w[i][j]$: weight of product $i$ from supplier $j$, maximum allowed total weight $W_{\max}$, minimum allowed total weight $W_{\min}$</div><div class="algo-line" style="padding-left:0.0em"><b>Output:</b> Procurement plan with total weight in $[W_{\min}, W_{\max}]$ and minimum total price</div><div class="algo-line" style="padding-left:0.0em">Node: level, parent, supplier, cost, weight, priority (lower bound estimate) $bestw \gets \infty$,$leaf \gets null$ Create min-heap $heap$ (sorted by priority in ascending order)</div><div class="algo-line" style="padding-left:0.0em">$heap.push(root)$</div><div class="algo-line" style="padding-left:0.0em"><b>while</b> $heap$ is not empty <b>do</b></div><div class="algo-line" style="padding-left:1.6em">$pNode \gets heap.pop()$ <span class="algo-cmt">// Take node with highest priority (top of min-heap)</span></div><div class="algo-line" style="padding-left:1.6em"><b>if</b> $pNode.level == n$ <b>then</b></div><div class="algo-line" style="padding-left:3.2em"><b>if</b> $pNode.weight \geq W_{\min}$ <b>and</b> $pNode.weight \leq W_{\max}$ <b>then</b></div><div class="algo-line" style="padding-left:4.8em"><b>if</b> $pNode.cost < bestw$ <b>then</b></div><div class="algo-line" style="padding-left:6.4em">$bestw \gets pNode.cost$;$leaf \gets pNode$ <span class="algo-cmt">// Record optimal solution leaf node</span></div><div class="algo-line" style="padding-left:3.2em">Continue</div><div class="algo-line" style="padding-left:1.6em"><b>for</b> $i \gets 1$ <b>to</b> $m$ <b>do</b></div><div class="algo-line" style="padding-left:3.2em">$new\_weight \gets pNode.weight + w[pNode.level + 1][i]$</div><div class="algo-line" style="padding-left:3.2em"><b>if</b> $new\_weight > W_{\max}$ <b>then</b></div><div class="algo-line" style="padding-left:4.8em">Continue</div><div class="algo-line" style="padding-left:3.2em">$new\_cost \gets pNode.cost + c[pNode.level + 1][i]$</div><div class="algo-line" style="padding-left:3.2em">$lower\_bound \gets new\_cost + \text{sum of minimum prices for remaining products}()$</div><div class="algo-line" style="padding-left:3.2em"><b>if</b> $lower\_bound < bestw$ <b>then</b></div><div class="algo-line" style="padding-left:4.8em">$newNode.level \gets pNode.level + 1$; $newNode.parent \gets pNode$</div><div class="algo-line" style="padding-left:4.8em">$newNode.supplier \gets i$; $newNode.cost \gets new\_cost$</div><div class="algo-line" style="padding-left:4.8em">$newNode.weight \gets new\_weight$; $newNode.priority \gets lower\_bound$</div><div class="algo-line" style="padding-left:4.8em">$heap.push(newNode)$ <span class="algo-cmt">// New node pushed into heap</span></div><div class="algo-line" style="padding-left:1.6em"><b>if</b> not purchasing the product is allowed <b>then</b></div><div class="algo-line" style="padding-left:3.2em">Create a node for not purchasing the product</div><div class="algo-line" style="padding-left:3.2em">Compute its lower bound estimate</div><div class="algo-line" style="padding-left:3.2em"><b>if</b> lower bound estimate $< bestw$ <b>then</b></div><div class="algo-line" style="padding-left:4.8em">$heap.push(\text{not-purchase node})$</div><div class="algo-line" style="padding-left:0.0em"><b>if</b> $leaf \neq null$ <b>then</b></div><div class="algo-line" style="padding-left:1.6em">Backtrack from $leaf$ node to the root to obtain the procurement plan</div><div class="algo-line" style="padding-left:1.6em"><b>return</b> $bestw$ and procurement plan</div><div class="algo-line" style="padding-left:0.0em"><b>else</b></div><div class="algo-line" style="padding-left:1.6em"><b>return</b> No solution</div></div>
+<h3 class="note-h3">Reduced Matrix and Reduction Constant</h3>
+<div class="algo"><div class="algo-cap">Computing the Reduced Matrix and Reduction Constant</div><div class="algo-line" style="padding-left:0.0em"><b>Input:</b> Distance matrix $D[1..n][1..n]$, $n$ is the number of cities, $D[i][i] = \infty$</div><div class="algo-line" style="padding-left:0.0em"><b>Output:</b> Reduced matrix $R$, reduction constant $lower\_bound$</div><div class="algo-line" style="padding-left:0.0em"><b>Function</b> ReduceMatrix($D$)</div><div class="algo-line" style="padding-left:1.6em">$lower\_bound \gets 0$</div><div class="algo-line" style="padding-left:1.6em">$R \gets D$ <span class="algo-cmt">// Copy matrix $D$</span> <span class="algo-cmt">// Row reduction</span></div><div class="algo-line" style="padding-left:1.6em"><b>for</b> $i \gets 1$ <b>to</b> $n$ <b>do</b></div><div class="algo-line" style="padding-left:3.2em">$min\_val \gets \infty$</div><div class="algo-line" style="padding-left:3.2em"><b>for</b> $j \gets 1$ <b>to</b> $n$ <b>do</b></div><div class="algo-line" style="padding-left:4.8em"><b>if</b> $R[i][j] < min\_val$ <b>then</b></div><div class="algo-line" style="padding-left:6.4em">$min\_val \gets R[i][j]$</div><div class="algo-line" style="padding-left:3.2em"><b>if</b> $min\_val > 0$ <b>and</b> $min\_val < \infty$ <b>then</b></div><div class="algo-line" style="padding-left:4.8em"><b>for</b> $j \gets 1$ <b>to</b> $n$ <b>do</b></div><div class="algo-line" style="padding-left:6.4em"><b>if</b> $R[i][j] < \infty$ <b>then</b></div><div class="algo-line" style="padding-left:8.0em">$R[i][j] \gets R[i][j] - min\_val$</div><div class="algo-line" style="padding-left:4.8em">$lower\_bound \gets lower\_bound + min\_val$</div><div class="algo-line" style="padding-left:1.6em"><span class="algo-cmt">// Column reduction</span></div><div class="algo-line" style="padding-left:1.6em"><b>for</b> $j \gets 1$ <b>to</b> $n$ <b>do</b></div><div class="algo-line" style="padding-left:3.2em">$min\_val \gets \infty$</div><div class="algo-line" style="padding-left:3.2em"><b>for</b> $i \gets 1$ <b>to</b> $n$ <b>do</b></div><div class="algo-line" style="padding-left:4.8em"><b>if</b> $R[i][j] < min\_val$ <b>then</b></div><div class="algo-line" style="padding-left:6.4em">$min\_val \gets R[i][j]$</div><div class="algo-line" style="padding-left:3.2em"><b>if</b> $min\_val > 0$ <b>and</b> $min\_val < \infty$ <b>then</b></div><div class="algo-line" style="padding-left:4.8em"><b>for</b> $i \gets 1$ <b>to</b> $n$ <b>do</b></div><div class="algo-line" style="padding-left:6.4em"><b>if</b> $R[i][j] < \infty$ <b>then</b></div><div class="algo-line" style="padding-left:8.0em">$R[i][j] \gets R[i][j] - min\_val$</div><div class="algo-line" style="padding-left:4.8em">$lower\_bound \gets lower\_bound + min\_val$</div><div class="algo-line" style="padding-left:1.6em"><b>return</b> $(R, lower\_bound)$</div></div>
+<h3 class="note-h3">A* Algorithm and n-Puzzle Problem</h3>
+<div class="algo"><div class="algo-cap">A* Algorithm for n-Puzzle Problem</div><div class="algo-line" style="padding-left:0.0em"><b>Function</b> AStar(start, goal)</div><div class="algo-line" style="padding-left:1.6em"><b>Input:</b> Start state start, goal state goal</div><div class="algo-line" style="padding-left:1.6em"><b>Output:</b> Shortest path from start to goal, or failure</div><div class="algo-line" style="padding-left:1.6em">Initialize priority queue openSet</div><div class="algo-line" style="padding-left:1.6em">Initialize dictionaries gScore, fScore, cameFrom</div><div class="algo-line" style="padding-left:1.6em">gScore[start] $\gets$ 0</div><div class="algo-line" style="padding-left:1.6em">fScore[start] $\gets$ Heuristic(start, goal)</div><div class="algo-line" style="padding-left:1.6em">openSet.insert(start, fScore[start])</div><div class="algo-line" style="padding-left:1.6em"><b>while</b> openSet is not empty <b>do</b></div><div class="algo-line" style="padding-left:3.2em">current $\gets$ openSet.popMin()</div><div class="algo-line" style="padding-left:3.2em"><span class="algo-cmt">// Take node with smallest fScore</span></div><div class="algo-line" style="padding-left:3.2em"><b>if</b> current = goal <b>then</b></div><div class="algo-line" style="padding-left:4.8em"><b>return</b> ReconstructPath(cameFrom, current)</div><div class="algo-line" style="padding-left:3.2em"><b>for</b> neighbor $\in$ GetNeighbors(current) <b>do</b></div><div class="algo-line" style="padding-left:4.8em">tentative_g $\gets$ gScore[current] + 1</div><div class="algo-line" style="padding-left:4.8em"><span class="algo-cmt">// Each move has cost 1</span></div><div class="algo-line" style="padding-left:4.8em"><b>if</b> tentative\_g $<$ gScore[neighbor] <b>then</b></div><div class="algo-line" style="padding-left:6.4em">cameFrom[neighbor] $\gets$ current</div><div class="algo-line" style="padding-left:6.4em">gScore[neighbor] $\gets$ tentative_g</div><div class="algo-line" style="padding-left:6.4em">fScore[neighbor] $\gets$ gScore[neighbor] + Heuristic(neighbor, goal)</div><div class="algo-line" style="padding-left:6.4em"><b>if</b> neighbor is not in openSet <b>then</b></div><div class="algo-line" style="padding-left:8.0em">openSet.insert(neighbor, fScore[neighbor])</div><div class="algo-line" style="padding-left:6.4em"><b>else</b></div><div class="algo-line" style="padding-left:8.0em">openSet.updatePriority(neighbor, fScore[neighbor])</div><div class="algo-line" style="padding-left:1.6em"><b>return</b> failure</div><div class="algo-line" style="padding-left:1.6em"><span class="algo-cmt">// No solution</span></div></div>
+<div class="algo"><div class="algo-cap">Helper Functions</div><div class="algo-line" style="padding-left:0.0em"><b>Function</b> ReconstructPath($cameFrom$, $current$)</div><div class="algo-line" style="padding-left:1.6em">$path \gets [current]$</div><div class="algo-line" style="padding-left:1.6em"><b>while</b> $current$ is in $cameFrom$ <b>do</b></div><div class="algo-line" style="padding-left:3.2em">$current \gets cameFrom[current]$</div><div class="algo-line" style="padding-left:3.2em">$path.\text{append}(current)$</div><div class="algo-line" style="padding-left:1.6em"><b>return</b> $path.\text{reverse}()$</div><div class="algo-line" style="padding-left:0.0em"><b>Function</b> GetNeighbors($state$)</div><div class="algo-line" style="padding-left:1.6em"><b>Input:</b> Current state $state$ (k×k matrix)</div><div class="algo-line" style="padding-left:1.6em"><b>Output:</b> List of all valid move states</div><div class="algo-line" style="padding-left:1.6em">Find blank position $(r_0, c_0)$</div><div class="algo-line" style="padding-left:1.6em">$neighbors \gets [\ ]$</div><div class="algo-line" style="padding-left:1.6em"><b>for</b> $(dr, dc) \in \{(1,0),(-1,0),(0,1),(0,-1)\}$ <b>do</b></div><div class="algo-line" style="padding-left:3.2em">$nr \gets r_0 + dr$; $nc \gets c_0 + dc$</div><div class="algo-line" style="padding-left:3.2em"><b>if</b> $1 \leq nr \leq k$ <b>and</b> $1 \leq nc \leq k$ <b>then</b></div><div class="algo-line" style="padding-left:4.8em">Create new state $newState \gets \text{copy}(state)$</div><div class="algo-line" style="padding-left:4.8em">Swap $newState[r_0][c_0]$ and $newState[nr][nc]$</div><div class="algo-line" style="padding-left:4.8em">$neighbors.\text{append}(newState)$</div><div class="algo-line" style="padding-left:1.6em"><b>return</b> $neighbors$</div></div>
+<p class="tbl-cap">Time Complexity Comparison of Five Classic Algorithm Design Paradigms</p>
+<div class="table-wrap"><table class="note-table"><tr><th>|c|p{4.5cm}|}
+			
+			<strong>Algorithm Paradigm</strong></th><th><strong>Typical Time Complexity</strong></th><th><strong>Worst Case</strong></th><th><strong>Characteristics</strong></th></tr><tr><td>Divide \</td><td>Conquer</td><td>$O(n \log n)$</td><td>$O(n \log n)$</td><td>Recursive decomposition,<br> Master Theorem analysis</td></tr><tr><td>Dynamic Programming</td><td>$O(n^2)$, $O(n^3)$</td><td>Polynomial</td><td>Table storage,<br> avoids redundant computation</td></tr><tr><td>Greedy Algorithm</td><td>$O(n \log n)$</td><td>$O(n \log n)$</td><td>Locally optimal choices,<br> often requires correctness proof</td></tr><tr><td>Backtracking</td><td>$O(2^n)$, $O(n!)$</td><td>Exponential</td><td>Depth-first search,<br> can be pruned</td></tr><tr><td>Branch \</td><td>Bound</td><td>Exponential but better <br> than backtracking</td><td>Exponential</td><td>Priority queue expansion,<br> bounding for pruning</td></tr></table></div>
+  </main>
+</div>
+</body>
+</html>

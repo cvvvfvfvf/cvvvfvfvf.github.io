@@ -109,9 +109,47 @@ author_profile: true
         border-bottom: none;
     }
 
+    /* Notes: 卡片可点击跳转 */
+    .notes-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .note-link-card {
+        display: flex;
+        flex-direction: column;
+        background: #ffffff;
+        padding: 1.5rem;
+        border-radius: 12px;
+        border: 1px solid #e2e8f0;
+        text-decoration: none !important;
+        color: inherit;
+        transition: all 0.3s ease;
+    }
+
+    .note-link-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(13, 148, 136, 0.12);
+        border-color: #0d9488;
+        text-decoration: none !important;
+    }
+
+    .note-link-card h3 {
+        margin-top: 0;
+        color: #0d9488;
+        font-size: 1.25rem;
+    }
+
+    .note-cta {
+        margin-top: 1rem;
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #0d9488;
+    }
+
     /* 手机适配 */
     @media (max-width: 768px) {
-        .interests-grid {
+        .interests-grid,
+        .notes-grid {
             grid-template-columns: 1fr;
         }
     }
@@ -228,6 +266,31 @@ author_profile: true
         <em>School of Mathematics, Tianjin University (TJU), Tianjin, China</em><br>
         <em>Aug. 2023 – Jul. 2027 (Expected)</em><br>
     </p>
+</section>
+
+<hr>
+
+<section class="page-section">
+    <h2 class="section-title" id="notes">Notes</h2>
+    <p>Selected course review notes I wrote up. Click a card to open the full notes (with formulas, pseudocode, and tables).</p>
+    <div class="interests-grid notes-grid">
+        <a class="note-link-card" href="notes/data-science.html">
+            <h3>Data Science</h3>
+            <div class="interest-summary">
+                Introduction to Data Science · Fall 2025<br>
+                Distances, regression, SVM, clustering, dimensionality reduction, and more.
+            </div>
+            <span class="note-cta">Open notes &rarr;</span>
+        </a>
+        <a class="note-link-card" href="notes/algorithm.html">
+            <h3>Algorithm Design &amp; Analysis</h3>
+            <div class="interest-summary">
+                Algorithm Design and Analysis · Fall 2025<br>
+                Divide &amp; conquer, greedy, dynamic programming, backtracking, branch &amp; bound.
+            </div>
+            <span class="note-cta">Open notes &rarr;</span>
+        </a>
+    </div>
 </section>
 
 <hr>

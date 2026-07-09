@@ -1,0 +1,2267 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Data Science Review Notes — Jingyi Li</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']], processEscapes: true },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+<style>
+:root{--teal:#0d9488;--teal2:#0f766e;--ink:#334155;--muted:#64748b;--bg:#f8fafc;--border:#e2e8f0;}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--ink);line-height:1.75;
+ font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;}
+a{color:var(--teal2);text-decoration:none;} a:hover{text-decoration:underline;}
+.topbar{position:sticky;top:0;z-index:50;background:rgba(248,250,252,.85);
+ backdrop-filter:saturate(180%) blur(12px);border-bottom:1px solid var(--border);}
+.topbar .inner{max-width:1100px;margin:0 auto;padding:.8em 1.2em;display:flex;justify-content:space-between;align-items:center;}
+.topbar a.home{font-weight:600;color:var(--teal);}
+.wrap{max-width:1100px;margin:0 auto;padding:2em 1.2em 4em;display:grid;grid-template-columns:250px 1fr;gap:2.5em;}
+.toc{position:sticky;top:70px;align-self:start;max-height:calc(100vh - 90px);overflow:auto;
+ font-size:.86rem;border-right:1px solid var(--border);padding-right:1em;}
+.toc h4{margin:0 0 .6em;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-size:.72rem;}
+.toc ul{list-style:none;margin:0;padding:0;}
+.toc li{margin:.15em 0;}
+.toc a{color:var(--ink);display:block;padding:.2em 0;border-left:2px solid transparent;padding-left:.6em;}
+.toc a:hover{color:var(--teal);border-left-color:var(--teal);text-decoration:none;}
+.content{min-width:0;}
+.page-head h1{color:var(--teal);margin:0 0 .1em;font-size:1.9rem;}
+.page-head p{color:var(--muted);margin:0 0 1.5em;}
+.note-h2{color:var(--teal);border-bottom:2px solid var(--border);padding-bottom:.3em;margin-top:2em;scroll-margin-top:70px;}
+.note-h3{color:var(--teal2);margin-top:1.5em;}
+.note-h4{color:var(--ink);margin-top:1.2em;font-size:1rem;}
+.content ul,.content ol{padding-left:1.4em;}
+.content li{margin:.3em 0;}
+code{background:#eef2f5;padding:.1em .35em;border-radius:4px;font-size:.9em;}
+pre.code{background:#0f172a;color:#e2e8f0;padding:1em 1.2em;border-radius:10px;overflow:auto;font-size:.85rem;line-height:1.5;}
+pre.code code{background:none;padding:0;color:inherit;}
+.algo{background:#fff;border:1px solid var(--border);border-left:4px solid var(--teal);
+ border-radius:8px;padding:1em 1.2em;margin:1.2em 0;font-family:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;font-size:.9rem;line-height:1.7;overflow:auto;}
+.algo-cap{font-family:inherit;font-weight:700;color:var(--teal2);margin-bottom:.5em;
+ font-family:-apple-system,Segoe UI,Roboto,sans-serif;}
+.algo-line{white-space:pre-wrap;}
+.algo-cmt{color:var(--muted);font-style:italic;}
+.tbl-cap{font-size:.9rem;color:var(--muted);font-style:italic;margin:.6em 0 .2em;}
+.table-wrap{overflow-x:auto;margin:1.2em 0;}
+table.note-table{border-collapse:collapse;width:auto;min-width:40%;background:#fff;}
+table.note-table th,table.note-table td{border:1px solid var(--border);padding:.45em .8em;text-align:center;}
+table.note-table th{background:#ecfdf5;color:var(--teal2);}
+@media (max-width:800px){
+ .wrap{grid-template-columns:1fr;}
+ .toc{position:static;max-height:none;border-right:none;border-bottom:1px solid var(--border);padding-right:0;padding-bottom:1em;margin-bottom:1em;}
+}
+</style>
+</head>
+<body>
+<div class="topbar"><div class="inner">
+  <a class="home" href="../index.html">&larr; Jingyi Li · Home</a>
+  <span style="color:var(--muted);font-size:.85rem;">Course Notes</span>
+</div></div>
+<div class="wrap">
+  <nav class="toc"><h4>Contents</h4><ul><li><a href="#data-requirements-and-data-science">Data Requirements and Data Science</a></li><li><a href="#regression-models">Regression Models</a></li><li><a href="#k-nearest-neighbors-non-parametric-statistical-method-for-classification-and-regression">K-Nearest Neighbors (Non-parametric statistical method for classification and regression)</a></li><li><a href="#support-vector-machine-optimization-algorithm-solving-convex-quadratic-programming">Support Vector Machine (Optimization algorithm solving convex quadratic programming)</a></li><li><a href="#unsupervised-learning">Unsupervised Learning</a></li><li><a href="#clustering-models">Clustering Models</a></li><li><a href="#dimensionality-reduction-methods">Dimensionality Reduction Methods</a></li></ul></nav>
+  <main class="content">
+    <div class="page-head"><h1>Data Science Review Notes</h1><p>Introduction to Data Science · Fall 2025</p></div>
+    <h2 id="data-requirements-and-data-science" class="note-h2">Data Requirements and Data Science</h2>
+<ul>
+<li>
+<p>Data Requirements (4): Timeliness, Validity, Authority, Security</p>
+</li>
+<li>
+<p><strong>Core Characteristics of Big Data</strong> (5V Model): Volume, Variety, Veracity, Value, Velocity</p>
+</li>
+<li>
+<p>Data Science: Addressing human needs for data processing in terms of timeliness, authority, security, and validity, studying how to extract knowledge from data.</p>
+<ol>
+<li>
+<p>Using scientific methods to study data</p>
+</li>
+<li>
+<p>Using data methods to study science</p>
+</li>
+</ol>
+<li>
+<p>Application challenges: Data acquisition, data transmission, basic computation, data cleaning, data annotation, processing model - speed, processing model - usability, data and model security, distributed processing systems</p>
+</li>
+<li>
+<p>Research challenges: Few-shot learning, transfer learning, semi-supervised learning, robust learning, subjective learning, self-supervised learning, dual learning, federated learning, explainable machine learning</p>
+</li>
+</ul>
+<h3 class="note-h3">Data Preprocessing</h3>
+<ul>
+<li>
+<p>Data types: Tabular data, graphs and networks, multimedia data</p>
+</li>
+<li>
+<p>Sample (instance/data point/object/tuple): The composition of samples in a dataset; a data object represents a sample; consists of features (or attributes) and their values</p>
+</li>
+<li>
+<p>Feature (dimension/attribute/field): A data domain characterizing a certain aspect of a sample</p>
+</li>
+</ul>
+<h3 class="note-h3">Distance</h3>
+<ul>
+<li>
+<p>Properties: Non-negativity, identity (reflexivity), symmetry, triangle inequality</p>
+</li>
+<li>
+<p>Numerical distances:</p>
+<ul>
+<li>
+Minkowski distance: For two $d$-dimensional vectors $x = (x_1, x_2, \dots, x_d)$ and $y = (y_1, y_2, \dots, y_d)$:
+\[
+			D_p(x, y) = \left( \sum_{i=1}^d |x_i - y_i|^p \right)^{\frac{1}{p}}, \quad p \ge 1
+			\]
+</li>
+<li>
+Manhattan distance: $p = 1$, Minkowski distance reduces to Manhattan distance:
+\[
+			D_1(x, y) = \sum_{i=1}^d |x_i - y_i|
+			\]
+</li>
+<li>
+Euclidean distance: $p = 2$, Minkowski distance reduces to Euclidean distance:
+\[
+			D_2(x, y) = \sqrt{\sum_{i=1}^d (x_i - y_i)^2}
+			\]
+</li>
+<li>
+Maximum distance: As $p \to \infty$, Minkowski distance reduces to Chebyshev distance:
+\[
+			D_\infty(x, y) = \max_{i=1, \dots, d} |x_i - y_i|
+			\]
+</li>
+<li>
+Cosine similarity Range is $[-1, 1]$, values closer to 1 indicate more similar direction.<br>
+$$
+			\cos\theta = \frac{\sum_{i=1}^{n} A_i B_i}{\sqrt{\sum_{i=1}^{n} A_i^2} \times \sqrt{\sum_{i=1}^{n} B_i^2}}$$
+</li>
+</ul>
+<li>
+<p>Non-numerical distances:</p>
+<ul>
+<li>
+<p>Hamming distance: The number of positions at which the corresponding symbols are different between two equal-length strings</p>
+</li>
+<li>
+<p>Edit distance: The minimum number of single-character insertions/deletions/substitutions required to transform one string into another</p>
+</li>
+<li>
+<p>Jaccard distance = 1 - Jaccard similarity (the ratio of the intersection of two sets to their union)</p>
+</li>
+</ul>
+</ul>
+<h3 class="note-h3">Basic Statistical Information of Data</h3>
+<p>Main content: Measuring the central tendency and dispersion of data, graphical displays for summarizing data, obtaining an overall impression of the data, better understanding (perceiving) the data</p>
+<p>Measurement metrics: Mean, Median, Mode, Min/Max, Quantiles/Percentiles, Variance and Standard deviation</p>
+<p>Causes of missing data: Data acquisition failures, transmission errors, and system integration issues.</p>
+<p>Methods for handling missing data: Deletion, mean imputation, random imputation, model-based imputation</p>
+<h3 class="note-h3">Outlier Detection Methods</h3>
+<ul>
+<li>
+<p>Statistical methods (assuming data has only random errors): values beyond 3 standard deviations are considered outliers</p>
+</li>
+<li>
+<p>Neighborhood-based methods: Global K-nearest neighbors, Local Outlier Factor (LOF) algorithm (larger LOF indicates higher degree of anomaly)</p>
+</li>
+</ul>
+<h3 class="note-h3">Data Transformation: Feature Encoding (Converting non-numerical features to numerical features)</h3>
+<ul>
+<li>
+<p>One-Hot Encoding: Converts a discrete feature with a single value into a binary feature (value 0 or 1)<br> Advantages: Different values have <strong>equal distance</strong>; significantly improves the performance of regression and classification models on <strong>discrete</strong> features<br> Disadvantages: Significantly increases the number of features and adds correlation between features</p>
+</li>
+<li>
+<p>Dummy Encoding: Converts a discrete feature with K values into K-1 binary features (values 0 or 1)<br> Advantages: Solves the linear relationship problem among features in One-Hot encoding, avoiding the impact of feature encoding on models like linear regression</p>
+</li>
+</ul>
+<h3 class="note-h3">Data Standardization</h3>
+<p>Why perform data standardization?</p>
+<ul>
+<li>
+<p>Many machine learning algorithms require input features to be in standardized form</p>
+</li>
+<li>
+<p>If the magnitude differences between features are too large, similarity assessment between samples will be biased</p>
+</li>
+</ul>
+<p>Methods:</p>
+<ul>
+<li>
+Z-Score Standardization (applicable when the <strong>maximum or minimum</strong> of the feature is <strong>unknown</strong> or the sample distribution is very <strong>discrete</strong>)
+\[
+		f_i' = \frac{f_i - \mu}{\sigma}
+		\]
+<p>where $\mu$ is the mean of the feature, $\sigma$ is the standard deviation of the feature.</p>
+</li>
+<li>
+Min-Max Standardization (0-1 standardization applicable when simply transforming data to a specific interval)
+\[
+		f_i' = \frac{f_i - f_{\min}}{f_{\max} - f_{\min}},
+		f_i' = \frac{b-a}{f_{\max} - f_{\min}} \left( f_i - f_{\min} \right) + a
+		\]
+<p>Maps the feature to the interval $[a,b]$: Disadvantages: When new data is added, the <strong>maximum or minimum</strong> of the feature may change, requiring redefinition; performs poorly if the data contains <strong>outliers</strong>.</p>
+</li>
+<li>
+Sigmoid Transformation (Logistic Transformation) --- Non-linear transformation:
+\[
+		f_i' = \frac{1}{1 + e^{-f_i}}
+		\]
+</li>
+</ul>
+<h3 class="note-h3">Feature Discretization</h3>
+<p>Why?</p>
+<ol>
+<li>
+<p>Specific algorithm requirements: e.g., association rule mining algoriComplexity ReductionComplexity Reductionthms, ID3 decision tree algorithm</p>
+</li>
+<li>
+<p>Enhance robustness: Discretization essentially <strong>segments continuous data</strong>, thus outliers are directly placed into corresponding intervals, enhancing robustness to data outliers;</p>
+</li>
+<li>
+<p>Improve interpretability: The values of discretized features are transformed into interval numbers with clear meaning</p>
+</li>
+<li>
+<p>Improve performance: <strong>Significantly reduces the number of feature values</strong>, reducing storage requirements and improving model computational efficiency</p>
+</li>
+</ol>
+<p>Process: Divide the value range of a continuous feature into several bins, then use the bin to replace the feature values falling within that bin.</p>
+<p>The dividing points between intervals are called cutpoints. To create k intervals (cardinality), (k-1) cutpoints are needed.</p>
+<p>Goal: Minimize the cardinality while minimizing information loss.</p>
+<p>Divided into (based on whether <strong>target information of the dataset is referenced</strong>): Unsupervised discretization (Equal-width discretization, Equal-frequency discretization, Cluster-based discretization), Supervised discretization (Information gain discretization, ChiMerge discretization)</p>
+<p>Equal-width discretization:</p>
+<ul>
+<li>
+<p>Evenly divide the feature values into k intervals, each with equal width, then assign feature values to corresponding intervals.</p>
+</li>
+<li>
+<p>Disadvantage: Equal-width discretization has <strong>high requirements for input data quality</strong> and cannot handle the problem of <strong>outliers</strong>.</p>
+</li>
+</ul>
+<p>Equal-frequency discretization:</p>
+<ul>
+<li>
+<p>Does not require interval widths to be consistent, ensuring that the <strong>sample size</strong> within each discretized interval is balanced.</p>
+</li>
+<li>
+<p>Based on the <strong>total number</strong> of continuous features, evenly divides them into k intervals, each interval containing the same number of samples, then the value range of each portion is the corresponding discretization interval.</p>
+</li>
+<li>
+<p>Disadvantage: Sometimes <strong>same or similar samples may be divided into different intervals</strong>, potentially causing adjacent intervals to have similar data characteristics.</p>
+</li>
+</ul>
+<p>Cluster-based discretization:</p>
+<ul>
+<li>
+<p>For the continuous feature to be discretized, use a clustering algorithm (e.g., K-means, EM algorithm) to partition the samples into clusters or classes based on the distribution of that feature;</p>
+</li>
+<li>
+<p>After finalizing the clusters, determine the cutpoints and the number of intervals.</p>
+</li>
+</ul>
+<h2 id="regression-models" class="note-h2">Regression Models</h2>
+<h3 class="note-h3">Simple Linear Regression</h3>
+<p>In a regression model, the variable to be predicted is called the dependent variable (target variable), and the variables we choose to explain changes in the dependent variable are called independent variables (feature variables)</p>
+<p>Simple linear regression model</p>
+<p>Assumption: \( y = b + w_1 x + \varepsilon \), where \( b, w_1 \) are regression coefficients, \(\varepsilon\) is the random error term (noise), \(\varepsilon \sim N(0, \sigma^2)\), then the random variable \( y \sim N(b + w_1 x, \sigma^2) \).</p>
+<p>Given sample set \( D = \{(x_1, y_1), ..., (x_n, y_n)\} \), the goal is to find a line \( y = b + w_1 x \) such that all sample points lie as close to it as possible.</p>
+\[
+	(\hat{b}, \hat{w}_1) = \arg \min_{(\hat{b}, \hat{w}_1)} \sum_{i=1}^n (y_i - b - w_1 x_i)^2
+	\]
+<h3 class="note-h3">Multiple Linear Regression Model (D features)</h3>
+\[
+	\hat{y} = f(x) = \sum_{i=1}^{D} w_i x_i + b = w^T x + b
+	\]
+<p><strong>Loss function</strong>: Prediction error for a single sample</p>
+\[
+	\mathcal{L}(w, b) = \frac{1}{2}(\hat{y} - y)^2 = \frac{1}{2}(w^T x + b - y)^2
+	\]
+<p>Note: The factor \(\frac{1}{2}\) is only for computational convenience (cancels out the 2 during differentiation).</p>
+<p><strong>Cost function</strong>: Average of loss function over all training samples</p>
+\[
+	\mathcal{J}(w, b) = \frac{1}{2N} \sum_{i=1}^{N} (\hat{y}^{(i)} - y^{(i)})^2 = \frac{1}{2N} \sum_{i=1}^{N} (w^T x^{(i)} + b - y^{(i)})^2
+	\]
+<p>Gradient</p>
+\[
+	\nabla J(w, b) = 
+	\begin{bmatrix}
+		\frac{\partial J}{\partial w} \\
+		\frac{\partial J}{\partial b}
+	\end{bmatrix}
+	=
+	\begin{bmatrix}
+		\frac{\partial J}{\partial w_1} & \frac{\partial J}{\partial w_2} & \cdots & \frac{\partial J}{\partial w_D} & \frac{\partial J}{\partial b}
+	\end{bmatrix}^T
+	\]
+\[
+	w = w - \alpha \frac{\partial J}{\partial w},
+	b = b - \alpha \frac{\partial J}{\partial b}
+	\]
+<h4 class="note-h4">Gradient Descent</h4>
+\[
+	\frac{\partial \mathcal{J}}{\partial w_j} = \frac{1}{N} \sum_{i=1}^{N} (w^T x^{(i)} + b - y^{(i)}) \cdot x_j^{(i)}
+	\]
+\[
+	\frac{\partial \mathcal{J}}{\partial b} = \frac{1}{N} \sum_{i=1}^{N} (w^T x^{(i)} + b - y^{(i)}) \cdot 1
+	\]
+\[
+	\begin{bmatrix} w \\ b \end{bmatrix} - \alpha \begin{bmatrix} \frac{\partial \mathcal{J}}{\partial w} \\ \frac{\partial \mathcal{J}}{\partial b} \end{bmatrix} = \begin{bmatrix} w - \alpha \frac{\partial \mathcal{J}}{\partial w} \\ b - \alpha \frac{\partial \mathcal{J}}{\partial b} \end{bmatrix}
+	\]
+<h3 class="note-h3">Least Squares Solution</h3>
+<p>Parameter vector w: Contains all weights \( w_1, \ldots, w_D \) and the bias term \( w_0 \). $w = (w_1, w_2, \ldots, w_D, w_0)^T$</p>
+<p>Feature matrix X: Feature matrix of \( N \) samples, with one column of all 1's (for bias \( w_0 \))</p>
+<p>Model prediction: $\hat{y} = Xw$</p>
+<p>Objective: Find the optimal parameters w that minimize the Residual Sum of Squares (RSS)</p>
+<p>Residual Sum of Squares (RSS) formula: Sum of squared errors between predicted values and true values y.</p>
+\[
+	RSS(w) = \|y - Xw\|_2^2
+	\]
+<p>Solution:</p>
+\[
+	\frac{\partial RSS}{\partial w} = -2X^T(y - Xw)=0
+	\]
+\[
+	\hat{w} = (X^T X)^{-1} X^T y
+	\]
+<ul>
+<li>
+<p>\( X^T X \) is called the <strong>Auto-correlation Matrix</strong> (after centering, it becomes the covariance matrix), denoted as \( R_x \in \mathbb{R}^{(D+1)\times (D+1)} \)</p>
+</li>
+<li>
+<p>\( X^T y \in \mathbb{R}^{D+1} \) is called the <strong>Cross-correlation Vector</strong></p>
+</li>
+</ul>
+<h4 class="note-h4">Limitations:</h4>
+<ul>
+<li>
+<p>Insufficient samples: When the number of parameters exceeds the number of samples, the matrix \(X^TX\) is necessarily rank-deficient and has no inverse.</p>
+</li>
+<li>
+<p>Multicollinearity: Even with sufficient samples, if strong collinearity exists among variables, \(X^TX\) becomes nearly singular, causing the diagonal entries of \((X^TX)^{-1}\) to be very large, increasing the variance of parameter estimates w and making them inaccurate.</p>
+</li>
+</ul>
+<p>Solutions: Regularization, Principal Component Regression, Partial Least Squares Regression</p>
+<h4 class="note-h4">Advantages of Gradient Descent</h4>
+<ul>
+<li>
+<p>GD is applicable to a wider range of models, especially <strong>nonlinear</strong> models.</p>
+</li>
+<li>
+<p>Compared to direct solution methods (e.g., matrix inversion), GD is easier to implement.</p>
+</li>
+<li>
+<p>For regression problems with <strong>high-dimensional</strong> features, GD is more efficient than LSM:</p>
+<ul>
+<li>
+<p>The matrix \( X X^T \) may not be invertible.</p>
+</li>
+<li>
+<p>Matrix inversion has computational complexity \( O(D^3) \) (where D is feature dimension).</p>
+</li>
+<li>
+<p>Each GD update has computational cost \( O(ND) \) (where N is number of samples, D is feature dimension).</p>
+</li>
+</ul>
+</ul>
+<h4 class="note-h4">Model Diagnostic Metrics for Linear Regression</h4>
+\[
+	SS_{\text{tot}} = \sum_{i=1}^{n}(y_i - \bar{y})^2 \quad \text{Total sum of squares}
+	\]
+\[
+	SS_{\text{res}} = \sum_{i=1}^{n}(y_i - \hat{y_i})^2 \quad \text{Residual sum of squares}
+	\]
+\[
+	R^2(y, \hat{y}) = 1 - \frac{SS_{\text{res}}}{SS_{\text{tot}}}
+	\]
+<p>$R^2 \approx 1$ indicates high model fit, $R^2 \approx 0$ indicates poor model fit.</p>
+<h3 class="note-h3">Regularization in Linear Regression</h3>
+<p>Overfitting problem: Linear regression may overfit when the model has too many variables/features (ideal case: D+1 $<$ N)</p>
+<p>Regularization: Simplifies the model by limiting the magnitude of the weight vector w.</p>
+<ul>
+<li>
+<p>Weight sparsity: Keeps few non-zero entries in w (simplifies structure), e.g., L1 regularization</p>
+</li>
+<li>
+<p>Weight decay: Keeps the weight values in w small (increases smoothness), e.g., L2 regularization</p>
+</li>
+<li>
+Hyperparameter \(\lambda\): Balances "fitting error" (empirical risk) and "model complexity" (regularization term); larger \(\lambda\) leads to simpler model.
+\[
+		\sum_{i=1}^{n} (y_i - w^T x_i)^2 + \lambda \|w\|^q
+		\]
+<ul>
+<li>
+<p>\( q = 1 \) : LASSO</p>
+</li>
+<li>
+<p>\( q = 2 \) : Ridge Regression</p>
+</li>
+</ul>
+</ul>
+<h4 class="note-h4">Ridge Regression</h4>
+<p>Objective function:</p>
+\[
+	\min_w \left\{ \sum_{i=1}^{n} (y_i - w^T x_i)^2 + \lambda \|w\|_2^2 \right\}
+	\]
+<p>Differentiating w.r.t w and setting gradient to zero yields:</p>
+\[
+	\hat{w}^{\text{ridge}} = (X^T X + \lambda I)^{-1} X^T y
+	\]
+<h4 class="note-h4">LASSO Regression</h4>
+<p>Objective function:</p>
+\[
+	\sum_{i=1}^{n} (y_i - w^T x_i)^2 + \lambda \|w\|_1
+	\]
+<p>The solution \(\hat{w}^{\text{LASSO}}\) has no closed-form expression. Common solution algorithms include coordinate descent, LARS algorithm, and ISTA algorithm.</p>
+<p>ISTA algorithm: Objective function:</p>
+\[
+	F(w) = L(w) + R(w)
+	\]
+<p>Where: \( L(w) \) is a differentiable smooth term (e.g., loss function), \( R(w) \) is a non-differentiable regularization term (e.g., L1 regularization)</p>
+<p>Perform gradient descent only on the smooth term \( L(w) \), obtaining an intermediate result:</p>
+\[
+	v = w^{(k)} - \eta \nabla L(w^{(k)})
+	\]
+<p>Apply the proximal operator to the non-differentiable term \( R(w) \). For a convex function \( R(w) \) and step size \(\eta > 0\),</p>
+\[
+	w^{(k+1)} = \text{prox}_{\eta R}(v)
+	\]
+<p>Here</p>
+\[
+	\text{prox}_{\eta R}(v) = \arg \min_w \left( R(w) + \frac{1}{2\eta} \|w - v\|_2^2 \right)
+	\]
+<p>When \( R(w) = \lambda \|w\|_1 \), the analytic solution of \( \text{prox}_{\eta R}(v) \) is the soft-thresholding operator \( S_\tau(v) \):</p>
+\[
+	w^{(k+1)} = \text{prox}_{\eta (\lambda \|w\|_1)}(v) = S_{\eta \lambda}(v)
+	\]
+<p>Soft-thresholding operator: Processes each component of vector \( v \) independently, with threshold \(\tau = \eta \lambda\).</p>
+\[
+	S_\tau (v_i) = 
+	\begin{cases} 
+		v_i - \tau & \text{if } v_i > \tau \\ 
+		v_i + \tau & \text{if } v_i < -\tau \\ 
+		0 & \text{if } |v_i| \leq \tau 
+	\end{cases}
+	\]
+<p>Principle of sparsity:</p>
+<ul>
+<li>
+<p>Any component whose absolute value is less than the threshold is set to 0.</p>
+</li>
+<li>
+<p>Any component whose absolute value exceeds the threshold is shrunk towards 0 by \(\tau\).</p>
+</li>
+</ul>
+<h3 class="note-h3">Optimization Perspective</h3>
+<ul>
+<li>
+Constrained optimization problem (prior assumption)
+Assume \( \|w\|_p \leq C \) for parameter vector \( w \), leading to the constrained optimization problem:
+\[
+		\min_{w} \|y - Xw\|_2^2, \quad \text{s.t.} \quad \|w\|_2 \leq C \quad (\text{Ridge Regression})
+		\]
+\[
+		\min_{w} \|y - Xw\|_2^2, \quad \text{s.t.} \quad \|w\|_1 \leq C' \quad (\text{LASSO Regression})
+		\]
+</li>
+<li>
+Lagrange multiplier method (unconstrained optimization)
+\[
+		\min_{w} \|y - Xw\|_2^2 + \lambda \|w\|_2^2 \quad (\text{Ridge Regression})
+		\]
+\[
+		\min_{w} \frac{1}{2} \|y - Xw\|_2^2 + \lambda \|w\|_1 \quad (\text{LASSO Regression})
+		\]
+<p>Where the regularization coefficient \(\lambda > 0\) is a constant dependent on the constraint \(C\).</p>
+</li>
+</ul>
+<h4 class="note-h4">Limitations of Lasso</h4>
+<ul>
+<li>
+<p>When features have linear correlation, Lasso tends to select only one of them, and the choice can be arbitrary. In practice, sometimes we prefer to select the entire group of features.</p>
+</li>
+<li>
+<p>When samples are insufficient (feature count \(D > N\)), Lasso selects at most \(N\) features (non-zero coefficients), unable to handle high-dimensional data requiring more features.</p>
+</li>
+</ul>
+<h4 class="note-h4">Improvements to Lasso</h4>
+<p>I: Elastic Net</p>
+\[
+	\min_{w} \frac{1}{2} \|y - Xw\|_2^2 + \lambda_1 \|w\|_1 + \lambda_2 \|w\|_2^2
+	\]
+<p>Effect: Allows highly correlated features to have similar non-zero coefficients (for negatively correlated features, coefficient signs may differ).</p>
+<p>II: Group Lasso</p>
+\[
+	\min_{w} \left\{ \frac{1}{2} \|y - Xw\|_2^2 + \lambda \sum_{j=1}^G \lambda_j \|w_j\|_2 \right\}
+	\]
+<p>The total coefficient vector \( w \) is partitioned into G groups, where each \( w_j \) corresponds to coefficients of a feature group.</p>
+\[
+	w = (w_1, w_2, \ldots, w_G)
+	\]
+<p>Suitable when features have natural group structures, e.g., a group of genes from the same biological process. Group Lasso performs group-level feature selection, achieving an effect between L1 and L2 regularization.</p>
+<h3 class="note-h3">Nonlinear Regression</h3>
+<p>Spline curve: A piecewise polynomial curve formed by connecting several control nodes.</p>
+<p>Spline regression: A regression model that fits functions using spline curves.</p>
+<p>Linear spline regression: Fits a curve using multiple line segments, ensuring continuity at the connection points.</p>
+\[
+	f(x) = \underbrace{\beta_0 + \beta_1 x}_{\text{Base linear part}} + \underbrace{\sum_{j=1}^K w_j (x - a_j)_+}_{\text{Spline correction part}}
+	\]
+<p>Truncated function $ (x - a_j)_+ = \max(0, x - a_j)$</p>
+<ul>
+<li>
+<p>Control nodes: $a_1 < a_2 < \cdots < a_K$, dividing the data range into multiple subintervals.</p>
+</li>
+<li>
+<p>Parameter vector: $w = (\beta_0, \beta_1, w_1, w_2, \ldots, w_K)^T$, containing K+2 parameters to estimate.</p>
+</li>
+<li>
+<p>Response vector: $y = (y_1, y_2, \ldots, y_n)^T$, containing observed values of n training samples.</p>
+</li>
+<li>
+Design matrix
+\[
+		G = 
+		\begin{pmatrix}
+			1 & x_1 & (x_1 - a_1)_+ & (x_1 - a_2)_+ & \cdots & (x_1 - a_K)_+ \\
+			1 & x_2 & (x_2 - a_1)_+ & (x_2 - a_2)_+ & \cdots & (x_2 - a_K)_+ \\
+			\vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
+			1 & x_n & (x_n - a_1)_+ & (x_n - a_2)_+ & \cdots & (x_n - a_K)_+
+		\end{pmatrix}
+		\]
+<ul>
+<li>
+<p>Base slope: Before the first knot, the model's slope is \(\beta_1\).</p>
+</li>
+<li>
+<p>Slope change: Whenever \(x\) crosses a knot \(a_j\), the model's slope immediately increases by \(w_j\).</p>
+</li>
+<li>
+<p>Cumulative effect: The final slope is the base slope \(\beta_1\) plus the sum of all activated spline term coefficients \(\sum w_j\).</p>
+</li>
+</ul>
+</ul>
+<h4 class="note-h4">Higher-order Spline Regression</h4>
+<p>Cubic spline curve</p>
+\[
+	y = \beta_0 + \beta_1 x + \beta_2 x^2 + \beta_3 x^3 + \sum_{j=1}^K w_j (x - a_j)_+^3
+	\]
+<ul>
+<li>
+<p>\((x - a_j)_+^3\) is the cubic truncated power basis function, defined as \(\max(0, x - a_j)^3\).</p>
+</li>
+<li>
+<p>Base part: The four terms \(\beta_0\) to \(\beta_3\) form a global cubic polynomial for fitting the data.</p>
+</li>
+<li>
+<p>Spline part: Composed of \(w_j\) and their corresponding cubic truncation terms, responsible for local adjustments to the curve shape after knot \(a_j\).</p>
+</li>
+</ul>
+<h3 class="note-h3">Bias-Variance Decomposition</h3>
+<p>Total error = Bias\(^2\) + Variance + Irreducible error<br> <strong>Essential characteristic of overfitting: High variance, low bias</strong></p>
+<ul>
+<li>
+<p>When training is insufficient, the learner's fitting ability is weak, bias dominates.</p>
+</li>
+<li>
+<p>As training progresses, the learner's fitting ability strengthens, variance gradually dominates.</p>
+</li>
+<li>
+<p>When training is sufficient, the learner's fitting ability is very strong, variance dominates.</p>
+</li>
+</ul>
+<p>Generalization error: Expected prediction error of model \(f\) at test point \(x\), denoted \(E(f; D)\)<br> For regression tasks: \(E(f; D) = \text{bias}^2(x) + \text{var}(x) + \epsilon^2\)</p>
+\[
+	E[f; D] = E_D [(f(x; D) - y_D)^2]
+	\]
+<p>Add and subtract \(\bar{f}(x)\) inside the parentheses:</p>
+\[
+	E[f; D] = E_D [(f(x; D) - \bar{f}(x)) + (\bar{f}(x) - y_D))^2]
+	\]
+\[
+	= E_D [(f(x; D) - \bar{f}(x))^2] + E_D [(\bar{f}(x) - y_D)^2] + 2E_D [(f(x; D) - \bar{f}(x))(\bar{f}(x) - y_D)]
+	\]
+<p>The cross term \( 2E_D [(f(x; D) - \bar{f}(x))(\bar{f}(x) - y_D)] \) is zero because:</p>
+\[
+	E_D [(f(x; D) - \bar{f}(x))(\bar{f}(x) - y_D)] = (\bar{f}(x) - y_D) \cdot E_D [f(x; D) - \bar{f}(x)]
+	\]
+<p>By definition \(\bar{f}(x) = E_D [f(x; D)]\), thus \( E_D [f(x; D) - \bar{f}(x)] = 0 \)<br> Decompose the second term \( E_D \left[ (\bar{f}(x) - y_D)^2 \right] \), introducing the true label \( y \) (add and subtract \( y \)):</p>
+\[
+	E_D \left[ (\bar{f}(x) - y_D)^2 \right] = E_D \left[ ((\bar{f}(x) - y) + (y - y_D))^2 \right]
+	\]
+\[
+	= (\bar{f}(x) - y)^2 + E_D \left[ (y_D - y)^2 \right] + 2E_D \left[ (\bar{f}(x) - y)(y - y_D) \right]
+	\]
+<h3 class="note-h3">Logistic Regression</h3>
+<h4 class="note-h4">Classification Problem (Supervised)</h4>
+<p>Given: Description of a sample \( x \) in sample space \( \mathcal{X} \) A fixed set of categories: \( C = \{ c_1, c_2, \cdots, c_m \} \)</p>
+<p>Find: Category of \( x \): \( f(x) \in C \), where \( f(x) \) is a category function with domain \( \mathcal{X} \) and codomain \( C \).</p>
+<p>Classification process:</p>
+<p>Classifier training: Building a classification model using features and labels of training samples.</p>
+<p>Prediction: Using the classification model to predict labels for unlabeled data.</p>
+<p>Dataset partitioning into training set, validation set, and test set. The training and validation sets are used to train and select the classifier; the test set is used to evaluate classification performance.</p>
+<div class="table-wrap"><table class="note-table"><tr><th>Prediction</th><th>1</th><th>0</th></tr><tr><td>True Label 1</td><td>True Positive</td><td>False Negative</td></tr><tr><td>True Label 0</td><td>False Positive</td><td>True Negative</td></tr></table></div>
+<ul>
+<li>
+<p>True / False</p>
+<ul>
+<li>
+<p>True: Prediction = True Label</p>
+</li>
+<li>
+<p>False: Prediction $\neq$ True Label</p>
+</li>
+</ul>
+<li>
+<p>Positive / Negative</p>
+<ul>
+<li>
+<p>Positive: Prediction y = 1</p>
+</li>
+<li>
+<p>Negative: Prediction y = 0</p>
+</li>
+</ul>
+</ul>
+<ul>
+<li>
+Accuracy: Proportion of correctly classified samples out of the total number of samples.
+\[
+		\text{Acc} = \frac{TP + TN}{TP + TN + FP + FN}
+		\]
+<p>When samples are <strong>imbalanced</strong>, accuracy is not a good metric for model evaluation.</p>
+</li>
+<li>
+Precision: Proportion of correctly predicted positive samples among all samples predicted as positive.
+\[
+		\text{Prec} = \frac{TP}{TP + FP}
+		\]
+</li>
+<li>
+Recall: Proportion of positive samples correctly predicted (recalled).
+\[
+		\text{Rec} = \frac{TP}{TP + FN}
+		\]
+Trade-off between precision and recall
+\[
+		\hat{y} = 
+		\begin{cases} 
+			1, & p_{\theta}(y = 1|x) > h \\ 
+			0, & \text{otherwise}
+		\end{cases}
+		\]
+<ul>
+<li>
+<p>Higher threshold \( h \) leads to higher precision but lower recall. Extreme case: threshold = 0.99.</p>
+</li>
+<li>
+<p>Lower threshold \( h \) leads to lower precision but higher recall. Extreme case: threshold = 0.</p>
+</li>
+</ul>
+<li>
+F1 Score: Harmonic mean of precision and recall.
+\[
+		\text{F1} = \frac{2 \times \text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}}
+		\]
+</li>
+</ul>
+<h4 class="note-h4">ROC Curve (Receiver Operating Characteristic Curve)</h4>
+<ul>
+<li>
+Vertical axis: TPR (True Positive Rate)
+\[
+		\text{TPR} = \frac{TP}{TP + FN} = \frac{TP}{\text{Total actual positives}}
+		\]
+</li>
+<li>
+Horizontal axis: FPR (False Positive Rate)
+\[
+		\text{FPR} = \frac{FP}{FP + TN} = \frac{FP}{\text{Total actual negatives}}
+		\]
+</li>
+</ul>
+<p><strong>AUC (Area Under the ROC Curve): The probability that the model ranks a randomly chosen positive sample higher than a randomly chosen negative sample</strong>. Measures the global ranking quality of the model.</p>
+\[
+	AUC = P(\text{Score}_P > \text{Score}_N)
+	\]
+\[
+	AUC = \frac{1}{M \cdot N} \sum_{i=1}^{M} \sum_{j=1}^{N} I(\text{Score}_{P_i} > \text{Score}_{N_j})
+	\]
+<p>Advantages of ROC / AUC: The model's inherent ability to separate positive and negative examples across all possible classification thresholds. Because the denominators of TPR and FPR only depend on the respective actual class counts, it effectively ignores class distribution bias in the data, providing a fair and objective view of model performance.</p>
+<ul>
+<li>
+<p>Unaffected by class proportion: Allows fair comparison of model performance across datasets with vastly different positive/negative sample ratios.</p>
+</li>
+<li>
+<p>Model-agnostic: Can directly compare any type of classification model.</p>
+</li>
+<li>
+<p>Independent of business context: Enables comparison of models' intrinsic discrimination ability solely based on the curve/AUC across different domains (e.g., medical diagnosis vs. fraud detection).</p>
+</li>
+</ul>
+<h4 class="note-h4">Logistic Regression (Classification)</h4>
+<p>Cross-entropy loss: $H(p,q) = -\sum_x p(x) \log q(x)$ Self-information: $I(x) = -\log_2 P(x)$</p>
+<p>Shannon entropy (Surprise): Entropy \( H(P) \) is the expectation of self-information, measuring the uncertainty of distribution \( P \) itself. (For a discrete distribution with N possible outcomes, entropy is maximized when uniform.)</p>
+\[
+	H(P) = E_P[I(x)] = -\sum_x P(x) \log_2 P(x)
+	\]
+<p>KL Divergence (Relative entropy): Measures the distance between two distributions (always &gt;= 0, zero when equal).</p>
+\[
+	D_{\text{KL}}(p \| q) = \sum_x p(x) \log \frac{p(x)}{q(x)}
+	\]
+\[
+	H(p,q) = H(p) + D_{\text{KL}}(p \| q)
+	\]
+<p>Loss function: $\mathcal{L}(y,x,p_\theta) = -\delta(y = 1) \log p_\theta (y = 1|x) - \delta(y = 0) \log p_\theta (y = 0|x)$</p>
+$$
+	= -y \log p_\theta (y = 1|x) - (1-y) \log (1-p_\theta (y = 1|x))
+	= -y \log \sigma(\theta^T x) - (1-y) \log (1-\sigma(\theta^T x))$$
+$$\frac{\partial \mathcal{L}(y,x,p_\theta)}{\partial \theta} =  (\sigma(\theta^T x) - y)x$$
+\[
+	\theta \leftarrow \theta + \eta(y - \sigma(\theta^T x))x
+	\]
+<p>Parameter estimation (with \(y_i \in \{-1,1\}\)):</p>
+\[
+	p(y_i | x_i) = \sigma(y_i w^T x_i)
+	\]
+\[
+	\text{NLL}(w) = -\sum_{i=1}^n \log \sigma(y_i w^T x_i)
+	\]
+\[
+	\nabla \text{NLL}(w) = -\sum_{i=1}^n (1-\sigma(y_i w^T x_i)) y_i x_i
+	\]
+\[
+	w \leftarrow w - \eta \nabla \text{NLL}(w)
+	\]
+<p>Multi-class cross-entropy loss</p>
+\[
+	\mathcal{L}(y,x,p_\theta) = -\sum_k \delta(y = c_k) \log p_\theta(y = c_k|x)
+	\]
+<p>Softmax: \( m \) denotes the total number of classes: $p_\theta(y = c_j|x) = \frac{e^{\theta_j^T x}}{\sum_{k=1}^m e^{\theta_k^T x}} \quad \text{for } j = 1, \cdots, m$</p>
+\[
+	\frac{\partial \log p_\theta(y = c_j|x)}{\partial \theta_j} = \frac{\partial}{\partial \theta_j} \log \frac{e^{\theta_j^T x}}{\sum_{k=1}^m e^{\theta_k^T x}}
+	\]
+\[
+	= x - \frac{\partial}{\partial \theta_j} \log \sum_{k=1}^m e^{\theta_k^T x}
+	\]
+\[
+	= x - \frac{e^{\theta_j^T x}}{\sum_{k=1}^m e^{\theta_k^T x}} x = \left(1 - p_\theta(y = c_j|x)\right)x
+	\]
+<h2 id="k-nearest-neighbors-non-parametric-statistical-method-for-classification-and-regression" class="note-h2">K-Nearest Neighbors (Non-parametric statistical method for classification and regression)</h2>
+<p>Distance metrics: Euclidean distance (most common); Minkowski distance; Cosine similarity<br> Feature normalization/weighting: Z-Score standardization<br> Choice of K (K should ideally be odd): K = 1 is most common and often effective, but sensitive to "noise".</p>
+<ul>
+<li>
+<p>Small K: Sensitive to "noise", non-smooth decision boundary (may lead to <strong>overfitting</strong>).</p>
+</li>
+<li>
+<p>Large K: Generally produces smoother decision boundaries, can reduce the impact of noisy samples (note: overly smooth decision boundaries may lead to <strong>underfitting</strong>).</p>
+</li>
+</ul>
+<p>Dataset partitioning: K-fold cross-validation</p>
+<ul>
+<li>
+<p>Randomly and evenly partition the original dataset into K subsets of similar size.</p>
+</li>
+<li>
+<p>Each time, use K-1 subsets as the training set and the remaining 1 as the validation set.</p>
+</li>
+<li>
+<p>Repeat K times, each time using a different subset as the validation set.</p>
+</li>
+<li>
+<p>Finally, aggregate the K results to obtain a performance estimate (take the average).</p>
+</li>
+</ul>
+<p>Curse of Dimensionality: As dimensionality increases, the number of samples needed to cover a fixed proportion of the sample space grows rapidly. Curse of dimensionality = Sparsity + Distance breakdown<br></p>
+<h3 class="note-h3">Complexity Reduction with k-d Trees (k denotes dimensionality, distinct from K in KNN)</h3>
+<ol>
+<li>
+<p>Establish the root node.</p>
+</li>
+<li>
+<p>Select the feature with the largest variance as the splitting feature (variance of all data samples in the current node along a particular feature dimension), or for a node at depth j, choose \(x^{(j)}\) as the splitting axis \(l = j \ (\text{mod} \ k) + 1\) (avoiding variance computation).</p>
+</li>
+<li>
+<p>Choose the <strong>median</strong> of that feature as the split point.</p>
+</li>
+<li>
+<p>Pass samples with feature values less than the median to the left subtree, and those greater than the median to the right subtree.</p>
+</li>
+<li>
+<p>Recursively execute steps 2-4 until all data is assigned to nodes in the KD Tree.</p>
+</li>
+</ol>
+<p>KD Tree complexity: Logarithmic time complexity: O(log n); without KD Tree, linear time complexity: O(n)<br> Limitations of KD Trees:</p>
+<ul>
+<li>
+<p>High-dimensional space problem: kd trees are <strong>not suitable for fast nearest neighbor queries in high-dimensional spaces</strong> (k $>$ 20). Consider alternatives like Ball-Trees.</p>
+</li>
+<li>
+<p>Inefficient for dynamic data updates: kd trees are not suitable for data streams or frequently updated databases.</p>
+</li>
+</ul>
+<h3 class="note-h3">Decision Trees (Supervised Learning)</h3>
+<p>There are two types of nodes: internal nodes and leaf nodes. Internal nodes represent a feature or attribute, leaf nodes represent a class.</p>
+<h4 class="note-h4">ID3</h4>
+<p>Goal: A decision tree with low prediction error on the training set while having good generalization ability.</p>
+<p>Loss function: Theoretically, it is a regularized maximum likelihood function. However, finding the globally optimal decision tree based on a loss function is an NP problem. In practice, decision tree learning uses heuristic methods (greedy), i.e., local optimum.</p>
+<h4 class="note-h4">Feature Selection (Features with classification ability for the training data)</h4>
+<p>Information Gain / Mutual Information: The difference between the empirical entropy H(D) of dataset D and the empirical conditional entropy H(D|A) of D given feature A, \(g(D,A)=H(D)-H(D|A)\)<br> Conditional entropy $H(X|Y)$: Measures the remaining uncertainty in random variable X after receiving information from random variable Y.</p>
+\[
+	H(X|Y)=\sum_{v\in \text{values}(Y)}P(Y=v)H(X|Y=v)
+	\]
+\[
+	I(X,Y)=H(X)-H(X|Y)=H(Y)-H(Y|X)=H(X)+H(Y)-H(X,Y)
+	\]
+<ul>
+<li>
+<p>If X and Y are completely independent: Knowing Y provides no information about X, so \(H(X|Y)=H(X)\), then \(I(X;Y)=H(X)-H(X)=0\). Mutual information being zero proves independence.</p>
+</li>
+<li>
+<p>If X and Y are perfectly correlated: Knowing Y completely determines X, so \(H(X|Y)=0\), then \(I(X;Y)=H(X)\). Mutual information equals the total uncertainty of X.</p>
+</li>
+</ul>
+<p>Proof:</p>
+\[
+	I(X,Y)=H(X)-H(X|Y)
+	\]
+\[
+	=-\sum_{v}P(X=v)\log P(X=v)+\sum_{u}P(Y=u)\sum_{v}P(X=v|Y=u)\log P(X=v|Y=u)
+	\]
+\[
+	=-\sum_{v}P(X=v)\log P(X=v)+\sum_{u}\sum_{v}P(X=v,Y=u)\log P(X=v|Y=u)
+	\]
+\[
+	=-\sum_{v}P(X=v)\log P(X=v)+\sum_{u}\sum_{v}P(X=v,Y=u)[\log P(X=v,Y=u)-\log P(Y=u)]
+	\]
+\[
+	=-\sum_{v}P(X=v)\log P(X=v)-\sum_{u}P(Y=u)\log P(Y=u)+\sum_{u,v}P(X=v,Y=u)\log P(X=v,Y=u)
+	\]
+\[
+	=H(X)+H(Y)-H(X,Y)
+	\]
+<h4 class="note-h4">Computation</h4>
+<p>Let the training dataset be D, \(|D|\) denotes its sample size (number of samples). Suppose there are K classes \(C_k\), \(k=1,2,...,K\). \(|C_k|\) is the number of samples belonging to class \(C_k\), \(\sum_{k=1}^{K}|C_k|=|D|\).</p>
+<p>Suppose feature A has n distinct values \(\{a_1,a_2,...,a_n\}\). Partition D into n subsets \(D_1,D_2,...,D_n\) according to the values of feature A. \(|D_i|\) is the number of samples in \(D_i\), \(\sum_{i=1}^{n}|D_i|=|D|\).</p>
+<p>Let \(D_{ik}\) be the set of samples in subset \(D_i\) belonging to class \(C_k\), and \(|D_{ik}|\) be its size.</p>
+\[
+	H(D) = -\sum_{k=1}^{K} \frac{|C_k|}{|D|} \log_2 \frac{|C_k|}{|D|}
+	\]
+\[
+	H(D|A) = \sum_{i=1}^{n} \frac{|D_i|}{|D|} H(D_i) = -\sum_{i=1}^{n} \frac{|D_i|}{|D|} \sum_{k=1}^{K} \frac{|D_{ik}|}{|D_i|} \log_2 \frac{|D_{ik}|}{|D_i|}
+	\]
+<h4 class="note-h4">C4.5</h4>
+<p>Information gain ratio:</p>
+\[
+	g_R(D, A) = \frac{g(D, A)}{H_A(D)}
+	\]
+<p>Decision tree generation</p>
+<ol>
+<li>
+<p>Determine the classification attribute.</p>
+</li>
+<li>
+<p>Create a node N for the current data table.</p>
+</li>
+<li>
+<p>If all data in the database belong to the same class, N is a leaf, label the leaf with that class.</p>
+</li>
+<li>
+<p>If there are no other attributes to consider in the data table, N is also a leaf, label it with the majority class (majority vote).</p>
+</li>
+<li>
+<p>Otherwise, select the best attribute based on information gain as the test attribute for node N.</p>
+</li>
+<li>
+<p>After the node attribute is selected, for each value of that attribute: generate a branch from N, collect the data related to that branch from the data table to form the data table for the branch node, delete the node attribute column from that table. If the branch node's data table is non-empty, apply the above algorithm recursively to build the subtree from that node.</p>
+</li>
+</ol>
+<p>ID3 vs C4.5</p>
+<ul>
+<li>
+<p>For discrete categorical data: one feature value or category forms one branch.</p>
+</li>
+<li>
+<p>ID3 algorithm tends to favor features with many values (especially when the number of distinct values is comparable to the sample size): ID3 considers "pure" child nodes to be good, and features with many values can easily "split" into child nodes containing very few samples that are extremely "pure", achieving the highest gain score. This is an overfitting tendency.</p>
+</li>
+<li>
+<p>C4.5: Tends to favor features with uneven value distribution. By introducing the "gain ratio" to penalize features with many values, it improves ID3's bias (numerator (information gain) → often very large; denominator (SplitInfo) → also very large (due to many values possibly uniformly distributed); ratio (gain ratio) → may become smaller).</p>
+</li>
+</ul>
+<h4 class="note-h4">Decision Tree Pruning</h4>
+<p>Prediction error: The sum of empirical entropies of all leaf nodes. The number of leaf nodes in tree T is \(|T|\). t is a leaf node of tree T. \(N_t\) is the number of sample points at that leaf node, of which \(N_{tk}\) belong to class k (\(k=1,2,...,K\)). \(H_t(T)\) is the empirical entropy of the leaf node.</p>
+\[
+	H_t(T) = -\sum_k \frac{N_{tk}}{N_t} \log \frac{N_{tk}}{N_t}
+	\]
+<p>Loss function for decision tree learning</p>
+\[
+	C_\alpha(T) = \sum_{t=1}^{|T|} N_t H_t(T) + \alpha |T|
+	\]
+<p>Objective: Find the tree that minimizes the total loss.</p>
+<ol>
+<li>
+<p>Calculate the empirical entropy for each node.</p>
+</li>
+<li>
+<p>Recursively prune upwards from leaf nodes. Let the overall trees before and after pruning a set of leaf nodes back to their parent node be \(T_B\) and \(T_A\) respectively, with corresponding loss functions \(C_\alpha(T_B)\) and \(C_\alpha(T_A)\). If $C_\alpha(T_A) < C_\alpha(T_B)$, perform the pruning, i.e., turn the parent node into a new leaf node.</p>
+</li>
+<li>
+<p>Return to step (2) until no further pruning is possible, obtaining the subtree \(T_\alpha\) that minimizes the loss function.</p>
+</li>
+</ol>
+<ul>
+<li>
+<p>Pre-pruning</p>
+<ol>
+<li>
+<p>Define a height; stop tree growth when the decision tree reaches that height.</p>
+</li>
+<li>
+<p>If instances at a node have identical feature vectors, even if they do not belong to the same class, stop tree growth. This method is effective for handling data conflicts.</p>
+</li>
+<li>
+<p>Define a threshold; stop tree growth when the number of instances at a node falls below that threshold.</p>
+</li>
+<li>
+<p>Define a threshold; decide whether to stop tree growth by calculating the performance gain from each expansion and comparing it to the threshold.</p>
+</li>
+</ol>
+<p>Pre-pruning methods are relatively simple, highly efficient, and do not require generating the entire decision tree, making them suitable for <strong>large-scale</strong> problems.</p>
+<li>
+<p>Post-pruning (Using criteria to determine the final correct tree size)</p>
+<ol>
+<li>
+<p>Use a training set and a validation set to evaluate the effectiveness of pruning methods on nodes.</p>
+</li>
+<li>
+<p>Train using the entire training set but use statistical tests to estimate whether pruning a specific node would improve performance on data outside the training set. Test whether further expanding a node improves classification performance on the overall data or merely on the current training data.</p>
+</li>
+</ol>
+</ul>
+<h4 class="note-h4">CART (Binary Tree)</h4>
+<p>Regression tree: Uses least squares deviation minimization criterion.</p>
+<p>Classification tree: Uses Gini index minimization criterion. Steps:</p>
+<ol>
+<li>
+<p>Decision tree generation: Generate a decision tree based on the training dataset, making it as <strong>large</strong> as possible.</p>
+</li>
+<li>
+<p>Decision tree pruning: Prune the generated tree using a validation dataset and select the optimal subtree, using loss function minimization as the pruning criterion.</p>
+</li>
+</ol>
+<p><strong>Gini Index</strong></p>
+\[
+	\text{Gini}(p) = \sum_{k=1}^{K} p_k (1 - p_k) = 1 - \sum_{k=1}^{K} p_k^2
+	\]
+\[
+	\text{Gini}(p) = 2p(1 - p) \quad (\text{for binary classification})
+	\]
+\[
+	\text{Gini}(D) = 1 - \sum_{k=1}^{K} \left( \frac{|D^k|}{|D|} \right)^2
+	\]
+\[
+	\text{Gini}(D, A) = \frac{|D_1|}{|D|} \text{Gini}(D_1) + \frac{|D_2|}{|D|} \text{Gini}(D_2)
+	\]
+\[
+	D_1 = \{(x, y) \in D | A(x) = a\}, \quad D_2 = D - D_1
+	\]
+<div class="table-wrap"><table class="note-table"><tr><th>Algorithm</th><th>Feature Selection</th><th>Pruning</th><th>Data Types Handled</th><th>Tree Type</th></tr><tr><td>ID3</td><td>Information Gain</td><td>None</td><td>Discrete</td><td>Multi-way</td></tr><tr><td>C4.5</td><td>Information Gain Ratio</td><td>Pre-pruning</td><td>Discrete</td><td>Multi-way</td></tr><tr><td>CART</td><td>Gini Index</td><td>Post-pruning</td><td>Discrete, Continuous</td><td>Binary</td></tr></table></div>
+<ul>
+<li>
+<p>CART has broader functionality: classification and regression.</p>
+</li>
+<li>
+<p>CART has better generalization performance: binary trees, post-pruning.</p>
+</li>
+<li>
+<p>CART has longer training time and higher computational cost.</p>
+</li>
+<li>
+<p>Information gain, information gain ratio, and Gini index each have their pros and cons.</p>
+</li>
+</ul>
+<h2 id="support-vector-machine-optimization-algorithm-solving-convex-quadratic-programming" class="note-h2">Support Vector Machine (Optimization algorithm solving convex quadratic programming)</h2>
+<p>Basic model: A linear classifier defined on the feature space that maximizes the margin. Learning strategy: Margin maximization.</p>
+<h3 class="note-h3">Linear Classifier</h3>
+<h4 class="note-h4">Empirical Risk Minimization: (Logistic Regression)</h4>
+<p>Training objective: Minimize cross-entropy loss on the training set.</p>
+<p>Parametric model: Influenced by every sample in the dataset.</p>
+<p>Logit value in Logistic Regression: $s(x) = \theta_0 + \theta_1 x_1 + \theta_2 x_2,
+	p_\theta(y = 1|x) = \frac{1}{1 + e^{-s(x)}}$</p>
+<ul>
+<li>
+<p>The Logit value reflects the distance from the sample to the decision boundary $d = \frac{\left| \theta_1 x_1 + \theta_2 x_2 + \theta_0 \right|}{\sqrt{\theta_1^2 + \theta_2^2}}$.</p>
+</li>
+<li>
+<p>The sign of the Logit value determines the class.</p>
+</li>
+<li>
+<p>The absolute value of the Logit value represents classification confidence.</p>
+</li>
+<li>
+<p>Higher Logit values indicate samples farther from the decision boundary, classified with more confidence.</p>
+</li>
+</ul>
+<h4 class="note-h4">Structural Risk Minimization</h4>
+<p>Training objective: Find the maximum margin boundary among many decision boundaries (separating hyperplanes).</p>
+<p>Non-parametric model, influenced only by a few core data points.<br> <strong>Functional margin</strong>: Scaling Problem (multiplying by \(y^{(i)}\) ensures the margin is always positive).</p>
+\[
+	\hat{\gamma}^{(i)} = y^{(i)} (w^\top x^{(i)} + b)
+	\]
+<p>The separating hyperplane does not change with the magnitude of \((w, b)\).</p>
+\[
+	g(w^\top x + b) = g(2w^\top x + 2b)
+	\]
+<p>Functional margin of the training dataset</p>
+\[
+	\hat{\gamma} = \min_{i=1, \cdots, N} \hat{\gamma}^{(i)}
+	\]
+<p><strong>Geometric margin</strong>: To overcome the scaling problem of the functional margin, normalize the normal vector \( w \).</p>
+<ul>
+<li>
+For a given training dataset and hyperplane \((w, b)\)
+\[
+		\gamma_i = y_i \left( \frac{w}{\|w\|} \cdot x_i + \frac{b}{\|w\|} \right)
+		\]
+</li>
+<li>
+<p>Geometric margin of the training dataset \(\gamma = \min_{i=1, \cdots , N} \gamma_i\)</p>
+</li>
+</ul>
+<p><strong>Margin Maximization</strong></p>
+<p>Original optimization problem for maximizing the geometric margin</p>
+\[
+	\begin{aligned}
+		&\max_{w,b} \gamma \\
+		&\text{s.t. } y_i \left( \frac{w}{\|w\|} \cdot x_i + \frac{b}{\|w\|} \right) \geq \gamma, \quad i = 1, 2, \cdots , N
+	\end{aligned}
+	\]
+<p>Optimization problem after expressing the geometric margin in terms of functional margin</p>
+\[
+	\begin{aligned}
+		&\max_{w,b} \frac{\hat{\gamma}}{\|w\|} \\
+		&\text{s.t. } y_i (w \cdot x_i + b) \geq \hat{\gamma}, \quad i = 1, 2, \cdots , N
+	\end{aligned}
+	\]
+<p>Conveniently set the minimum functional margin \(\hat{\gamma} = 1\).</p>
+<p>Optimization problem for learning a linearly separable Support Vector Machine</p>
+\[
+	\begin{aligned}
+		&\min_{w,b} \frac{1}{2} \|w\|^2 \\
+		&\text{s.t. } y_i (w \cdot x_i + b) - 1 \geq 0, \quad i = 1, 2, \cdots , N
+	\end{aligned}
+	\]
+<p>Objective function: For computational convenience (convex optimization).</p>
+<p>Constraints: Ensure all sample points are correctly classified and lie outside the maximum margin boundaries (functional margin at least 1).</p>
+<p><strong>Lagrange Duality Problem</strong><br></p>
+\[
+	\begin{aligned}
+		&\min_{w} f(w)\\
+		&\text{s.t. } g_i(w) \leq 0, i = 1, \ldots, k \\
+		&\quad h_i(w) = 0, i = 1, \ldots, l
+	\end{aligned}
+	\]
+<p>Definition of Lagrange function:</p>
+\[
+	\mathcal{L}(w, \alpha, \beta) = f(w) + \sum_{i=1}^{k} \alpha_i g_i(w) + \sum_{i=1}^{l} \beta_i h_i(w)
+	\]
+<p><strong>Primal problem</strong>: \(\theta_P(w) = \max_{\alpha \geq 0, \beta} \mathcal{L}(w, \alpha, \beta)\)</p>
+<p>Here \(\theta_P(w)\) is for a fixed \(w\), maximizing the Lagrange function over the multiplier space.</p>
+<ul>
+<li>
+<p>Case 1: \(w\) violates constraints.</p>
+<ul>
+<li>
+Violates inequality constraint (some \(g_i(w) > 0\)), take the corresponding \(\alpha_i \to +\infty\):
+\[
+			\mathcal{L}(w, \alpha, \beta) = f(w) + \alpha_i g_i(w) + \text{other terms}
+			\]
+<p>Because \(g_i(w) > 0, \alpha_i > 0\), so \(\alpha_i g_i(w) \to +\infty \Rightarrow \max \mathcal{L} \to +\infty \Rightarrow \theta_P(w) = +\infty\).</p>
+</li>
+<li>
+Violates equality constraint (some \(h_i(w) \neq 0\))
+We can take the corresponding \(\beta_i \to \pm \infty\) (with the sign matching \(h_i(w)\)):
+\[
+			\beta_i h_i(w) \to +\infty \Rightarrow \theta_P(w) = +\infty
+			\]
+<p>Conclusion: As long as \(w\) violates any constraint, \(\theta_P(w) = +\infty\).</p>
+</li>
+</ul>
+<li>
+Case 2: w satisfies all constraints.
+<ul>
+<li>
+<p>For inequality constraints: \( g_i(w) \leq 0 \), and \( \alpha_i \geq 0 \) So \( \alpha_i g_i(w) \leq 0 \).</p>
+</li>
+<li>
+<p>For equality constraints: \( h_i(w) = 0 \), so \( \beta_i h_i(w) = 0 \).</p>
+</li>
+</ul>
+<p>To maximize \( \mathcal{L}(w, \alpha, \beta) \):</p>
+\[
+		\mathcal{L}(w, \alpha, \beta) = f(w) + \sum_{i=1}^{k} \alpha_i g_i(w) + \sum_{i=1}^{l} \beta_i h_i(w)
+		\]
+<p>The maximum possible value is \( f(w) \), achieved if and only if all \( \alpha_i g_i(w) = 0 \).</p>
+<p>Because \( \alpha_i \geq 0 \), \( g_i(w) \leq 0 \), to have \( \alpha_i g_i(w) = 0 \), we need: \( g_i(w) = 0 \) or \( \alpha_i = 0 \). Thus:</p>
+\[
+		\theta_p(w) = \max_{\alpha \geq 0, \beta} \mathcal{L}(w, \alpha, \beta) = f(w)
+		\]
+</ul>
+<p>The original constrained optimization problem is equivalent to the unconstrained optimization of the primal function:</p>
+\[
+	\min_{w} \theta_p(w) = \min_{w} \max_{\alpha, \beta: \alpha_i \geq 0} \mathcal{L}(w, \alpha, \beta)
+	\]
+<p><strong>Dual problem</strong></p>
+\[
+	\max_{\alpha, \beta: \alpha_i \geq 0} \theta_d(\alpha, \beta) = \max_{\alpha, \beta: \alpha_i \geq 0} \min_{w} \mathcal{L}(w, \alpha, \beta)
+	\]
+<p>That is, swap the order of \(\min\) and \(\max\) in the primal problem.</p>
+\[
+	\min_{w} \theta_p(w) = \min_{w} \max_{\alpha, \beta: \alpha_i \geq 0} \mathcal{L}(w, \alpha, \beta)
+	\]
+<p>Define the solution to the dual problem as</p>
+\[
+	d^* = \max_{\alpha, \beta: \alpha_i \geq 0} \min_{w} \mathcal{L}(w, \alpha, \beta)
+	\]
+<p>It can be shown that \( d^* = \max_{\alpha, \beta: \alpha_i \geq 0} \min_{w} \mathcal{L}(w, \alpha, \beta) \leq \min_{w} \max_{\alpha, \beta: \alpha_i \geq 0} \mathcal{L}(w, \alpha, \beta) = p^* \)</p>
+\[
+	\theta_d(\alpha, \beta) \leq \theta_p(w)
+	\]
+<p>Proof:</p>
+\[
+	\min_{w} \mathcal{L}(w, \alpha, \beta) \leq \mathcal{L}(w, \alpha, \beta), \forall w, \alpha \geq 0, \beta
+	\]
+\[
+	\Rightarrow \max_{\alpha, \beta: \alpha \geq 0} \min_{w} \mathcal{L}(w, \alpha, \beta) \leq \max_{\alpha, \beta: \alpha \geq 0} \mathcal{L}(w, \alpha, \beta), \forall w
+	\]
+\[
+	\Rightarrow \max_{\alpha, \beta: \alpha \geq 0} \min_{w} \mathcal{L}(w, \alpha, \beta) \leq \min_{w} \max_{\alpha, \beta: \alpha \geq 0} \mathcal{L}(w, \alpha, \beta)
+	\]
+<p>Under certain conditions (e.g., Slater's condition for convex problems), strong duality holds:</p>
+\[
+	d^* = p^*
+	\]
+<p><strong>KKT Conditions</strong></p>
+<p>Assume \( f \) and \( g_i \) are convex functions, \( h_i \) are affine functions, and the feasible region is strictly feasible (Slater's condition). Then there exist \((w^*, \alpha^*, \beta^*) \) satisfying:</p>
+<ul>
+<li>
+<p>\( w^* \) is a solution to the primal problem.</p>
+</li>
+<li>
+<p>\( \alpha^*, \beta^* \) are solutions to the dual problem.</p>
+</li>
+<li>
+<p>The optimal values are equal \( p^* = d^* = \mathcal{L}(w^*, \alpha^*, \beta^*) \).</p>
+</li>
+</ul>
+<p>Furthermore, \( (w^*, \alpha^*, \beta^*) \) satisfy the KKT conditions:</p>
+<ol>
+<li>
+<p>Stationarity: Gradient of the Lagrangian w.r.t primal variables \( w \) is zero. $\frac{\partial}{\partial w_i} \mathcal{L}(w^*, \alpha^*, \beta^*) = 0, i = 1, ..., n$</p>
+</li>
+<li>
+<p>Primal feasibility: $\frac{\partial}{\partial \beta_i} \mathcal{L}(w^*, \alpha^*, \beta^*) = 0, i = 1, ..., l \quad \text{and} \quad g_i(w^*) \leq 0, i = 1, ..., k$</p>
+</li>
+<li>
+<p>Dual feasibility: $\alpha_i^* \geq 0, i = 1, ..., k$</p>
+</li>
+<li>
+<p>Complementary slackness: $\alpha_i^* g_i(w^*) = 0, i = 1, ..., k$</p>
+</li>
+</ol>
+<p><strong>Objective function of Support Vector Machine</strong>: Finding the optimal margin classifier</p>
+\[
+	\begin{aligned}
+		&\min_{w,b} \frac{1}{2} \|w\|^2 \\
+		&\text{s.t. } -y^{(i)}(w^T x^{(i)} + b) + 1 \leq 0, \quad i = 1, ..., m
+	\end{aligned}
+	\]
+<p>Lagrange function (Note: No equality constraints in standard SVM)</p>
+\[
+	L(w, b, \alpha) = \frac{1}{2} \|w\|^2 - \sum_{i=1}^m \alpha_i [y^{(i)}(w^T x^{(i)} + b) - 1]
+	\]
+<p>Partial derivatives with respect to the two parameters</p>
+\[
+	\frac{\partial}{\partial w} L(w, b, \alpha) = w - \sum_{i=1}^m \alpha_i y^{(i)} x^{(i)} = 0 \Rightarrow w = \sum_{i=1}^m \alpha_i y^{(i)} x^{(i)}
+	\]
+\[
+	\frac{\partial}{\partial b} L(w, b, \alpha) = \sum_{i=1}^m \alpha_i y^{(i)} = 0
+	\]
+<p>Rewrite the Lagrange function (substituting the expression for w and using the constraint on the sum of $alpha_i y_i$)</p>
+\[
+	\begin{aligned}
+		L(w, b, \alpha) &= \frac{1}{2} \left( \sum_{i=1}^m \alpha_i y^{(i)} x^{(i)} \right)^T \left( \sum_{j=1}^m \alpha_j y^{(j)} x^{(j)} \right) - \sum_{i=1}^m \alpha_i y^{(i)} \left( \sum_{j=1}^m \alpha_j y^{(j)} x^{(j)^T} \cdot x^{(i)} + b \right) + \sum_{i=1}^m \alpha_i \\
+		&= \sum_{i=1}^m \alpha_i - \frac{1}{2} \sum_{i,j=1}^m y^{(i)} y^{(j)} \alpha_i \alpha_j x^{(i)^T} x^{(j)} - b \sum_{i=1}^m \alpha_i y^{(i)} \\
+		&= \sum_{i=1}^m \alpha_i - \frac{1}{2} \sum_{i,j=1}^m y^{(i)} y^{(j)} \alpha_i \alpha_j x^{(i)^T} x^{(j)} \quad (\text{since } \sum_i \alpha_i y^{(i)} = 0)
+	\end{aligned}
+	\]
+<p>Lagrange dual problem</p>
+\[
+	\max_{\alpha \geq 0} \theta_D(\alpha) = \max_{\alpha \geq 0} \min_{w,b} L(w, b, \alpha)
+	\]
+\[
+	\max_{\alpha} W(\alpha) = \sum_{i=1}^m \alpha_i - \frac{1}{2} \sum_{i,j=1}^m y^{(i)} y^{(j)} \alpha_i \alpha_j (x^{(i)})^T x^{(j)}
+	\]
+<p>s.t.</p>
+\[
+	\alpha_i \geq 0, \quad i = 1, ..., m
+	\]
+\[
+	\sum_{i=1}^m \alpha_i y^{(i)} = 0
+	\]
+<h3 class="note-h3">Soft Margin SVM</h3>
+<p>Introduce slack variables</p>
+\[
+	\min_{w,b,\xi} \frac{1}{2} \| w \|^2 + C \sum_{i=1}^{m} \xi_i
+	\]
+<p>s.t.</p>
+\[
+	y^{(i)} (w^T x^{(i)} + b) \geq 1 - \xi_i, \quad i = 1,...,m
+	\]
+\[
+	\xi_i \geq 0, \quad i = 1,...,m
+	\]
+<p>Lagrange function (including multipliers for slack variables)</p>
+\[
+	L(w,b,\xi,\alpha,r) = \frac{1}{2} w^T w + C \sum_{i=1}^{m} \xi_i - \sum_{i=1}^{m} \alpha_i [y^{(i)} (x^{(i)^T} w + b) - 1 + \xi_i] - \sum_{i=1}^{m} r_i \xi_i
+	\]
+<p>Dual problem (after minimizing over w, b, xi)</p>
+\[
+	\max_{\alpha} W(\alpha) = \sum_{i=1}^{m} \alpha_i - \frac{1}{2} \sum_{i,j=1}^{m} y^{(i)} y^{(j)} \alpha_i \alpha_j (x^{(i)})^T x^{(j)}
+	\]
+<p>s.t.</p>
+\[
+	0 \leq \alpha_i \leq C, \quad i = 1,...,m
+	\]
+\[
+	\sum_{i=1}^{m} \alpha_i y^{(i)} = 0
+	\]
+<p>Equivalent unconstrained form (primal):</p>
+\[
+	\frac{1}{2} \| w \|^2 + C \sum_{i=1}^{m} \max \left( 0, 1 - y_i (w^T x_i + b) \right)
+	\]
+<p>Hinge Loss:</p>
+\[
+	L = \max (0, 1 - z)
+	\]
+<h4 class="note-h4">Kernel Methods</h4>
+<p>Feature mapping function Basic SVM focuses on inner product computations.</p>
+\[
+	W(\alpha) = \sum_{i=1}^{m} \alpha_i - \frac{1}{2} \sum_{i,j=1}^{m} y^{(i)} y^{(j)} \alpha_i \alpha_j x^{(i)^T} x^{(j)}
+	\]
+<p>Define a feature mapping function \(\phi(x)\). The kernel function is \(K(x^{(i)}, x^{(j)}) = \phi(x^{(i)})^T \phi(x^{(j)})\). The dual becomes:</p>
+\[
+	W(\alpha) = \sum_{i=1}^{m} \alpha_i - \frac{1}{2} \sum_{i,j=1}^{m} y^{(i)} y^{(j)} \alpha_i \alpha_j K(x^{(i)}, x^{(j)})
+	\]
+<p>Kernel Function</p>
+\[
+	K(x^{(i)}, x^{(j)}) = \phi(x^{(i)})^{T} \phi(x^{(j)})
+	\]
+<p>Kernel Trick: In many cases, we can directly define \(K(x^{(i)}, x^{(j)})\) without needing to explicitly define \(\phi(x^{(i)})\). For example, suppose \(x^{(i)}, x^{(j)} \in \mathbb{R}^n\), then \(K(x^{(i)}, x^{(j)}) = \left( x^{(i)^T} x^{(j)} \right)^2\) corresponds to a mapping \(\phi\) into the space of degree-2 monomials. For a finite set of examples \(\{x^{(1)}, ..., x^{(m)}\}\), the corresponding kernel matrix \(K\) is defined as \(\{k_{i,j}\}_{i,j=1,...,m}\).</p>
+<ul>
+<li>
+The kernel matrix \(K\) must be symmetric because
+\[
+		k_{i,j} = K(x^{(i)}, x^{(j)}) = \phi(x^{(i)})^{T} \phi(x^{(j)}) = \phi(x^{(j)})^{T} \phi(x^{(i)}) = K(x^{(j)}, x^{(i)}) = k_{j,i}
+		\]
+</li>
+</ul>
+<p>Mercer's Theorem: Given \(K: \mathbb{R}^n \times \mathbb{R}^n \mapsto \mathbb{R}\), if \(K\) is a valid (Mercer) kernel, then for any finite set \(\{x^{(1)}, ..., x^{(m)}\}\), the corresponding kernel matrix is symmetric positive semidefinite.</p>
+<h3 class="note-h3">Ensemble Learning</h3>
+<p>Why can it improve performance?</p>
+\[
+	\text{Error}_H = \sum_{k \leq \frac{T}{2}} C_T^k p^{T-k}(1-p)^k
+	\]
+<p>where p is the probability of a base classifier being correct, assuming independence. (Here, $k \le T/2$ means the number of correctly classified base classifiers is at most half.)</p>
+<ul>
+<li>
+<p>Bagging Randomly sample samples or features with replacement, learn multiple independent models, then average the predictions of all models. Primarily reduces variance. Representative algorithm: Random Forest.</p>
+</li>
+<li>
+<p>Boosting Train multiple models sequentially, where later models are based on the errors of previous models. Primarily reduces bias. Representative algorithm: AdaBoost.</p>
+</li>
+<li>
+<p>Stacking Use the predictions of multiple base models as input features and the sample labels as the target, then train a high-level ensemble model.</p>
+<ul>
+<li>
+<p>Advantages:</p>
+<ol>
+<li>
+<p>Can use different types of base learners to capture different patterns in the data.</p>
+</li>
+<li>
+<p>Theoretically can combine the strengths of multiple models to achieve stronger predictive power.</p>
+</li>
+</ol>
+<li>
+<p>Disadvantages:</p>
+<ol>
+<li>
+<p>Training process is complex, requiring training multiple models, and the combination method needs careful design.</p>
+</li>
+<li>
+<p>More complex than other ensemble methods and prone to overfitting.</p>
+</li>
+</ol>
+</ul>
+</ul>
+<h3 class="note-h3">Bagging and Random Forests</h3>
+<p>Obtain bootstrap samples \(D_t\) of the same size as the original dataset D by sampling with replacement.</p>
+<p>Given a dataset D with N samples, for each iteration \(t = 1, 2, ..., T\), create T base classifiers \(h_t\).</p>
+<p>On average, 36.8% of the samples in D will not appear in a given bootstrap sample \(D_t\) (as N is large enough):</p>
+\[
+	P(x \text{ is not selected}) = \left(1 - \frac{1}{N}\right)^{N} \approx e^{-1} = 36.8\%
+	\]
+<p>This means each training set contains approximately 63.2% distinct samples from the original dataset. Each \(D_t\) is used to learn a classifier \(h_t\).</p>
+<ul>
+<li>
+<p>For classification problems, each classifier returns a class prediction, combined using majority voting.</p>
+</li>
+<li>
+<p>For regression problems, predictions are combined using averaging.</p>
+</li>
+</ul>
+<p>Advantages of Bagging:</p>
+<ul>
+<li>
+<p>Particularly suitable for improving the performance of base models that have <strong>high variance but low bias</strong> (e.g., decision trees, neural networks).</p>
+</li>
+<li>
+<p>Individual models are unstable: small changes in the training data can cause significant changes in classifier performance.</p>
+</li>
+<li>
+<p>Bagging aggregates votes/results, enhancing stability and accuracy.</p>
+</li>
+<li>
+<p>Easy to parallelize: the sampling and training of multiple base models are independent, allowing parallel computation.</p>
+</li>
+</ul>
+<h4 class="note-h4">Random Forest (An improved version of Bagging for Decision Trees)</h4>
+<p>Characteristics:</p>
+<ul>
+<li>
+<p>Bootstrap sampling of samples (with replacement).</p>
+</li>
+<li>
+<p>Random sampling of features.</p>
+</li>
+<li>
+<p>Most commonly uses decision trees as the base classifier.</p>
+</li>
+</ul>
+<p>Limitations of Decision Trees:</p>
+<ul>
+<li>
+<p>Local optimum problem: Decision trees use a greedy algorithm, selecting the feature that provides the highest information gain at each split, which can lead to local optima.</p>
+</li>
+<li>
+<p>Classification boundary problem: A single decision tree determines classification boundaries using logical conditions involving single features, resulting in decision boundaries that are axis-aligned lines/planes. This limits the expressive power of decision trees for classification boundaries, leading to poorer generalization.</p>
+</li>
+</ul>
+<p>Algorithmic Principles of Random Forests To ensure independence among the trees, typically two or three levels of randomness are introduced:</p>
+<ul>
+<li>
+<p>Randomly sample samples with replacement (doesn't see all data).</p>
+</li>
+<li>
+<p>Randomly select m features (doesn't see all features).</p>
+</li>
+<li>
+<p>(Sometimes) Randomly select a feature split point without evaluating all possible splits (non-perfect splitting criterion).</p>
+</li>
+</ul>
+<p>How many features to select (m)?</p>
+<ul>
+<li>
+<p>A large m value can improve the accuracy of individual decision trees but increases correlation among trees.</p>
+</li>
+<li>
+<p>Method 1: Cross-validation to select the optimal m.</p>
+</li>
+<li>
+<p>Method 2: Empirical setting. Often choose \(m = \log_2 d + 1\), where d is the feature dimension.</p>
+</li>
+</ul>
+<p>Performance Evaluation for Random Forest Classification margin: The proportion of decision trees correctly classifying a sample minus the proportion of trees predicting the most frequent incorrect class.</p>
+<p>Assume a sample is \((X,Y)\), where Y is the true class. Random Forest is a collection of classifiers \(h_1(x), h_2(x), ..., h_k(x)\).</p>
+<p>For sample X, define its classification margin \(mg(X,Y)\) as:</p>
+\[
+	mg(X,Y) = \text{av}_k(I(h_k(X) = Y)) - \max_{j\neq Y} \text{av}_k(I(h_k(X) = j))
+	\]
+<ul>
+<li>
+<p>\(\text{av}_k(I(h_k(X) = Y))\): The proportion of trees that predict the correct class Y.</p>
+</li>
+<li>
+<p>\(\max_{j\neq Y} \text{av}_k(I(h_k(X) = j))\): The highest proportion of trees predicting any incorrect class j.</p>
+</li>
+</ul>
+<p>Out-of-Bag (OOB) samples: For each tree, the samples that were NOT selected in its bootstrap training set.</p>
+<p>Out-Of-Bag Error (OOBE): The prediction error rate of the Random Forest on the OOB samples. Random Forest for Feature Selection</p>
+<ul>
+<li>
+<p>Calculate the average information gain of features.</p>
+</li>
+<li>
+<p>Calculate the impact of each feature on model accuracy (e.g., by permuting feature values and measuring the increase in OOB error).</p>
+</li>
+</ul>
+<p>Advantages:</p>
+<ol>
+<li>
+<p>High Accuracy &amp;amp; Robustness</p>
+<ul>
+<li>
+<p>Resists overfitting: Bagging averages results from multiple decision trees, effectively reducing model variance and improving generalization.</p>
+</li>
+<li>
+<p>Noise tolerant: Random sampling of samples and features provides resilience to outliers and noise in the data.</p>
+</li>
+</ul>
+<li>
+<p>Ease of Use &amp;amp; Low Preprocessing Requirements</p>
+<ul>
+<li>
+<p>No feature scaling needed: Tree-based algorithms do not require normalization or standardization.</p>
+</li>
+<li>
+<p>Broad applicability: Can handle both classification and regression tasks and performs well with high-dimensional features.</p>
+</li>
+</ul>
+<li>
+<p>Interpretability &amp;amp; Feature Insights</p>
+<ul>
+<li>
+<p>Feature importance evaluation: Can output feature importance scores, aiding feature selection and business understanding.</p>
+</li>
+<li>
+<p>Built-in validation: Uses Out-Of-Bag (OOB) error for unbiased estimation, eliminating the need for a separate validation set.</p>
+</li>
+</ul>
+<li>
+<p>Efficient Parallelism</p>
+<ul>
+<li>
+<p>The construction of each tree is independent, allowing parallelized training using multi-core CPUs, significantly reducing training time.</p>
+</li>
+</ul>
+</ol>
+<p>Disadvantages:</p>
+<ul>
+<li>
+<p>Tends to overfit on small, noisy datasets or low-dimensional datasets.</p>
+</li>
+<li>
+<p>Compared to a single decision tree: Prediction requires traversing all trees and aggregating results, which is slower.</p>
+</li>
+<li>
+<p>Compared to a single decision tree: The complex decision logic of many intertwined trees is harder to visualize intuitively, offering lower interpretability.</p>
+</li>
+<li>
+<p>Large model size: A model with hundreds of deep trees consumes significant memory.</p>
+</li>
+</ul>
+<p>Assume the variance of a single decision tree is \(\sigma^2(x)\), and the correlation between any two trees is \(\rho(x)\). If the Random Forest consists of T trees, the variance \(\text{var}(x)\) of the ensemble is:</p>
+\[
+	\text{var}(x) = \rho(x) \sigma^2(x) + \frac{1 - \rho(x)}{T} \sigma^2(x)
+	\]
+<p>Derivation (assuming all trees have identical variance \(\sigma^2(x)\) and pairwise correlation \(\rho(x)\)):</p>
+\[
+	\text{Var}(\bar{f}(x)) = \text{Var}\left(\frac{1}{T} \sum_{t=1}^{T} f_t(x)\right)
+	\]
+\[
+	\text{Var}(\bar{f}(x)) = \frac{1}{T^2} \left[ \sum_{t=1}^{T} \text{Var}(f_t(x)) + \sum_{t \neq s} \text{Cov}(f_t(x), f_s(x)) \right]
+	\]
+<p>Using \(\text{Cov}(f_t, f_s) = \rho(x) \sigma^2(x)\):</p>
+\[
+	\begin{aligned}
+		\text{Var}(\bar{f}(x)) &= \frac{1}{T^2} [T\sigma^2(x) + T(T-1)\rho(x)\sigma^2(x)] \\
+		&= \frac{\sigma^2(x)}{T^2}[T + T(T-1)\rho(x)] \\
+		&= \frac{\sigma^2(x)}{T} [1 + (T-1)\rho(x)] \\
+		&= \rho(x)\sigma^2(x) + \frac{1 - \rho(x)}{T} \sigma^2(x)
+	\end{aligned}
+	\]
+<h3 class="note-h3">Boosting</h3>
+<p>Assumption: Base models are <strong>weak classifiers</strong> (slightly better than random guessing).</p>
+<p>In Boosting methods, each training sample is assigned a weight. T classifiers are learned iteratively.</p>
+<p>After learning classifier \(h_t\), the weights are updated so that the subsequent classifier \(h_{t+1}\) focuses more on the training samples misclassified by \(h_t\).</p>
+<p>The final classifier H integrates the predictions of each individual classifier. Traditionally requires setting an upper bound on the weak classifier error, though AdaBoost adapts.</p>
+<h4 class="note-h4">AdaBoost — Adaptive Boosting</h4>
+<p>Uses different weighted versions of the same training set to train a set of weak classifiers, then integrates them in a weighted form to form a final strong classifier.<br> Input: Training set $ D = \{(x_1, y_1), \cdots, (x_n, y_n)\} $, where $ y_i \in \{-1, +1\} $, and a weak learning algorithm $ h $.</p>
+<ul>
+<li>
+<p>At each step of iteration, a weight \(w_1, w_2, \dots, w_n\) is assigned to the samples in the training set.</p>
+</li>
+<li>
+<p>Initial sample weights are all equal, set to \(1/n\).</p>
+</li>
+<li>
+<p>In each iteration, the weights of samples misclassified by the current weak classifier are increased, while the weights of correctly classified samples are decreased.</p>
+</li>
+<li>
+The weight of the weak classifier is determined by its weighted error rate. Error \(\epsilon_t\): "Sum of weights of misclassified samples" / "Total sum of weights of all samples in the training set"
+\[
+		\epsilon_t = \frac{\sum_{i=1}^n w_i^t I(y_i \neq h_t(x_i))}{\sum_{i=1}^n w_i^t}
+		\]
+Weight of the weak classifier \(\alpha_t\)
+\[
+		\alpha_t = \frac{1}{2} \ln \left( \frac{1 - \epsilon_t}{\epsilon_t} \right)
+		\]
+<p>Relationship between error and weak classifier weight:</p>
+<ul>
+<li>
+<p>Smaller weak classifier error leads to larger weight.</p>
+</li>
+<li>
+<p>Random guessing (error=0.5) yields weight 0.</p>
+</li>
+<li>
+<p>Worse than random (error&gt;0.5) yields negative weight.</p>
+</li>
+<li>
+<p>In practice, we require weak classifiers with \(\alpha > 0\).</p>
+</li>
+</ul>
+<li>
+<p>No need to pre-set an upper bound for the weak classifier error.</p>
+</li>
+</ul>
+<p>Algorithm Steps:</p>
+<ol>
+<li>
+<p>Initialize sample weights \( w^1: w_i^1 = \frac{1}{n}, i = 1, 2, \cdots, n \); (all samples have the same initial weight)</p>
+</li>
+<li>
+<p>for \( t = 1 \) to \( T \) do</p>
+<ol>
+<li>
+<p>Train a classifier \( h_t(x) \) using training dataset \( D \) with weights \( w^t \).</p>
+</li>
+<li>
+Calculate the error of the current weak classifier:
+\[
+			\epsilon_t = \frac{\sum_{i=1}^n w_i^t I(y_i \neq h_t(x_i))}{\sum_{i=1}^n w_i^t}
+			\]
+</li>
+<li>
+Based on the current weak classifier's error, calculate its weight:
+\[
+			\alpha_t = \frac{1}{2} \log \left( \frac{1 - \epsilon_t}{\epsilon_t} \right)
+			\]
+</li>
+<li>
+Update sample weights to \( w^{t+1} \): (Increase the weight of samples misclassified by \( h_t(x) \))
+\[
+			w_i^{t+1} \leftarrow \frac{w_i^t \cdot e^{-\alpha_t y_i h_t(x_i)}}{Z_t}
+			\]
+<p>Where $Z_t = \sum_{i=1}^n w_i^t \exp(-\alpha_t y_i h_t(x_i))$ is the normalization factor ensuring the new weights sum to 1.</p>
+</li>
+</ol>
+<li>
+<p>Output the final classifier: \( H(x) = \text{sign} \left( \sum_{t=1}^T \alpha_t h_t(x) \right) \).</p>
+</li>
+</ol>
+<p>Explanation of weight update:</p>
+<ul>
+<li>
+<p>When correctly classified, \( y_i h_t(x_i) = 1 \), the sample weight is multiplied by \(\exp(-\alpha_t) < 1\), decreasing the weight.</p>
+</li>
+<li>
+<p>When misclassified, \( y_i h_t(x_i) = -1 \), the sample weight is multiplied by \(\exp(\alpha_t) > 1\), increasing the weight of misclassified samples.</p>
+</li>
+</ul>
+<p><strong>Error Analysis</strong></p>
+\[
+	\text{Error}_{\text{test}} = \mathbb{E}_{x,y} [L(y_i, H(x_i))]
+	\]
+<p>(where L is a loss function) Theoretically, the upper bound of the generalization error may increase with T. However, empirical results show that even large T does not easily lead to overfitting.</p>
+<p>Relationship: True generalization error $\le$ Training error + Complexity penalty term</p>
+<p><strong>Training Error:</strong></p>
+<ul>
+<li>
+<p>The upper bound of the training error decreases as the number of iterations increases.</p>
+</li>
+<li>
+<p>AdaBoost is often observed not to overfit even with many training iterations.</p>
+</li>
+</ul>
+<p>Ideal objective:</p>
+\[
+	\text{Error}_{\text{train}} = \frac{1}{N} \sum_{i=1}^N \mathbb{I}(H(x_i) \neq y_i)
+	\]
+<p>Surrogate (exponential) objective minimized by AdaBoost:</p>
+\[
+	\text{Loss}_{\text{exp}} = \frac{1}{N} \sum_{i=1}^N \exp(-y_i f(x_i))
+	\]
+<p>Relationship (exponential loss upper bounds misclassification error):</p>
+\[
+	\mathbb{I}(H(x_i) \neq y_i) \leq \exp(-y_i f(x_i))
+	\]
+<p>where</p>
+\[
+	f(x) = \sum_{t=1}^T \alpha_t h_t(x)
+	\]
+\[
+	H(x) = \text{sign}(f(x))
+	\]
+<p>Classification Margin</p>
+\[
+	\text{margin}(x, y) = y \cdot f(x)
+	\]
+<ul>
+<li>
+<p>Sign interpretation: \( yf(x) > 0 \) indicates correct classification; \( yf(x) < 0 \) indicates error.</p>
+</li>
+<li>
+<p>Magnitude interpretation: \( |f(x)| \) represents classification confidence.</p>
+</li>
+<li>
+<p>Physical interpretation: Minimizing exponential loss pursues not only correct classification but also a large margin.</p>
+</li>
+</ul>
+<p><strong>Weak Learning Assumption</strong></p>
+<ul>
+<li>
+<p>For binary classification, let the weighted error (error rate) of the weak classifier \( h_t \) at round t be \( \epsilon_t = \frac{1}{2} - \gamma_t \).</p>
+</li>
+<li>
+<p>\( \gamma_t > 0 \) quantifies how much better \( h_t \) is than random guessing (1/2). It is called the edge.</p>
+</li>
+<li>
+<p>To guarantee convergence, we require: \( \gamma_t > 0 \).</p>
+</li>
+</ul>
+<p>Significance: As long as the weak classifier is slightly better than random guessing, the algorithm works.</p>
+<p><strong>Theorem: Upper Bound on Training Error</strong></p>
+<p>Theorem: The training error of the final classifier \( H(x) \) produced by the AdaBoost algorithm satisfies:</p>
+\[
+	\frac{1}{N} \sum_{i=1}^{N} I(H(x_i) \neq y_i) \leq \frac{1}{N} \sum_{i=1}^{N} \exp(-y_i f(x_i)) = \prod_{t=1}^{T} Z_t
+	\]
+<p>Derivation (unrolling the weight updates):</p>
+\[
+	w_i^{(T+1)} \prod_{t=1}^{T} Z_t = w_i^{(1)} \exp\left( -y_i \sum_{t=1}^{T} \alpha_t h_t(x_i) \right) = \frac{1}{N} \exp(-y_i f(x_i))
+	\]
+<p>Summing both sides over i (note \(\sum_i w_i^{(T+1)} = 1\)):</p>
+\[
+	\prod_{t=1}^{T} Z_t = \frac{1}{N} \sum_{i=1}^{N} \exp(-y_i f(x_i))
+	\]
+<p>Conclusion: The upper bound of the training error is the product of the normalization factors from each round.</p>
+<p>Analyzing \(Z_t\):</p>
+\[
+	Z_t = \sum_{i=1}^{n} w_i^{(t)} e^{-\alpha_t y_i h_t(x_i)}
+	\]
+<p>Partition samples into correctly classified set \( C_t = \{ i: y_i h_t(x_i) = +1 \} \) (weighted proportion \(1 - \epsilon_t\)) and misclassified set \( M_t = \{i: y_i h_t(x_i) = -1\} \) (weighted proportion \(\epsilon_t\)).</p>
+\[
+	Z_t = \sum_{i \in C_t} w_i^{(t)} e^{-\alpha_t} + \sum_{i \in M_t} w_i^{(t)} e^{\alpha_t}
+	= (1 - \epsilon_t)e^{-\alpha_t} + \epsilon_t e^{\alpha_t}
+	\]
+<p>Substitute the optimal \(\alpha_t = \frac{1}{2} \ln((1-\epsilon_t)/\epsilon_t)\), so \(e^{\alpha_t} = \sqrt{(1-\epsilon_t)/\epsilon_t}\) and \(e^{-\alpha_t} = \sqrt{\epsilon_t/(1-\epsilon_t)}\):</p>
+\[
+	Z_t = (1 - \epsilon_t)\sqrt{\frac{\epsilon_t}{1 - \epsilon_t}} + \epsilon_t\sqrt{\frac{1 - \epsilon_t}{\epsilon_t}}
+	= \sqrt{(1 - \epsilon_t)\epsilon_t} + \sqrt{\epsilon_t(1 - \epsilon_t)}
+	= 2\sqrt{\epsilon_t(1 - \epsilon_t)}
+	\]
+<p>Let \(\epsilon_t = 1/2 - \gamma_t\):</p>
+\[
+	Z_t = 2\sqrt{\left(\frac{1}{2} - \gamma_t\right)\left(\frac{1}{2} + \gamma_t\right)} = 2\sqrt{\frac{1}{4} - \gamma_t^2} = \sqrt{1 - 4\gamma_t^2}
+	\]
+<p>Using the inequality \( e^{-x} \geq 1 - x \) (or more precisely, \(\sqrt{1-4\gamma_t^2} \le e^{-2\gamma_t^2}\) for small \(\gamma_t\)):</p>
+\[
+	\sqrt{1 - 4\gamma_t^2} \leq \sqrt{e^{-4\gamma_t^2}} = e^{-2\gamma_t^2}
+	\]
+<p>Thus, the product bound becomes:</p>
+\[
+	\prod_{t=1}^{T} Z_t = \prod_{t=1}^{T} 2\sqrt{\epsilon_t(1 - \epsilon_t)} = \prod_{t=1}^{T} \sqrt{1 - 4\gamma_t^2} \leq \prod_{t=1}^{T} e^{-2\gamma_t^2} = \exp\left(-2\sum_{t=1}^{T}\gamma_t^2\right)
+	\]
+<p>Conclusion: As long as each weak classifier is better than random guessing (\(\gamma_t > 0\)), the training error of AdaBoost decreases exponentially fast towards zero as the number of rounds T increases. Advantages:</p>
+<ul>
+<li>
+<p>AdaBoost was originally intended to address underfitting (reduce bias), but in practice, due to the nature of ensemble learning, it also helps control overfitting (reduce variance).</p>
+</li>
+<li>
+<p>Besides the number of weak classifiers (T), there are no additional hyperparameters to tune.</p>
+</li>
+<li>
+<p>AdaBoost provides a framework; the weak classifier can be a decision tree or any other classification algorithm.</p>
+</li>
+</ul>
+<p>Disadvantages:</p>
+<ul>
+<li>
+<p>Due to integrating multiple weak classifiers, the interpretability of the model is reduced.</p>
+</li>
+<li>
+<p>If the weak classifiers are too complex or perform too poorly, it can lead to overfitting.</p>
+</li>
+<li>
+<p>Sensitive to outliers.</p>
+</li>
+</ul>
+<h2 id="unsupervised-learning" class="note-h2">Unsupervised Learning</h2>
+<p>Types: Clustering, Dimensionality Reduction, Density Estimation, Anomaly Detection.</p>
+<h2 id="clustering-models" class="note-h2">Clustering Models</h2>
+<p>Criteria (typically): Samples within the same cluster are close to each other; samples from different clusters are far apart.</p>
+<h3 class="note-h3">K-means Clustering</h3>
+<ul>
+<li>
+<p>Provide the desired number of clusters k.</p>
+</li>
+<li>
+<p>Randomly select k instances as initial seeds, serving as the centroids for each cluster.</p>
+</li>
+<li>
+<p>Iterate: Assign each instance to the cluster whose centroid is nearest (reassignment step); Recalculate the centroid of each cluster (update step).</p>
+</li>
+<li>
+<p>Stop when convergence is reached (maximum iterations reached / centroids no longer change).</p>
+</li>
+</ul>
+<p>Objective: Minimize the sum of squared distances between each point and its assigned cluster centroid.</p>
+\[
+	\min_{\{C_k\}} \sum_{k=1}^{K} \sum_{x \in C_k} \| x - \mu^k \|^2 ,\quad \mu^k = \frac{1}{|C_k|} \sum_{x \in C_k} x
+	\]
+<p>K-means guarantees convergence to a local optimum; finding the global optimum is NP-hard.</p>
+<h4 class="note-h4">Time Complexity</h4>
+<ul>
+<li>
+<p>Assume computing the distance between two instances is O(d), where d is the dimension of the vectors.</p>
+</li>
+<li>
+<p>Reassignment: For each sample point, compute its distance to k centroids and select the nearest one. Complexity: O(knd).</p>
+</li>
+<li>
+<p>Centroid calculation: Sum the vectors of each sample to its cluster's centroid and then average. Complexity: O(nd).</p>
+</li>
+<li>
+<p>Assuming these two steps iterate l times: Total complexity O(lknd).</p>
+</li>
+</ul>
+<h4 class="note-h4">Choosing Seeds</h4>
+<ul>
+<li>
+<p>Results vary depending on the random seed selection (sensitive to initialization).</p>
+</li>
+<li>
+<p>Some seeds can lead to poor convergence speed or convergence to suboptimal clusters.</p>
+</li>
+<li>
+<p>Use heuristics or other methods to select good seeds.</p>
+</li>
+</ul>
+<h4 class="note-h4">Choosing the value of k</h4>
+<p>Bayesian Information Criterion (BIC) can be used for model selection:</p>
+\[
+	\text{BIC}(M|X) = \text{LL}(X|M) - \frac{p}{2} \log(n)
+	\]
+<p>Where p is the number of parameters in model M, and n is the number of samples. For example, with k=2 clusters in d dimensions: number of parameters = 2 centroids * d dimensions = 2d; BIC = log-likelihood - (d·log(n)). Advantages: Simple and intuitive to implement. Disadvantages: Requires specifying K beforehand; clustering results depend on the choice of initial K centroids; prone to getting stuck in local optima; does not handle non-globular cluster shapes well; sensitive to outliers.</p>
+<h4 class="note-h4">Kernel-Kmeans</h4>
+<p>Extends K-means to non-linear cluster boundaries by mapping data to a high-dimensional feature space via a kernel function \(\phi\). The objective in feature space is:</p>
+\[
+	J = \sum_{k=1}^{K} \sum_{x_i \in C_k} \|\phi(x_i) - \mu_k^\phi\|^2
+	\]
+<p>Expanding the squared distance using the kernel trick:</p>
+\[
+	\|\phi(x_i) - \mu_k^\phi\|^2 = \langle \phi(x_i), \phi(x_i) \rangle - 2 \langle \phi(x_i), \mu_k^\phi \rangle + \langle \mu_k^\phi, \mu_k^\phi \rangle
+	\]
+\[
+	\langle \phi(x_i), \phi(x_i) \rangle = K(x_i, x_i)
+	\]
+\[
+	\langle \phi(x_i), \mu_k^\phi \rangle = \frac{1}{|C_k|} \sum_{x_j \in C_k} \langle \phi(x_i), \phi(x_j) \rangle = \frac{1}{|C_k|} \sum_{x_j \in C_k} K(x_i, x_j)
+	\]
+\[
+	\langle \mu_k^\phi, \mu_k^\phi \rangle = \frac{1}{|C_k|^2} \sum_{x_j \in C_k} \sum_{x_l \in C_k} \langle \phi(x_j), \phi(x_l) \rangle = \frac{1}{|C_k|^2} \sum_{x_j \in C_k} \sum_{x_l \in C_k} K(x_j, x_l)
+	\]
+<p>Thus, the distance can be computed solely using kernel evaluations:</p>
+\[
+	\|\phi(x_i) - \mu_k^\phi\|^2 = K(x_i, x_i) - \frac{2}{|C_k|} \sum_{x_j \in C_k} K(x_i, x_j) + \frac{1}{|C_k|^2} \sum_{x_a \in C_k} \sum_{x_b \in C_k} K(x_a, x_b)
+	\]
+<h3 class="note-h3">EM Algorithm (Expectation-Maximization)</h3>
+<ul>
+<li>
+<p>The EM algorithm is an iterative optimization strategy for parameter estimation in probabilistic models with <strong>latent variables</strong></p>
+</li>
+<li>
+<p>Widely used in: Gaussian Mixture Models (GMM), Hidden Markov Models (HMM), missing data imputation, etc.</p>
+</li>
+</ul>
+<h4 class="note-h4">Algorithm Steps</h4>
+<ol>
+<li>
+<strong>E-step (Expectation step)</strong>: Given the current parameter estimates, compute the expected value of the log-likelihood with respect to the posterior distribution of the latent variables
+\[
+		Q(\theta, \theta^{(t)}) = E_{Z|X,\theta^{(t)}}[\log P(X, Z | \theta)]
+		\]
+</li>
+<li>
+<strong>M-step (Maximization step)</strong>: Maximize the Q-function to update the parameters
+\[
+		\theta^{(t+1)} = \arg\max_{\theta} Q(\theta, \theta^{(t)})
+		\]
+</li>
+<li>
+<p>Repeat E-step and M-step until convergence or reaching maximum iterations</p>
+</li>
+</ol>
+<h4 class="note-h4">EM in Gaussian Mixture Models (GMM)</h4>
+<ul>
+<li>
+GMM assumes data is generated by a mixture of K Gaussian distributions:
+\[
+		P(x) = \sum_{k=1}^{K} \pi_k \mathcal{N}(x | \mu_k, \Sigma_k), \quad \sum_{k=1}^{K} \pi_k = 1
+		\]
+</li>
+<li>
+E-step: Compute the posterior probability (responsibility) that sample i belongs to component k
+\[
+		\gamma_{ik} = \frac{\pi_k \mathcal{N}(x_i | \mu_k, \Sigma_k)}{\sum_{j=1}^{K} \pi_j \mathcal{N}(x_i | \mu_j, \Sigma_j)}
+		\]
+</li>
+<li>
+M-step: Update the parameters using the responsibilities
+\[
+		\mu_k^{\text{new}} = \frac{\sum_{i=1}^{n} \gamma_{ik} x_i}{\sum_{i=1}^{n} \gamma_{ik}}, \quad
+		\Sigma_k^{\text{new}} = \frac{\sum_{i=1}^{n} \gamma_{ik} (x_i - \mu_k^{\text{new}})(x_i - \mu_k^{\text{new}})^T}{\sum_{i=1}^{n} \gamma_{ik}}
+		\]
+\[
+		\pi_k^{\text{new}} = \frac{1}{n} \sum_{i=1}^{n} \gamma_{ik}
+		\]
+</li>
+</ul>
+<h4 class="note-h4">Relationship between EM and K-means</h4>
+<ul>
+<li>
+<p>K-means is a <strong>special case</strong> of the EM algorithm for GMM under the following conditions:</p>
+<ul>
+<li>
+<p>The covariance matrix of each Gaussian component is \(\Sigma_k = \epsilon I\) (isotropic)</p>
+</li>
+<li>
+<p>\(\epsilon \to 0\) (approaches zero)</p>
+</li>
+<li>
+<p>The responsibilities \(\gamma_{ik}\) degenerate to hard assignments (0 or 1)</p>
+</li>
+</ul>
+<li>
+<p>K-means performs <strong>hard clustering</strong>, while EM performs <strong>soft clustering</strong></p>
+</li>
+</ul>
+<h4 class="note-h4">Properties of the EM Algorithm</h4>
+<ul>
+<li>
+<p><strong>Advantages</strong>:</p>
+<ul>
+<li>
+<p>Can handle models with latent variables</p>
+</li>
+<li>
+<p>Guarantees non-decreasing likelihood at each iteration</p>
+</li>
+<li>
+<p>Relatively simple to implement and numerically stable</p>
+</li>
+</ul>
+<li>
+<p><strong>Disadvantages</strong>:</p>
+<ul>
+<li>
+<p>Sensitive to initialization and may converge to local optima</p>
+</li>
+<li>
+<p>Slow convergence rate (linear convergence)</p>
+</li>
+<li>
+<p>Requires knowledge of the latent variable distribution form</p>
+</li>
+</ul>
+</ul>
+<h3 class="note-h3">Hierarchical Clustering</h3>
+<p>Types (heuristic): Agglomerative (bottom-up, merging); Divisive (top-down, splitting).</p>
+<h4 class="note-h4">Agglomerative Clustering</h4>
+<p>Start with each sample as its own cluster. At each iteration, merge the two most similar (closest) clusters. Repeat until all samples belong to a single cluster.</p>
+<p>Time complexity: Finding the most similar clusters naively is O($n^2$) per step, and there are n steps, leading to O($n^3$). Improvement: Using a priority queue (min-heap) can reduce this to \(O(n^2 \log(n))\). For large n, one can first run K-means to get a moderate number of cluster centers, then perform hierarchical clustering on those centers.</p>
+<p>Calculation of inter-cluster distance: Single-link (nearest neighbor), Complete-link (farthest neighbor), Average-link.</p>
+<h4 class="note-h4">Divisive Clustering</h4>
+<p>Example: Bisecting K-means (similar to building a minimum spanning tree). Repeatedly select the cluster with the largest "radius" (e.g., highest SSE or diameter) and split it into two clusters using K-means (k=2).</p>
+<p>Distance analysis method (a deterministic divisive approach):</p>
+<ol>
+<li>
+Find splitting point: Unlike K-means with random initialization, this method is deterministic. In the cluster \(C_{\text{old}}\) to be split, find the point \(u^*\) with the maximum average dissimilarity:
+\[
+		u^* = \arg \max_{i \in C_{\text{old}}} \left( \frac{1}{|C_{\text{old}}| - 1} \sum_{j \in C_{\text{old}}, j \neq i} d(i, j) \right)
+		\]
+<p>Initialize \(C_{\text{new}} = \{u^*\}\).</p>
+</li>
+<li>
+<p>Iterative splitting (e.g., using a "gravitational" or reassignment method): For each remaining point \(v\) in \(C_{\text{old}}\):</p>
+<ul>
+<li>
+<p>\( D_{\text{old}}(v) \): average distance from point \(v\) to points in \(C_{\text{old}}\).</p>
+</li>
+<li>
+<p>\( D_{\text{new}}(v) \): average distance from point \(v\) to points in \(C_{\text{new}}\).</p>
+</li>
+</ul>
+<p>Decision rule:</p>
+<ul>
+<li>
+<p>Compute the difference: \( \Delta(v) = D_{\text{old}}(v) - D_{\text{new}}(v) \).</p>
+</li>
+<li>
+<p>If \( \Delta(v) > 0 \) (closer to \(C_{\text{new}}\) on average), transfer \(v\) from \(C_{\text{old}}\) to \(C_{\text{new}}\).</p>
+</li>
+<li>
+<p>If \( \Delta(v) \leq 0 \) (closer to \(C_{\text{old}}\) on average), keep \(v\) in \(C_{\text{old}}\).</p>
+</li>
+</ul>
+<p>Repeat the process (recalculating averages) until no points are transferred.</p>
+</ol>
+<p>Characteristics of Hierarchical Clustering:</p>
+<ul>
+<li>
+<p>No explicit global objective function (unlike K-means).</p>
+</li>
+<li>
+<p>Produces a full dendrogram (tree of cluster merges/splits), allowing any number of clusters to be obtained by cutting the tree at the desired level.</p>
+</li>
+<li>
+<p>Cluster assignments for different numbers of clusters can be obtained without recomputation.</p>
+</li>
+<li>
+<p>Single-link and complete-link represent extremes for cluster distance measures, both sensitive to outliers/noise.</p>
+</li>
+<li>
+<p>Average-link offers a compromise, more robust to outliers.</p>
+</li>
+<li>
+<p>Disadvantage: High computational cost. Additionally, partition decisions are irreversible (a sample assigned to a cluster at an early stage stays there).</p>
+</li>
+</ul>
+<h4 class="note-h4">Density-based Clustering: DBSCAN</h4>
+<p>Assumption: Clusters are high-density regions separated by low-density regions.</p>
+<p>A dense cluster is a "density-connected" region where the point density is above a specified minimum.</p>
+<p>\(\epsilon\)-neighborhood: The region centered at a sample with radius \(\epsilon\).</p>
+<p>Core Object: A sample whose \(\epsilon\)-neighborhood contains at least \(N_{\min}\) samples (including itself).</p>
+<p>Parameters: radius \(\epsilon\) and minimum number of samples \(N_{\min}\).</p>
+<p>Definitions (assuming symmetric distance):</p>
+<ul>
+<li>
+<p>Directly density-reachable (asymmetric): \(x_j\) is within the \(\epsilon\)-neighborhood of core object \(x_i\).</p>
+</li>
+<li>
+<p>Density-reachable (transitive): There exists a chain of samples \( p_1, p_2, \ldots, p_m \) with \( p_1 = x_i, p_m = x_j \), where each \( p_{k+1} \) is directly density-reachable from \( p_k \).</p>
+</li>
+<li>
+<p>Density-connected (symmetric): Points \(x_i\) and \(x_j\) are density-connected if there exists a core point \(o\) such that both \(x_i\) and \(x_j\) are density-reachable from \(o\).</p>
+</li>
+</ul>
+<p>Advantages:</p>
+<ul>
+<li>
+<p>Does not require specifying the number of clusters.</p>
+</li>
+<li>
+<p>Can discover clusters of arbitrary shape.</p>
+</li>
+<li>
+<p>Effectively identifies noise points.</p>
+</li>
+<li>
+<p>Insensitive to the order of samples (deterministic).</p>
+</li>
+</ul>
+<p>Disadvantages:</p>
+<ul>
+<li>
+<p>Parameters \(\epsilon\) and \(N_{\min}\) need tuning.</p>
+</li>
+<li>
+<p>Performs poorly on datasets with varying densities.</p>
+</li>
+</ul>
+<h2 id="dimensionality-reduction-methods" class="note-h2">Dimensionality Reduction Methods</h2>
+<p>Common linear dimensionality reduction methods: Principal Component Analysis (PCA); Linear Discriminant Analysis (LDA) Common non-linear dimensionality reduction methods: Multidimensional Scaling (MDS); Locally Linear Embedding (LLE)</p>
+<p>Eigendecomposition</p>
+\[
+	A = U \Lambda U^{-1}
+	\]
+\[
+	\Lambda = \text{diag}(\lambda_1, \lambda_2, \ldots, \lambda_n) = 
+	\begin{pmatrix}
+		\lambda_1 & & \\
+		& \lambda_2 & \\
+		& & \ddots \\
+		& & & \lambda_n
+	\end{pmatrix}
+	\]
+<ul>
+<li>
+<p>When \( A = A^T \) (symmetric, e.g., covariance matrix)</p>
+<ul>
+<li>
+<p>Eigenvalues are real.</p>
+</li>
+<li>
+<p>Eigenvectors are mutually orthogonal.</p>
+</li>
+<li>
+<p>U is orthogonal: \( U^{-1} = U^T \).</p>
+</li>
+</ul>
+<li>
+In this case, eigendecomposition is:
+\[
+		A = U \Lambda U^{-1} = U \Lambda U^T
+		\]
+</li>
+</ul>
+<h3 class="note-h3">Principal Component Analysis (Variance Maximization)</h3>
+<p>Properties:</p>
+<ul>
+<li>
+<p>Principal components are mutually orthogonal and uncorrelated, removing redundancy.</p>
+</li>
+<li>
+<p>Sorted by descending variance; the first principal component contains the most information (variance), the second contains the next most, etc.</p>
+</li>
+</ul>
+<p>Algorithmic Principle:</p>
+<p>Assume dataset \(D=[x_1, x_2, \ldots, x_n]\), each sample is a d-dimensional vector (continuous features).</p>
+<p>Represent dataset as an \(n \times d\) matrix X.</p>
+<p>Let \(W_{(d \times l)}\) be the transformation matrix that projects d-dimensional data to l dimensions (\(l < d\)). The projected data is \(Y = XW\).</p>
+<p>The variance of the projected data Y (with columns centered) is proportional to:</p>
+\[
+	\text{var}(Y) = \frac{1}{n-1} \text{tr}(Y^T Y)
+	= \frac{1}{n-1} \text{tr}(W^T X^T X W)= \text{tr}\left( W^T \frac{1}{n-1} X^T X W \right).
+	\]
+<p>The covariance matrix of the original dataset is \(\Sigma = \frac{1}{n-1} X^T X\).</p>
+\[
+	\max_{W} \text{tr}(W^T \Sigma W)
+	\]
+<p>s.t. \( w_i^T w_i = 1 \quad i \in \{1,2,\cdots,l\} \). (Orthonormality constraint)</p>
+<p>\( w_i^T w_i = 1 \) (unit vector constraint: prevents variance from blowing up, standardizes projections).</p>
+<p>\( w_i^T w_j = 0 \) for \(i \neq j\) (orthogonality constraint).</p>
+<p>Role of orthogonality constraint: Prevents the optimization from selecting the same principal component repeatedly; forces each new PC to find maximum variance in a direction perpendicular to all previously found PCs, ensuring the resulting features are uncorrelated and have no information redundancy.</p>
+<p>Note: Since \(\Sigma\) is symmetric, its eigenvectors are naturally orthogonal (\(w_i \perp w_j\)), so the orthogonality constraint is automatically satisfied if we use eigen-decomposition. However, it's listed for completeness in the Lagrangian formulation.</p>
+<p>The maximum variance captured by PCA is the sum of the first l eigenvalues of the covariance matrix:</p>
+\[
+	\text{tr}(W^T \Sigma W) = \sum_{i=1}^{l} \lambda_i
+	\]
+<p>where \(\lambda_i\) are the eigenvalues of \(\Sigma\) associated with the selected eigenvectors.</p>
+<p>Lagrange multiplier method (for deriving PCA, considering orthonormality constraints explicitly):</p>
+\[
+	\mathcal{L}(W, \lambda) = \text{tr}(W^T \Sigma W) - \sum_{i=1}^{l} \lambda_i (w_i^T w_i - 1)
+	\]
+<p>(Typically, symmetric \(\Sigma\) leads to eigenvectors satisfying orthogonality automatically via the symmetric eigenvalue problem. Including cross-orthogonality constraints would require more Lagrange multipliers.)</p>
+<p>Derivative with respect to W (treating each \(w_i\) separately):</p>
+\[
+	\frac{\partial \mathcal{L}}{\partial w_i} = 2 \Sigma w_i - 2\lambda_i w_i = 0 \Rightarrow \Sigma w_i = \lambda_i w_i
+	\]
+<p>PCA Algorithm: Input: Data matrix X, target reduced dimension l. Output: Transformation matrix \(W = (w_1, w_2, \ldots, w_l)\).</p>
+<ol>
+<li>
+Center each sample \(x_i\) in X:
+\[
+		x_i \leftarrow x_i - m,
+		\]
+<p>where \(m = \frac{1}{n} \sum_{j=1}^n x_j\) is the sample mean vector.</p>
+</li>
+<li>
+<p>Compute the covariance matrix \(\Sigma = \frac{1}{n-1} X^T X\).</p>
+</li>
+<li>
+<p>Perform eigendecomposition on \(\Sigma\) and sort eigenvalues in descending order: \(\lambda_1 \geq \lambda_2 \geq \ldots \geq \lambda_d\).</p>
+</li>
+<li>
+<p>Select the eigenvectors corresponding to the largest l eigenvalues to form the transformation matrix W.</p>
+</li>
+</ol>
+<p>Relationship between covariance matrix \(X^T X\) and Gram matrix \(X X^T\): If \(u_k\) is an eigenvector of \(X X^T\) with eigenvalue \(\lambda_k\), then the corresponding eigenvector for \(X^T X\) is \(w_k = \frac{X^T u_k}{\sqrt{\lambda_k}}\). Conversely, \(u_k = \frac{X w_k}{\sqrt{\lambda_k}}\).</p>
+<p>Variance retained ratio (for choosing l):</p>
+\[
+	\text{varratio}(l) = \frac{\sum_{i=1}^l \lambda_i}{\sum_{j=1}^d \lambda_j}
+	\]
+<p>Essence: Features in the low-dimensional space are linear combinations of the original high-dimensional features.</p>
+<p>PCA has no hyperparameters to tune (except l, which can be chosen via variance ratio) and finds the global optimum (since it's based on eigenvalue decomposition).</p>
+<p>Time complexity is O(\(d^3\)), space complexity is O(\(d^2\)) for the covariance matrix.</p>
+<h3 class="note-h3">Linear Discriminant Analysis LDA / Fisher Discriminant Analysis (Supervised)</h3>
+<p>Dataset is \(D=\{(x_1,y_1),(x_2,y_2),...,(x_n,y_n)\}\), sample labels \(y_i\) take values in \(\{1,2,...,C\}\). Number of samples in class c is \(n_c\) (\(n = \sum_{c=1}^C n_c\)). Mean of samples in class c: \(m_c = \frac{1}{n_c} \sum_{i=1}^{n_c} x_i\). Overall mean: \(m = \frac{1}{n} \sum_{i=1}^n x_i\). Projected data: \(Z = X W\) (where \(z_i\) is the projection of \(x_i\)).</p>
+<p>Within-class scatter (measuring dispersion inside classes): Before projection: Scatter matrix for class c: \(S_c = \sum_{i=1}^{n_c}(x_i - m_c)(x_i - m_c)^T\). Total within-class scatter matrix (weighted average): \(S_w = \sum_{c=1}^C \frac{n_c}{n} S_c\). After projection onto direction w: Within-class scatter (scalar): \(w^T S_w w\).</p>
+<p>Between-class scatter (measuring separation between classes): Before projection: Between-class scatter matrix: \(S_b = \sum_{c=1}^C \frac{n_c}{n}(m_c - m)(m_c - m)^T\). After projection onto direction w: Between-class scatter (scalar): \(w^T S_b w\).</p>
+<p>Optimization objective for Fisher's LDA (maximize ratio of between-class to within-class scatter):</p>
+$$\max_w \frac{w^T S_b w}{w^T S_w w}$$
+<p>Equivalent constrained formulation: \(\max_w w^T S_b w\) s.t. \(w^T S_w w = 1\).</p>
+<p>Lagrange multiplier method: \(\mathcal{L}(w, \lambda) = w^T S_b w - \lambda (w^T S_w w - 1)\).</p>
+<p>Take derivative w.r.t w and set to zero:</p>
+\[
+	\frac{\partial \mathcal{L}(w, \lambda)}{\partial w} = 2S_b w - 2\lambda S_w w = 0,
+	\]
+\[
+	S_b w = \lambda S_w w \quad \Rightarrow \quad S_w^{-1} S_b w = \lambda w
+	\]
+<p>Thus, the optimal projection directions w are the eigenvectors of \(S_w^{-1} S_b\). The corresponding eigenvalue \(\lambda\) equals the objective ratio \(w^T S_b w / (w^T S_w w)\). The eigenvector with the largest eigenvalue gives the best single direction.</p>
+<p>Differences between LDA and PCA:</p>
+<ul>
+<li>
+<p>Basic idea:</p>
+<ul>
+<li>
+<p>PCA selects directions that maximize the variance of the projected data, preserving the most information (in terms of variance) from the original data.</p>
+</li>
+<li>
+<p>LDA uses label information, maximizing the distance between different classes' means while minimizing the variance within each class after projection.</p>
+</li>
+</ul>
+<li>
+<p>Learning paradigm:</p>
+<ul>
+<li>
+<p>PCA is unsupervised, applicable more broadly, but the resulting low-dimensional representation may not be optimal for classification.</p>
+</li>
+<li>
+<p>LDA is supervised, capable of both dimensionality reduction and classification (though it is not a classifier by itself; it finds discriminative directions).</p>
+</li>
+</ul>
+</ul>
+<h3 class="note-h3">Classical Multidimensional Scaling (MDS)</h3>
+<p>Scenario: Cannot directly observe sample features, only the distances or similarities between samples.</p>
+<p>Goal: Find low-dimensional coordinates \(z_i\) that preserve the given distances \(d_{ij}\) as well as possible.</p>
+\[
+	\min_{z_1, z_2, \cdots, z_n} \sum_{i \neq j} (\|z_i - z_j\|_2 - d_{ij})^2
+	\]
+<p>Assume the original (unknown) high-dimensional data points \(x_i\) are centered at the origin: \(\sum_{i=1}^n x_i = 0\). Let the inner product matrix be \(B = X X^T\), where \(b_{ij} = x_i^T x_j\).</p>
+<p>Relating squared Euclidean distances to inner products:</p>
+\[
+	d_{ij}^2 = \|x_i - x_j\|^2 = (x_i - x_j)^T (x_i - x_j) = x_i^T x_i + x_j^T x_j - 2x_i^T x_j = b_{ii} + b_{jj} - 2b_{ij}.
+	\]
+<p>Summing over j:</p>
+\[
+	\sum_{j=1}^n d_{ij}^2 = \sum_{j=1}^n b_{ii} + \sum_{j=1}^n b_{jj} - 2\sum_{j=1}^n b_{ij}
+	\]
+<p>First term: \(\sum_{j=1}^n b_{ii} = n b_{ii}\). Second term: \(\sum_{j=1}^n b_{jj} = T\) (define \(T = \sum_{j=1}^n b_{jj}\)). Third term: \(\sum_{j=1}^n b_{ij} = x_i^T (\sum_{j=1}^n x_j) = x_i^T \cdot 0 = 0\) (due to centering). Thus:</p>
+\[
+	\sum_{j=1}^n d_{ij}^2 = n b_{ii} + T.
+	\]
+<p>Similarly, summing over i:</p>
+\[
+	\sum_{i=1}^{n} d_{ij}^2 = n b_{jj} + T.
+	\]
+<p>Summing over both i and j:</p>
+\[
+	\sum_{i=1}^{n} \sum_{j=1}^{n} d_{ij}^2 = \sum_{i=1}^{n} (n b_{ii} + T) = n \sum_{i=1}^{n} b_{ii} + n T = n T + n T = 2n T.
+	\]
+<p>Hence:</p>
+\[
+	T = \frac{1}{2n} \sum_{i=1}^{n} \sum_{j=1}^{n} d_{ij}^2.
+	\]
+<p>Now solve for \(b_{ij}\) in terms of the squared distances. From \(d_{ij}^2 = b_{ii} + b_{jj} - 2b_{ij}\), we have:</p>
+\[
+	b_{ij} = -\frac{1}{2}(d_{ij}^2 - b_{ii} - b_{jj}).
+	\]
+<p>Substitute the expressions for \(b_{ii}\) and \(b_{jj}\) derived from \(\sum_j d_{ij}^2 = n b_{ii} + T\) and \(\sum_i d_{ij}^2 = n b_{jj} + T\):</p>
+\[
+	b_{ii} = \frac{1}{n} \sum_{j=1}^n d_{ij}^2 - \frac{T}{n}, \quad b_{jj} = \frac{1}{n} \sum_{i=1}^n d_{ij}^2 - \frac{T}{n}.
+	\]
+<p>Plugging back and simplifying yields the standard formula for \(b_{ij}\):</p>
+\[
+	b_{ij} = -\frac{1}{2} \left( d_{ij}^2 - \frac{1}{n} \sum_{j=1}^n d_{ij}^2 - \frac{1}{n} \sum_{i=1}^n d_{ij}^2 + \frac{1}{n^2} \sum_{i=1}^n \sum_{j=1}^n d_{ij}^2 \right)
+	\]
+<p>Or equivalently:</p>
+\[
+	b_{ij} = \frac{1}{2} \left( \frac{1}{n} \sum_{i=1}^{n} d_{ij}^2 + \frac{1}{n} \sum_{j=1}^{n} d_{ij}^2 - \frac{1}{n^2} \sum_{i=1}^{n} \sum_{j=1}^{n} d_{ij}^2 - d_{ij}^2 \right)
+	\]
+<p>MDS Algorithm: Input: Distance matrix \(D\) (size n x n), target reduced dimension l. Output: Reduced \(n \times l\) data matrix \(Z\).</p>
+<ol>
+<li>
+<p>Compute matrix \(B\) from the distance matrix \(D\) using the formula above for \(b_{ij}\).</p>
+</li>
+<li>
+<p>Perform eigendecomposition of \(B\): \(B = U \Lambda U^T\).</p>
+</li>
+<li>
+<p>Select the l largest eigenvalues to form diagonal matrix \(\Lambda_l\), and the corresponding eigenvectors to form \(U_l\) (columns).</p>
+</li>
+<li>
+<p>The reduced coordinates are given by \(Z = U_l \Lambda_l^{1/2}\). (Since \(B = X X^T = U \Lambda U^T\), setting \(X = U \Lambda^{1/2}\) works; retaining top l components gives the best l-dimensional Euclidean representation.)</p>
+</li>
+</ol>
+<h3 class="note-h3">Locally Linear Embedding (LLE)</h3>
+<p>Manifold: A space that is locally Euclidean, a generalization of curves and surfaces in Euclidean space.</p>
+<p>Assumption: High-dimensional data lies on or near a low-dimensional manifold. Euclidean distances can be misleading globally.</p>
+<p>Manifold dimension: The minimum number of coordinates needed to uniquely identify points on the manifold, often much lower than the embedding dimension.</p>
+<p>LLE: Reduces data to a lower dimension while preserving local linear relationships (reconstruction weights).</p>
+<p>Steps:</p>
+<ul>
+<li>
+<p>Select neighbors. For each data point \(x_i\), find its k nearest neighbors (typically \(k \leq d\), the original dimension).</p>
+</li>
+<li>
+Local linear reconstruction. Find weights \(W \in \mathbb{R}^{n \times n}\) (where \(w_{ij}\) is the contribution of point j to reconstructing point i) that minimize the reconstruction error, subject to the sum of weights for each i being 1:
+\[
+		\min_{W} \sum_{i=1}^{n} \| x_i - \sum_j w_{ij} x_j \|_2^2, \quad \text{s.t. } \sum_{j} w_{ij} = 1 \text{ for each } i.
+		\]
+<p>(Only neighbors j have non-zero \(w_{ij}\)).</p>
+</li>
+<li>
+Find low-dimensional embedding. Using the same weights \(W\), find low-dimensional coordinates \(Y\) (points \(y_i\)) that minimize a similar reconstruction error in the low-dimensional space:
+\[
+		\min_{Y} \sum_{i=1}^{n} \| y_i - \sum_{j} w_{ij} y_j \|_2^2
+		\]
+<p>(This leads to an eigenvalue problem.)</p>
+</li>
+</ul>
+<p>Advantages:</p>
+<ul>
+<li>
+<p>LLE has only two main hyperparameters to tune: the number of neighbors \(k\) and (implicitly) a regularization parameter \(\lambda\) (often used when solving the linear systems).</p>
+</li>
+<li>
+<p>LLE finds a global optimum solution (via solving a sparse eigenvalue problem), not prone to local minima issues (unlike some iterative methods).</p>
+</li>
+</ul>
+<p>Disadvantages:</p>
+<ul>
+<li>
+<p>Since it relies on KNN to find neighbors, if the sample size is too small, neighbors may be far away, degrading the embedding quality.</p>
+</li>
+<li>
+<p>LLE is sensitive to noise and outliers, which can disrupt the local linearity assumption.</p>
+</li>
+<li>
+<p>No explicit mapping function (unlike PCA or LDA which provide a projection matrix \(W\) for new samples; for LLE, new samples would require solving an optimization or using out-of-sample extensions).</p>
+</li>
+</ul>
+<h3 class="note-h3">Other Dimensionality Reduction Methods</h3>
+<h4 class="note-h4">Kernel PCA (KPCA)</h4>
+<p>KPCA uses the kernel trick to perform PCA in a high-dimensional (possibly infinite) feature space implicitly. The covariance matrix in feature space cannot be explicitly computed, so KPCA works with the Gram matrix (kernel matrix).</p>
+<p>Centered feature map values:</p>
+\[
+	\tilde{\Phi}(x_i) = \Phi(x_i) - \frac{1}{n} \sum_{j=1}^{n} \Phi(x_j)
+	\]
+<p>Corresponding centered kernel matrix \(\tilde{K}\):</p>
+\[
+	\tilde{K}_{ij} = \langle \tilde{\Phi}(x_i), \tilde{\Phi}(x_j) \rangle = \tilde{\Phi}(x_i)^T \tilde{\Phi}(x_j)
+	\]
+\[
+	\tilde{K}_{ij} = \langle \Phi(x_i), \Phi(x_j) \rangle - \langle \Phi(x_i), \mu_{\Phi} \rangle - \langle \mu_{\Phi}, \Phi(x_j) \rangle + \langle \mu_{\Phi}, \mu_{\Phi} \rangle
+	\]
+<p>where \(\mu_{\Phi} = \frac{1}{n} \sum_{k=1}^{n} \Phi(x_k)\).</p>
+<p>The terms can be expressed using the original kernel matrix K:</p>
+\[
+	\langle \Phi(x_i), \mu_{\Phi} \rangle = \frac{1}{n} \sum_{k=1}^{n} \langle \Phi(x_i), \Phi(x_k) \rangle = \frac{1}{n} \sum_{k=1}^{n} K_{ik} = \frac{1}{n} (K \mathbf{1}_n)_i
+	\]
+\[
+	\langle \mu_{\Phi}, \mu_{\Phi} \rangle = \frac{1}{n^2} \sum_{k=1}^{n} \sum_{l=1}^{n} \langle \Phi(x_k), \Phi(x_l) \rangle = \frac{1}{n^2} \sum_{k=1}^{n} \sum_{l=1}^{n} K_{kl} = \frac{1}{n^2} \mathbf{1}_n^T K \mathbf{1}_n
+	\]
+<p>Thus, the centered kernel matrix can be computed directly from K. KPCA then performs standard PCA (eigendecomposition) on \(\tilde{K}\) to find principal components in the feature space, which correspond to non-linear components in the input space.</p>
+<h4 class="note-h4">Isometric Mapping (Isomap)</h4>
+<p>Isomap is an extension of MDS that attempts to preserve geodesic (manifold) distances instead of straight-line Euclidean distances. It approximates geodesic distances by computing shortest paths on a graph built from KNN connections in the input space.</p>
+<p>Advantage: Isomap can better preserve the global structure of the manifold (e.g., unrolling a Swiss roll).</p>
+<p>Disadvantage: Sensitive to noise (which can create "shortcuts" in the graph) and has relatively high computational complexity (shortest path computation is O($n^2$ log n + $n^2$ k) or similar).</p>
+  </main>
+</div>
+</body>
+</html>
