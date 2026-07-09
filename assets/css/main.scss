@@ -274,6 +274,7 @@ html, body, .initial-content, #main {
 .author__avatar {
   width: auto !important;
   height: auto !important;
+  margin-bottom: 1.2em !important;  /* 照片与姓名之间留出间距 */
 }
 
 .author__avatar img {
@@ -282,4 +283,30 @@ html, body, .initial-content, #main {
   height: auto !important;         /* 保持照片原始宽高比，不拉伸 */
   border-radius: 8px !important;   /* 直角带轻微圆角；改成 0 即为纯直角 */
   padding: 0 !important;
+  /* 始终保持原色，避免鼠标移开侧边栏时照片变灰 */
+  filter: none !important;
+  opacity: 1 !important;
+  transition: none !important;
+}
+
+/* 防止整个侧边栏出现淡出/变灰效果 */
+.sidebar,
+.sidebar:hover {
+  opacity: 1 !important;
+}
+
+/* 侧边栏姓名与头像的间距 */
+.author__name {
+  margin-top: 0 !important;
+}
+
+/* 邮箱以纯文本显示（无超链接），并让较长的邮箱地址自动换行 */
+.author__email-text {
+  color: $muted-text-color;
+}
+.author__email-text .label {
+  word-break: break-all;
+}
+.author__email-text i {
+  color: $muted-text-color;
 }
