@@ -266,3 +266,20 @@ html, body, .initial-content, #main {
 .layout--home .page__title {
   display: none !important;
 }
+
+/* ==========================================================================
+   头像：非圆形、放大、保持原始比例
+   ========================================================================== */
+
+.author__avatar {
+  width: auto !important;
+  height: auto !important;
+}
+
+.author__avatar img {
+  width: 100% !important;          /* 放大：填满侧边栏宽度 */
+  max-width: 260px !important;     /* 上限，避免过大 */
+  height: auto !important;         /* 保持照片原始宽高比，不拉伸 */
+  border-radius: 8px !important;   /* 直角带轻微圆角；改成 0 即为纯直角 */
+  padding: 0 !important;
+}
