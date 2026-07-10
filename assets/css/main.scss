@@ -311,13 +311,14 @@ html, body, .initial-content, #main {
   color: $muted-text-color;
 }
 
-/* 地址前的天津大学校徽图标（替代原来的定位符号） */
-.author__location-icon {
+/* bio 中 "Tianjin University" 左侧的校徽图标，与文字同行 */
+.bio-university-icon {
   width: 1em;
   height: 1em;
   object-fit: contain;
   vertical-align: -0.15em;
-  margin-right: 0.2em;
+  margin-right: 0.25em;
+  display: inline-block;
 }
 
 /* Education 板块：右侧配图 */
