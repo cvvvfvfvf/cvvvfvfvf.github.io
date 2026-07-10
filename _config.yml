@@ -59,7 +59,9 @@ plugins:
 author:
   name: "Jingyi Li"
   avatar: "/assets/images/bio-photo.jpg"
-  bio: "Undergraduate<br>Data Science<br>[Tianjin University, China](https://www.google.com/maps/search/?api=1&query=Tianjin+University){:target=\"_blank\" rel=\"noopener noreferrer\"}"
+  bio: "Undergraduate<br>Data Science<br>Tianjin University"
+  location: "Tianjin, China"
+  email: lijingyi1122_@tju.edu.cn
   links:
     - label: "GitHub"
       icon: "fab fa-fw fa-github"

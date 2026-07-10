@@ -28,7 +28,7 @@
     <ul class="author__urls social-icons">
       {% if author.location %}
         <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
-          <i class="fas fa-fw fa-location-dot" aria-hidden="true"></i> <span itemprop="name" class="p-locality">{{ author.location }}</span>
+          <img src="{{ '/assets/images/tianjin-university-logo.png' | relative_url }}" alt="Tianjin University logo" class="author__location-icon"> <span itemprop="name" class="p-locality">{{ author.location }}</span>
         </li>
       {% endif %}
 
